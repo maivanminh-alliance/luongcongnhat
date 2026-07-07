@@ -82,6 +82,11 @@
     td input[type=time]{text-align:center;min-width:78px}
     .sticky-l{position:sticky;left:0;background:#fff;z-index:1}
     tbody tr:hover .sticky-l{background:#f9fbfd}
+    .sticky-r{position:sticky;right:0;background:#fff;z-index:2;box-shadow:-8px 0 12px #ffffffcc}
+    thead .sticky-r{background:#f8fafc;z-index:3}
+    tbody tr:hover .sticky-r{background:#f9fbfd}
+    .note-compact{display:inline-block;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle;color:var(--muted)}
+    .note-compact.warn{max-width:190px;color:#b91c1c;background:#fff5f5;border:1px solid #fecaca;border-radius:7px;padding:4px 7px;font-weight:700}
     .total-row td{background:#102a43;color:#fff;font-weight:800;border:0;font-size:11px}
     .total-row .sticky-l{background:#102a43}
 
@@ -319,7 +324,7 @@
             <input type="date" class="fsel" id="att-from" onchange="pageState.att=0;renderAtt()" style="height:30px;padding:0 6px">
             <span style="font-size:10px;color:var(--muted)">đến</span>
             <input type="date" class="fsel" id="att-to" onchange="pageState.att=0;renderAtt()" style="height:30px;padding:0 6px">
-            <button class="btn btn-soft" onclick="$('att-from').value='';$('att-to').value='';pageState.att=0;renderAtt()" title="Xoá lọc ngày">✕ Lọc</button>
+            <button class="btn btn-soft" onclick="clearAttendanceFilters()" title="Xoá toàn bộ lọc chấm công">✕ Lọc</button>
             <button class="btn btn-soft" onclick="sortAtt()">↕ Sắp xếp</button>
             <button class="btn btn-green" onclick="saveAtt()">💾 Lưu</button>
             <button class="btn btn-amber" onclick="clearAtt()">🗑 Xoá tất cả</button>
@@ -350,7 +355,6 @@
                 <th class="excel-filter-th">OT (h)<button class="excel-filter-btn" data-filter-key="att.ot" onclick="openExcelFilter(event,'att','ot','Giờ OT','number')">▼</button></th>
                 <th class="excel-filter-th">Loại ca<button class="excel-filter-btn" data-filter-key="att.shift" onclick="openExcelFilter(event,'att','shift','Loại ca','select','Ngày|Tối|Chủ nhật|Nghỉ phép có lương|Nghỉ không lương|Lễ')">▼</button></th>
                 <th class="excel-filter-th">Ghi chú<button class="excel-filter-btn" data-filter-key="att.note" onclick="openExcelFilter(event,'att','note','Ghi chú','text')">▼</button></th>
-                <th></th>
               </tr></thead>
               <tbody id="att-body"></tbody>
             </table>
@@ -378,7 +382,7 @@
                 <th class="excel-filter-th">Nghỉ không lương<button class="excel-filter-btn" data-filter-key="sum.unpaidLeaveDays" onclick="openExcelFilter(event,'sum','unpaidLeaveDays','Ngày nghỉ không lương','number')">▼</button></th>
                 <th class="excel-filter-th">Tổng giờ<button class="excel-filter-btn" data-filter-key="sum.totalH" onclick="openExcelFilter(event,'sum','totalH','Tổng giờ','number')">▼</button></th>
                 <th class="excel-filter-th">Thứ Bảy (h)<button class="excel-filter-btn" data-filter-key="sum.saturdayH" onclick="openExcelFilter(event,'sum','saturdayH','Giờ làm Thứ Bảy','number')">▼</button></th>
-                <th class="excel-filter-th">OT ngày (h)<button class="excel-filter-btn" data-filter-key="sum.otDay" onclick="openExcelFilter(event,'sum','otDay','OT ngày','number')">▼</button></th>
+                <th class="excel-filter-th">OT tối (h)<button class="excel-filter-btn" data-filter-key="sum.otDay" onclick="openExcelFilter(event,'sum','otDay','OT tối','number')">▼</button></th>
                 <th class="excel-filter-th">OT đêm (h)<button class="excel-filter-btn" data-filter-key="sum.otNight" onclick="openExcelFilter(event,'sum','otNight','OT đêm','number')">▼</button></th>
                 <th class="excel-filter-th">Chủ nhật (h)<button class="excel-filter-btn" data-filter-key="sum.restH" onclick="openExcelFilter(event,'sum','restH','Giờ Chủ nhật','number')">▼</button></th>
                 <th class="excel-filter-th">Ngày lễ (h)<button class="excel-filter-btn" data-filter-key="sum.holidayH" onclick="openExcelFilter(event,'sum','holidayH','Giờ ngày lễ','number')">▼</button></th>
@@ -503,7 +507,7 @@
                 <th>Lương gốc</th>
                 <th>Ngày công / Chuẩn</th>
                 <th>Lương theo công</th>
-                <th>OT ngày</th>
+                <th>OT tối</th>
                 <th>OT đêm</th>
                 <th>Chủ nhật ×2</th>
                 <th>Ngày lễ ×3</th>
@@ -543,7 +547,7 @@
           </div>
         </div>
 
-        <div class="note note-green">Bấm <b>Xem phiếu</b> để xem chi tiết từng người. Nút <b>Tải ZIP phiếu lương</b> sẽ tạo một file ZIP; bên trong mỗi nhân viên là một PDF riêng. Anh tự chọn nơi lưu ZIP bằng hộp thoại tải xuống của trình duyệt.</div>
+        <div class="note note-green">Bấm <b>Xem phiếu</b> để xem chi tiết từng người. Nút <b>Tải ZIP phiếu lương</b> sẽ tạo PDF riêng cho từng nhân viên rồi đóng gói ZIP. Nếu dữ liệu quá lớn, hệ thống tự chia mỗi 100 phiếu thành một file ZIP để tránh treo trình duyệt. Anh tự chọn nơi lưu ZIP bằng hộp thoại tải xuống.</div>
         <div id="pdf-export-status" class="note note-blue" style="display:none"></div>
 
         <div class="card">
@@ -1227,12 +1231,23 @@ let cfg = {
   periodLabel: 'Tháng 07/2026',
   stdDays: 26, stdHours: 8,
   coefDay: 1.5, coefNight: 2.0, coefRest: 2.0, coefHoliday: 3.0,
-  nightStart: '20:00',
+  nightStart: '22:00',
+  workdayCutoff: '06:00',
+  workStart: '07:30',
+  workEnd: '17:00',
+  graceMinutes: 5,
+  otRuleVersion: 2,
   holidays: ['2026-04-30','2026-05-01'],
 };
 function loadConfig() {
   const s = localStorage.getItem('cl_cfg');
   if (s) try { cfg = {...cfg, ...JSON.parse(s)}; } catch(e){}
+  if (!cfg.otRuleVersion || cfg.otRuleVersion < 2) {
+    cfg.nightStart = '22:00';
+    cfg.workdayCutoff = cfg.workdayCutoff || '06:00';
+    cfg.otRuleVersion = 2;
+    localStorage.setItem('cl_cfg', JSON.stringify(cfg));
+  }
   const setv=(id,v)=>{const el=$(id);if(el)el.value=v;};
   setv('cfg-company',cfg.company); setv('cfg-project',cfg.project); setv('cfg-address',cfg.address);
   setv('cfg-period-label',cfg.periodLabel); setv('cfg-std-days',cfg.stdDays); setv('cfg-std-hours',cfg.stdHours);
@@ -1251,7 +1266,9 @@ function saveConfig() {
   cfg.coefNight = +$('cfg-coef-night').value || 2.0;
   cfg.coefRest  = +$('cfg-coef-rest').value || 2.0;
   cfg.coefHoliday = +$('cfg-coef-holiday').value || 3.0;
-  cfg.nightStart  = $('cfg-night-start').value || '20:00';
+  cfg.nightStart  = $('cfg-night-start')?.value || '22:00';
+  cfg.workdayCutoff = cfg.workdayCutoff || '06:00';
+  cfg.otRuleVersion = 2;
   localStorage.setItem('cl_cfg', JSON.stringify(cfg));
   $('sidebar-period').textContent = cfg.periodLabel;
   toast('✓ Đã lưu cấu hình.');
@@ -1379,14 +1396,28 @@ function scheduleAutoSave() {
 document.addEventListener('change',e=>{
   if(e.target.closest?.('#view-att,#view-salary'))scheduleAutoSave();
 },true);
+function isLegacyDemoState(att=attRows,sal=salRows,meta=dataMeta){
+  const metaText=`${meta?.attendanceFile||''} ${meta?.salaryFile||''}`;
+  const oldDemoShape=att.length===540&&att.some(r=>String(r.empId)==='123456');
+  return oldDemoShape||/DEMO cũ|BẢN DEMO|demoPayroll/i.test(metaText);
+}
+function clearLegacyDemoState(){
+  attRows=[];salRows=[];adjRows=[];payRows=[];nextId=1;
+  dataMeta={attendanceFile:'Chưa nạp',salaryFile:'Chưa nạp'};
+  ['cl_att','cl_sal','cl_adj','cl_meta','cl_saved_at'].forEach(k=>localStorage.removeItem(k));
+  updateLocalSaveStatus(null,'đã xoá dữ liệu demo cũ; chờ nạp file thật');
+  if(typeof saveData==='function')saveData();
+}
 function loadData() {
   try { attRows = JSON.parse(localStorage.getItem('cl_att') || '[]'); } catch(e){ attRows=[]; }
   try { salRows = JSON.parse(localStorage.getItem('cl_sal') || '[]'); } catch(e){ salRows=[]; }
   try { adjRows = JSON.parse(localStorage.getItem('cl_adj') || '[]'); } catch(e){ adjRows=[]; }
   try { dataMeta = {...dataMeta,...JSON.parse(localStorage.getItem('cl_meta')||'{}')}; } catch(e){}
+  if(isLegacyDemoState()){clearLegacyDemoState();renderDataSources();return;}
   const removed = sanitizeImportedData();
   const leaveChanged = normalizeLeaveTypes();
   const calendarChanged = reclassifyAttendanceCalendar();
+  const warningChanged = refreshAttendanceWarnings();
   const merged = mergeDuplicateEmployeeCodes();
   applyProperNames();
   const looksLikeLegacyDemo=attRows.length===540&&attRows.some(r=>String(r.empId)==='123456');
@@ -1394,7 +1425,7 @@ function loadData() {
   if(dataMeta.salaryFile==='Chưa nạp'&&salRows.length)dataMeta.salaryFile=looksLikeLegacyDemo?'Offer nạp trên nền DEMO cũ':'Dữ liệu lương từ phiên trước';
   nextId = Math.max(1, ...attRows.map(r=>r.id||0)) + 1;
   renderDataSources();
-  if (removed||leaveChanged||calendarChanged||merged) saveData();
+  if (removed||leaveChanged||calendarChanged||warningChanged||merged) saveData();
 }
 async function restoreDataFromIndexedDB() {
   try {
@@ -1405,6 +1436,7 @@ async function restoreDataFromIndexedDB() {
     salRows=Array.isArray(snapshot.salRows)?snapshot.salRows:[];
     adjRows=Array.isArray(snapshot.adjRows)?snapshot.adjRows:[];
     dataMeta={...dataMeta,...(snapshot.dataMeta||{})};
+    if(isLegacyDemoState()){clearLegacyDemoState();renderDataSources();renderAtt();renderSalary();updateFlow();return;}
     sanitizeImportedData();normalizeLeaveTypes();reclassifyAttendanceCalendar();mergeDuplicateEmployeeCodes();applyProperNames();
     nextId=Math.max(1,...attRows.map(r=>r.id||0))+1;
     renderDataSources();renderAtt();renderSalary();updateFlow();
@@ -1458,11 +1490,96 @@ function calcOT(hours, shift) {
   return Math.round(ot * 10) / 10;
 }
 function isNightShift(timeIn, shift) {
-  if (shift === 'Tối') return true;
-  if (!timeIn) return false;
-  const [h] = timeIn.split(':').map(Number);
-  const [nh] = (cfg.nightStart||'20:00').split(':').map(Number);
-  return h >= nh;
+  if (!timeIn) return shift === 'Tối';
+  const [h,m=0] = timeIn.split(':').map(Number);
+  const t = h*60+m;
+  const night = hmToMinutes(cfg.nightStart||'22:00',1320);
+  const cut = hmToMinutes(cfg.workdayCutoff||'06:00',360);
+  return t >= night || t <= cut;
+}
+function attendanceWarnings(date,timeIn,timeOut,shift){
+  if(!timeIn||!timeOut||isLeave({shift})||shift==='Chủ nhật'||shift==='Lễ'||shift==='Tối')return [];
+  const morningStart=hmToMinutes(cfg.workStart||'07:30',450);
+  const morningEnd=hmToMinutes('11:30',690);
+  const afternoonStart=hmToMinutes('13:00',780);
+  const afternoonEnd=hmToMinutes(cfg.workEnd||'17:00',1020);
+  const eveningStart=hmToMinutes('17:30',1050);
+  const grace=+(cfg.graceMinutes??5)||0;
+  const tin=hmToMinutes(timeIn,NaN),tout=hmToMinutes(timeOut,NaN);
+  if(!Number.isFinite(tin)||!Number.isFinite(tout))return [];
+  const out=tout<tin?tout+1440:tout;
+  const warnings=[];
+  // Khung OT tối/đêm không so với ca hành chính.
+  if(tin>=eveningStart||tin<=hmToMinutes(cfg.workdayCutoff||'06:00',360))return warnings;
+  if(tin<afternoonStart){
+    if(tin>morningStart+grace)warnings.push(`⚠ Vào trễ ${tin-morningStart} phút (chuẩn ${cfg.workStart||'07:30'})`);
+  }else if(tin<eveningStart){
+    if(tin>afternoonStart+grace)warnings.push(`⚠ Vào trễ ${tin-afternoonStart} phút (chuẩn 13:00)`);
+  }
+  if(out<=afternoonStart){
+    if(out<morningEnd-grace)warnings.push(`⚠ Ra sớm ${morningEnd-out} phút (chuẩn 11:30)`);
+  }else if(out<eveningStart){
+    if(out<afternoonEnd-grace)warnings.push(`⚠ Ra sớm ${afternoonEnd-out} phút (chuẩn ${cfg.workEnd||'17:00'})`);
+  }
+  return warnings;
+}
+function attendanceSessionWarnings(sessions,shift){
+  if(!sessions?.length)return [];
+  if(isLeave({shift})||shift==='Chủ nhật'||shift==='Lễ'||shift==='Tối')return [];
+  const morningStart=hmToMinutes(cfg.workStart||'07:30',450),morningEnd=hmToMinutes('11:30',690);
+  const afternoonStart=hmToMinutes('13:00',780),afternoonEnd=hmToMinutes(cfg.workEnd||'17:00',1020);
+  const eveningStart=hmToMinutes('17:30',1050),grace=+(cfg.graceMinutes??5)||0,warnings=[];
+  const spans=sessions.map(s=>{
+    let a=minutesOfDay(s.start),b=minutesOfDay(s.end);
+    if(dateKey(s.end)!==dateKey(s.start)||b<a)b+=1440;
+    return {a,b};
+  });
+  const regular=spans.filter(x=>x.a<eveningStart&&x.b>morningStart);
+  if(!regular.length)return warnings;
+  const morning=regular.filter(x=>x.a<morningEnd&&x.b>morningStart);
+  if(morning.length){
+    const first=Math.min(...morning.map(x=>x.a)),last=Math.max(...morning.map(x=>x.b));
+    if(first>morningStart+grace)warnings.push(`⚠ Vào trễ ${first-morningStart} phút (chuẩn ${cfg.workStart||'07:30'})`);
+    if(last<morningEnd-grace)warnings.push(`⚠ Ra sớm ${morningEnd-last} phút (chuẩn 11:30)`);
+  }
+  const afternoon=regular.filter(x=>x.a<afternoonEnd&&x.b>afternoonStart);
+  if(afternoon.length){
+    const first=Math.min(...afternoon.map(x=>x.a)),last=Math.max(...afternoon.map(x=>x.b));
+    if(first>afternoonStart+grace)warnings.push(`⚠ Vào trễ ${first-afternoonStart} phút (chuẩn 13:00)`);
+    if(last<afternoonEnd-grace)warnings.push(`⚠ Ra sớm ${afternoonEnd-last} phút (chuẩn ${cfg.workEnd||'17:00'})`);
+  }
+  return warnings;
+}
+function mergeAttendanceNote(note,warnings){
+  const base=String(note||'').split(' · ').filter(Boolean).filter(x=>!/Vào trễ|Ra sớm/.test(x));
+  return [...base,...warnings].join(' · ');
+}
+function humanizeAttendanceNote(note){
+  return String(note||'')
+    .replace(/chưa ghép được phiên/gi,'chưa đủ cặp giờ vào\\/ra')
+    .replace(/Có lượt ra ([0-9:]+) nhưng chưa có lượt vào phù hợp/gi,'Thiếu giờ vào trước lượt ra $1')
+    .replace(/Lẻ (\\d+) lượt quẹt — thiếu lượt ghép cặp/gi,'Số lần quẹt thẻ bị lẻ ($1 lần) — kiểm tra thiếu giờ vào hoặc giờ ra')
+    .replace(/không phù hợp/gi,'cần kiểm tra lại')
+    .replace(/bất thường/gi,'cần kiểm tra')
+    .replace(/chưa xác định/gi,'chưa rõ');
+}
+function refreshAttendanceWarnings(){
+  let changed=0;
+  for(const r of attRows||[]){
+    const oldNote=String(r.note||''),simpleNote=humanizeAttendanceNote(oldNote);
+    if(simpleNote!==oldNote){r.note=simpleNote;changed++;}
+    const tin=hmToMinutes(r.timeIn,NaN),eveningStart=hmToMinutes('17:30',1050),cut=hmToMinutes(cfg.workdayCutoff||'06:00',360);
+    const otOnly=Number.isFinite(tin)&&(tin>=eveningStart||tin<=cut)&&r.hours>0&&!['Lễ','Chủ nhật',PAID_LEAVE,UNPAID_LEAVE].includes(r.shift);
+    if(otOnly||r.shift==='Tối'){
+      const parts=calcOtBreakdown(r.date,r.timeIn,r.timeOut,r.hours,'Tối');
+      if(r.shift!=='Tối'||r.otDay!==parts.otDay||r.otNight!==parts.otNight||r.ot!==parts.ot){
+        r.shift='Tối';r.otDay=parts.otDay;r.otNight=parts.otNight;r.otRest=parts.otRest;r.otHoliday=parts.otHoliday;r.ot=parts.ot;changed++;
+      }
+    }
+    const next=mergeAttendanceNote(r.note,attendanceWarnings(r.date,r.timeIn,r.timeOut,r.shift));
+    if(next!==String(r.note||'')){r.note=next;changed++;}
+  }
+  return changed;
 }
 
 // Chuẩn hoá 4 nhóm OT. Dữ liệu import mới có chi tiết; dữ liệu cũ vẫn được suy ra từ shift.
@@ -1476,6 +1593,29 @@ function getOtParts(r) {
   if (r.shift==='Chủ nhật') return {day:0,night:0,rest:ot,holiday:0};
   if (isNightShift(r.timeIn,r.shift)) return {day:0,night:ot,rest:0,holiday:0};
   return {day:ot,night:0,rest:0,holiday:0};
+}
+
+function calcOtBreakdown(date,timeIn,timeOut,hours,shift){
+  const zero={otDay:0,otNight:0,otRest:0,otHoliday:0,ot:0};
+  if (shift===PAID_LEAVE||shift===UNPAID_LEAVE||shift==='Nghỉ') return zero;
+  const h=+(hours||0);
+  if (shift==='Lễ') return {otDay:0,otNight:0,otRest:0,otHoliday:h,ot:h};
+  if (shift==='Chủ nhật') return {otDay:0,otNight:0,otRest:h,otHoliday:0,ot:h};
+  if (!timeIn || !timeOut) return zero;
+  const baseDate = date || '2026-01-01';
+  const [ih,im=0]=String(timeIn).split(':').map(Number);
+  const [oh,om=0]=String(timeOut).split(':').map(Number);
+  const start=new Date(baseDate+'T00:00:00');
+  start.setHours(ih||0,im||0,0,0);
+  const end=new Date(baseDate+'T00:00:00');
+  end.setHours(oh||0,om||0,0,0);
+  if(end<=start)end.setDate(end.getDate()+1);
+  const tinM=hmToMinutes(timeIn,NaN),eveningStart=hmToMinutes('17:30',1050),cut=hmToMinutes(cfg.workdayCutoff||'06:00',360);
+  const isOtOnly = shift==='Tối' || (Number.isFinite(tinM) && (tinM>=eveningStart || tinM<=cut));
+  const ot = isOtOnly ? h : calcOT(h, shift);
+  if (!ot) return zero;
+  const part=allocateOTFromSessions([{start,end}],ot);
+  return {otDay:part.day,otNight:part.night,otRest:0,otHoliday:0,ot:part.day+part.night};
 }
 
 let attendanceViewMode='summary';
@@ -1507,6 +1647,7 @@ function openEmployeeAttendance(encodedKey) {
 function renderAtt() {
   normalizeLeaveTypes();
   reclassifyAttendanceCalendar();
+  refreshAttendanceWarnings();
   updateHolidayStatus();
   const filter = $('att-worker-filter').value;
   const q = ($('att-search')?.value || '').trim();
@@ -1535,6 +1676,7 @@ function renderAtt() {
       const dow = dateObj ? DAYS_VI[dateObj.getDay()] : '';
       const shiftOpts = ['Ngày','Tối','Chủ nhật',PAID_LEAVE,UNPAID_LEAVE,'Lễ'].map(s=>
         `<option${r.shift===s?' selected':''}>${s}</option>`).join('');
+      const warn = isWarningNote(r.note);
       return `<tr data-id="${r.id}">
         <td style="color:var(--muted);font-size:9.5px">${i+1}</td>
         <td><input type="text" value="${esc(r.empId||'')}" onchange="updateAtt(${r.id},'empId',this.value)" style="min-width:65px;font-weight:700;color:var(--blue)"></td>
@@ -1547,8 +1689,7 @@ function renderAtt() {
         <td class="cell-hours" style="text-align:center;font-weight:700;color:var(--blue)">${r.hours ? r.hours.toFixed(1) : '—'}</td>
         <td class="cell-ot" style="text-align:center;font-weight:700;color:var(--amber)">${r.ot ? r.ot.toFixed(1) : '—'}</td>
         <td><select style="height:27px;border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:10.5px;background:#fff" onchange="updateAtt(${r.id},'shift',this.value)">${shiftOpts}</select></td>
-        <td><input type="text" value="${esc(r.note||'')}" onchange="updateAtt(${r.id},'note',this.value)" style="min-width:90px"></td>
-        <td><button class="btn btn-danger" style="height:24px;padding:0 7px;font-size:10px" onclick="deleteAtt(${r.id})">✕</button></td>
+        <td><input type="text" value="${esc(r.note||'')}" onchange="updateAtt(${r.id},'note',this.value)" style="min-width:90px;${warn?'border:2px solid #ef4444;background:#fff5f5;color:#b91c1c;font-weight:800':''}"></td>
       </tr>`;
     }).join('');
   }
@@ -1572,6 +1713,24 @@ function renderAtt() {
   renderAttSummary();
   applyAttendanceLayout();
   updateFlow();
+}
+
+function compactSummaryNotes(notes) {
+  const full=String(notes||'').trim();
+  if(!full) return {text:'—',full:'',warn:false};
+  const parts=[...new Set(full.split(/\s*(?:;| · )\s*/).map(x=>x.trim()).filter(Boolean))];
+  const warnings=parts.filter(isWarningNote);
+  const picked=(warnings[0]||parts[0]||'').replace(/^⚠\s*/,'');
+  const short=picked.length>34?picked.slice(0,34).trim()+'…':picked;
+  return {
+    text:warnings.length ? `${warnings.length} cảnh báo · ${short}` : `${parts.length} ghi chú${short?` · ${short}`:''}`,
+    full,
+    warn:!!warnings.length
+  };
+}
+
+function isWarningNote(note) {
+  return /⚠|trễ|sớm|thiếu|lẻ|không phù hợp|chưa ghép|chưa xác định|không tìm thấy|bất thường/i.test(String(note||''));
 }
 
 function renderAttSummary() {
@@ -1604,6 +1763,7 @@ function renderAttSummary() {
   renderPager('sum-pager', pg, 'sum', 'renderAttSummary');
   if($('att-summary-sub'))$('att-summary-sub').textContent=`${summaries.length.toLocaleString('vi-VN')} nhân viên · mỗi người một dòng · bấm Xem chi tiết khi cần`;
   $('summary-body').innerHTML = pg.slice.map(({key,empId,name,title,workDays,paidLeaveDays,unpaidLeaveDays,totalH,saturdayH,otDay,otNight,restH,holidayH,notes}) => {
+    const noteInfo=compactSummaryNotes(notes);
     return `<tr>
       <td style="font-weight:700;color:var(--blue);font-size:10px">${esc(empId||'—')}</td>
       <td class="sticky-l"><b>${esc(name)}</b></td><td>${esc(title)}</td>
@@ -1616,7 +1776,7 @@ function renderAttSummary() {
       <td style="text-align:center;color:var(--purple,#7657d6)">${otNight.toFixed(1)}</td>
       <td style="text-align:center;color:#1769e0;font-weight:700">${restH?restH.toFixed(1):'—'}</td>
       <td style="text-align:center;color:#d64545;font-weight:700">${holidayH?holidayH.toFixed(1):'—'}</td>
-      <td style="font-size:9.5px;color:var(--muted)">${esc(notes||'—')}</td>
+      <td style="font-size:9.5px;max-width:210px"><span class="note-compact ${noteInfo.warn?'warn':''}" title="${esc(noteInfo.full||noteInfo.text)}">${esc(noteInfo.text)}</span></td>
       <td><button class="btn btn-primary summary-detail-btn" data-key="${esc(encodeURIComponent(key))}" onclick="openEmployeeAttendance(this.dataset.key)">Xem chi tiết</button></td>
     </tr>`;
   }).join('');
@@ -1629,13 +1789,10 @@ function updateAtt(id, field, val) {
   r[field] = val;
   if (field==='timeIn'||field==='timeOut'||field==='shift') {
     r.hours = calcHours(r.timeIn, r.timeOut);
-    r.otDay=0; r.otNight=0; r.otRest=0; r.otHoliday=0;
     if (isLeave(r)) { r.timeIn='';r.timeOut='';r.hours=0; }
-    else if (r.shift==='Lễ') r.otHoliday=r.hours;
-    else if (r.shift==='Chủ nhật') r.otRest=r.hours;
-    else if (isNightShift(r.timeIn,r.shift)) r.otNight=calcOT(r.hours,r.shift);
-    else r.otDay=calcOT(r.hours,r.shift);
-    r.ot = r.otDay+r.otNight+r.otRest+r.otHoliday;
+    const parts=calcOtBreakdown(r.date,r.timeIn,r.timeOut,r.hours,r.shift);
+    r.otDay=parts.otDay; r.otNight=parts.otNight; r.otRest=parts.otRest; r.otHoliday=parts.otHoliday; r.ot=parts.ot;
+    r.note=mergeAttendanceNote(r.note,attendanceWarnings(r.date,r.timeIn,r.timeOut,r.shift));
     // Chỉ cập nhật 2 ô tính toán trong dòng — không re-render toàn bộ
     const row = document.querySelector(`tr[data-id="${id}"]`);
     if (row) {
@@ -1653,12 +1810,26 @@ function deleteAtt(id) {
   renderAtt();
 }
 
+function clearAttendanceFilters(silent=false) {
+  ['att-search','att-from','att-to'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  const sel=$('att-worker-filter'); if(sel) sel.value='all';
+  pageState.att=0; pageState.sum=0;
+  Object.keys(excelFilters.att||{}).forEach(k=>delete excelFilters.att[k]);
+  Object.keys(excelFilters.sum||{}).forEach(k=>delete excelFilters.sum[k]);
+  closeExcelFilter(); refreshExcelFilterButtons();
+  renderAtt();
+  if(!silent) toast('✓ Đã xoá toàn bộ bộ lọc chấm công.');
+}
+
 function addBlankDay() {
   const today = dateKey(new Date());
-  attRows.push({id:nextId++, empId:'', name:'', title:'', date:today, timeIn:'07:30', timeOut:'17:00', hours:9.5, ot:1.5, shift:'Ngày', note:''});
+  const h=calcHours('07:30','17:00'),parts=calcOtBreakdown(today,'07:30','17:00',h,'Ngày');
+  attRows.push({id:nextId++, empId:'', name:'', title:'', date:today, timeIn:'07:30', timeOut:'17:00', hours:h, ...parts, shift:'Ngày', note:''});
+  clearAttendanceFilters(true);
   scheduleAutoSave();
   attendanceViewMode='detail';
   renderAtt();
+  toast('✓ Đã thêm dòng trống và xoá bộ lọc để anh thấy ngay.');
 }
 
 function saveAtt() {
@@ -1703,8 +1874,9 @@ function doAddWorker() {
     const dateStr = dateKey(cur);
     const leave=shift===PAID_LEAVE||shift===UNPAID_LEAVE;
     const h = leave?0:calcHours(tin, tout);
-    const ot = calcOT(h, shift);
-    attRows.push({id:nextId++, empId, name, title, date:dateStr, timeIn:leave?'':tin, timeOut:leave?'':tout, hours:h, ot, shift, note:leave?shift:''});
+    const parts=calcOtBreakdown(dateStr,leave?'':tin,leave?'':tout,h,shift);
+    const note=mergeAttendanceNote(leave?shift:'',attendanceWarnings(dateStr,leave?'':tin,leave?'':tout,shift));
+    attRows.push({id:nextId++, empId, name, title, date:dateStr, timeIn:leave?'':tin, timeOut:leave?'':tout, hours:h, ...parts, shift, note});
     cur.setDate(cur.getDate()+1);
   }
   saveData(); renderAtt();
@@ -1768,6 +1940,7 @@ function splitLine(line) {
 function importLines(lines, sourceName) {
   if (!lines.length) return 0;
   const header = splitLine(lines[0]).map(h=>h.toLowerCase());
+  const rawHeader = splitLine(lines[0]);
   const gi = (...terms) => header.findIndex(h=>terms.some(t=>h.includes(t)));
   const empIdIdx = gi('mã','id','code','emp');
   const nameIdx  = gi('tên','name','họ và','ho va');
@@ -1779,6 +1952,20 @@ function importLines(lines, sourceName) {
   const noteIdx  = gi('ghi chú','ghi chu','note','ghi');
   const hasHeader = nameIdx >= 0 || dateIdx >= 0;
   const start = hasHeader ? 1 : 0;
+  const isRawPunch = header.some(h=>h.includes('state')||h.includes('trạng thái'))
+                  && header.some(h=>h.includes('time')||h.includes('thời gian')||h.includes('datetime'))
+                  && !header.some(h=>h.includes('giờ vào')||h.includes('gio vao')||h.includes('giờ ra')||h.includes('gio ra'));
+  if (hasHeader && isRawPunch) {
+    const rows = [];
+    for (let i = start; i < lines.length; i++) {
+      const line = lines[i].trim(); if (!line) continue;
+      const cols = splitLine(line);
+      const obj = {};
+      rawHeader.forEach((h,idx)=>obj[h]=cols[idx]||'');
+      rows.push(obj);
+    }
+    return importPunches(rows);
+  }
   let count = 0;
   for (let i = start; i < lines.length; i++) {
     const line = lines[i].trim(); if (!line) continue;
@@ -1793,8 +1980,9 @@ function importLines(lines, sourceName) {
     const shift = cols[shiftIdx>=0?shiftIdx:5]?.trim()||'Ngày';
     const note  = cols[noteIdx>=0?noteIdx:6]?.trim()||'';
     const h  = calcHours(tin||'07:30', tout||'17:00');
-    const ot = calcOT(h, shift);
-    attRows.push({id:nextId++, empId, name, title, date, timeIn:tin||'07:30', timeOut:tout||'17:00', hours:h, ot, shift, note});
+    const parts=calcOtBreakdown(date,tin||'07:30',tout||'17:00',h,shift);
+    const finalNote=mergeAttendanceNote(note,attendanceWarnings(date,tin||'07:30',tout||'17:00',shift));
+    attRows.push({id:nextId++, empId, name, title, date, timeIn:tin||'07:30', timeOut:tout||'17:00', hours:h, ...parts, shift, note:finalNote});
     count++;
   }
   return count;
@@ -1894,9 +2082,79 @@ function parseDateTime(v) {
 }
 const fmtHM = dt => String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');
 const dateKey = dt => `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+function minutesOfDay(dt){return dt.getHours()*60+dt.getMinutes();}
+function hmToMinutes(hm,fallback=0){const m=String(hm||'').match(/^(\d{1,2}):(\d{2})$/);return m?(+m[1]*60+ +m[2]):fallback;}
+function workDateKey(dt){
+  const d=new Date(dt);
+  if(minutesOfDay(d)<=hmToMinutes(cfg.workdayCutoff||'06:00',360))d.setDate(d.getDate()-1);
+  return dateKey(d);
+}
+function isNightDateTime(dt){
+  const m=minutesOfDay(dt),night=hmToMinutes(cfg.nightStart||'22:00',1320),cut=hmToMinutes(cfg.workdayCutoff||'06:00',360);
+  return m>=night||m<=cut;
+}
+function punchDirection(state){
+  const s=String(state||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  if (/(^|[^a-z])out($|[^a-z])/.test(s)||s.includes('/out')||s.includes(' ra')||s.includes('checkout')||s.includes('check out')) return 'out';
+  if (/(^|[^a-z])in($|[^a-z])/.test(s)||s.includes('/in')||s.includes(' vao')||s.includes('checkin')||s.includes('check in')) return 'in';
+  return '';
+}
+function pairPunchSessions(punches){
+  const sorted=[...punches].sort((a,b)=>a.dt-b.dt);
+  const unique=[];
+  let duplicates=0;
+  for(const p of sorted){
+    const prev=unique[unique.length-1];
+    if(prev&&Math.abs(p.dt-prev.dt)<=60000){duplicates++;continue;}
+    unique.push(p);
+  }
+  const hasIn=unique.some(p=>punchDirection(p.newState)==='in');
+  const hasOut=unique.some(p=>punchDirection(p.newState)==='out');
+  const sessions=[],notes=[];
+  if(hasIn&&hasOut){
+    let pending=null;
+    for(const p of unique){
+      const dir=punchDirection(p.newState);
+      if(dir==='in'){
+        if(pending)notes.push(`Thiếu giờ ra sau lượt vào ${fmtHM(pending.dt)}`);
+        pending=p;
+      }else if(dir==='out'){
+        if(pending&&p.dt>pending.dt){sessions.push({start:pending.dt,end:p.dt});pending=null;}
+        else notes.push(`Thiếu giờ vào trước lượt ra ${fmtHM(p.dt)}`);
+      }
+    }
+    if(pending)notes.push(`Thiếu giờ ra sau lượt vào ${fmtHM(pending.dt)}`);
+  }else{
+    for(let i=0;i+1<unique.length;i+=2){
+      if(unique[i+1].dt>unique[i].dt)sessions.push({start:unique[i].dt,end:unique[i+1].dt});
+    }
+    if(unique.length%2)notes.push(`Số lần quẹt thẻ bị lẻ (${unique.length} lần) — kiểm tra thiếu giờ vào hoặc giờ ra`);
+  }
+  if(duplicates)notes.push(`Bỏ ${duplicates} lượt quẹt trùng trong 1 phút`);
+  return {sessions,notes,punchCount:unique.length};
+}
+function sessionHours(sessions){
+  return Math.round(sessions.reduce((s,x)=>s+Math.max(0,x.end-x.start)/3600000,0)*10)/10;
+}
+function allocateOTFromSessions(sessions,otHours){
+  let remaining=Math.round((otHours||0)*60),day=0,night=0;
+  for(let i=sessions.length-1;i>=0&&remaining>0;i--){
+    let t=new Date(sessions[i].end);
+    while(remaining>0&&t>sessions[i].start){
+      t=new Date(t.getTime()-60000);
+      if(isNightDateTime(t))night++;else day++;
+      remaining--;
+    }
+  }
+  return {day:Math.round(day/6)/10,night:Math.round(night/6)/10};
+}
+function sessionText(sessions){
+  const parts=sessions.map(s=>`${fmtHM(s.start)}–${fmtHM(s.end)}${dateKey(s.end)!==dateKey(s.start)?'(+1)':''}`);
+  return parts.length>5?parts.slice(0,5).join(', ')+`… (+${parts.length-5} phiên)`:parts.join(', ');
+}
 
 /* ─── Đọc bản ghi máy chấm công THÔ (AC-No · Name · Time · State) ─── */
-/* Mỗi dòng = 1 lần quẹt thẻ. Gom theo (mã NV + ngày): giờ vào = lần sớm nhất, giờ ra = lần muộn nhất. */
+/* Mỗi dòng = 1 lần quẹt thẻ. Gom theo ngày công; các lượt quẹt được ghép thành từng phiên làm việc. */
 function importPunches(rows) {
   const keys = Object.keys(rows[0]);
   const fk = (...t) => keys.find(k=>t.some(x=>k.toLowerCase().includes(x)))||'';
@@ -1910,72 +2168,53 @@ function importPunches(rows) {
     const name  = String(row[kName]||'').trim();
     const dt = parseDateTime(row[kTime]);
     if (!empId || !dt) continue;
-    const dk = dateKey(dt);
+    const dk = workDateKey(dt);
     const key = empId+'|'+dk;
     if (!groups.has(key)) groups.set(key, {empId, name, date:dk, punches:[]});
     const g = groups.get(key);
     g.punches.push({dt, newState:String(row[kNew]||'').trim()});
   }
 
-  // Chia một khoảng OT thành phần trước và sau giờ bắt đầu ban đêm.
-  const splitOT = (start, end) => {
-    if (!start || !end || end<=start) return {day:0,night:0,total:0};
-    const [nightH,nightM] = (cfg.nightStart||'20:00').split(':').map(Number);
-    let day=0, night=0;
-    for (let t=start.getTime(); t<end.getTime(); t+=60000) {
-      const d = new Date(t), mins=d.getHours()*60+d.getMinutes();
-      if (mins>=nightH*60+nightM || mins<6*60) night += 1/60; else day += 1/60;
-    }
-    return {day,night,total:day+night};
-  };
-
   let count = 0;
   for (const g of groups.values()) {
-    g.punches.sort((a,b)=>a.dt-b.dt);
-    const normal = g.punches.filter(p=>!/overtime/i.test(p.newState));
-    const base = normal.length ? normal : g.punches;
-    const tin  = base.length ? fmtHM(base[0].dt) : '';
-    const tout = base.length>1 ? fmtHM(base[base.length-1].dt) : '';
-    const baseHours = tout ? calcHours(tin,tout) : 0;
-
-    // Ghép từng cặp OverTime In → OverTime Out, sau đó tách OT ngày/đêm.
-    let pending=null, explicitDay=0, explicitNight=0;
-    const intervals=[];
-    for (const p of g.punches) {
-      if (/overtime\s*in/i.test(p.newState)) pending=p.dt;
-      else if (/overtime\s*out/i.test(p.newState) && pending) {
-        const part=splitOT(pending,p.dt);
-        explicitDay+=part.day; explicitNight+=part.night;
-        intervals.push(`${fmtHM(pending)}–${fmtHM(p.dt)}`);
-        pending=null;
-      }
-    }
-
+    const paired=pairPunchSessions(g.punches);
+    const sessions=paired.sessions;
+    const first=sessions[0],last=sessions[sessions.length-1];
+    const tin  = first ? fmtHM(first.start) : (g.punches[0]?fmtHM(g.punches[0].dt):'');
+    const tout = last ? fmtHM(last.end) : '';
+    const h = sessionHours(sessions);
     const dateObj = new Date(g.date+'T00:00:00');
-    const isHoliday = g.date==='2026-04-30' || g.date==='2026-05-01';
+    const holiday = holidayName(g.date);
     const isSunday = dateObj.getDay()===0;
-    const isNight = base[0]?.dt.getHours() >= parseInt((cfg.nightStart||'20:00'));
-    const shift = isHoliday ? 'Lễ' : (isSunday ? 'Chủ nhật' : (isNight ? 'Tối' : 'Ngày'));
-    const h = Math.round((baseHours+explicitDay+explicitNight)*10)/10;
-    const baseExtra = Math.max(0,baseHours-cfg.stdHours);
+    const isNight = first ? isNightDateTime(first.start) : false;
+    const eveningStart=hmToMinutes('17:30',1050),regularStart=hmToMinutes(cfg.workStart||'07:30',450);
+    const hasRegularWork=sessions.some(s=>{
+      let a=minutesOfDay(s.start),b=minutesOfDay(s.end);
+      if(dateKey(s.end)!==dateKey(s.start)||b<a)b+=1440;
+      return a<eveningStart&&b>regularStart;
+    });
+    const isOtOnly = !!first && !hasRegularWork && (minutesOfDay(first.start)>=eveningStart || isNight);
+    const shift = holiday ? 'Lễ' : (isSunday ? 'Chủ nhật' : ((isNight||isOtOnly) ? 'Tối' : 'Ngày'));
+    const baseExtra = isOtOnly ? h : Math.max(0,h-cfg.stdHours);
     let otDay=0, otNight=0, otRest=0, otHoliday=0;
     if (shift==='Lễ') otHoliday=h;
     else if (shift==='Chủ nhật') otRest=h;
     else {
-      otDay = (shift==='Ngày'?baseExtra:0)+explicitDay;
-      otNight = (shift==='Tối'?baseExtra:0)+explicitNight;
+      const part=allocateOTFromSessions(sessions,baseExtra);
+      otDay=part.day; otNight=part.night;
     }
     otDay=Math.round(otDay*10)/10; otNight=Math.round(otNight*10)/10;
     otRest=Math.round(otRest*10)/10; otHoliday=Math.round(otHoliday*10)/10;
     const ot=otDay+otNight+otRest+otHoliday;
-    const noteParts=[];
-    if (intervals.length) noteParts.push(`OT ${intervals.join(', ')}`);
+    const noteParts=[`Ca: ${sessionText(sessions)||'chưa đủ cặp giờ vào/ra'}`];
+    if (baseExtra>0 && shift!=='Chủ nhật' && shift!=='Lễ') noteParts.push(`OT ${baseExtra.toFixed(1)}h (tối ${otDay.toFixed(1)}h, đêm ${otNight.toFixed(1)}h)`);
     if (shift==='Chủ nhật') noteParts.push('Làm Chủ nhật');
-    if (shift==='Lễ') noteParts.push(g.date==='2026-04-30'?'Lễ 30/4':'Lễ 1/5');
-    if (!tout) noteParts.push('Chỉ có 1 lần quẹt — thiếu giờ ra');
+    if (shift==='Lễ') noteParts.push(holiday);
+    paired.notes.forEach(n=>noteParts.push(n));
+    attendanceSessionWarnings(sessions,shift).forEach(n=>noteParts.push(n));
     attRows.push({id:nextId++, empId:g.empId, name:g.name, title:'', date:g.date,
       timeIn:tin, timeOut:tout, hours:h, ot, otDay, otNight, otRest, otHoliday, shift,
-      note:noteParts.join(' · ')});
+      punchCount:paired.punchCount, note:noteParts.filter(Boolean).join(' · ')});
     count++;
   }
   return count;
@@ -2064,8 +2303,9 @@ function importObjects(rows, sourceName) {
     const shift = String(row[kShift] || 'Ngày').trim() || 'Ngày';
     const note  = String(row[kNote]  || '').trim();
     const h  = calcHours(tin, tout);
-    const ot = calcOT(h, shift);
-    attRows.push({id:nextId++, empId, name, title, date, timeIn:tin, timeOut:tout, hours:h, ot, shift, note});
+    const parts=calcOtBreakdown(date,tin,tout,h,shift);
+    const finalNote=mergeAttendanceNote(note,attendanceWarnings(date,tin,tout,shift));
+    attRows.push({id:nextId++, empId, name, title, date, timeIn:tin, timeOut:tout, hours:h, ...parts, shift, note:finalNote});
     count++;
   }
   return count;
@@ -2344,6 +2584,33 @@ function deleteAdj(i) {
 }
 
 /* ─── Payroll calculation ─── */
+function salaryBaseMissing(sr){
+  const payType = sr.payType || 'month';
+  return payType==='day' ? !(+sr.dayWage>0) : !(+sr.salary>0);
+}
+
+function duplicateSalaryIds(){
+  const counts = new Map();
+  for (const s of salRows) {
+    const id = String(s.empId||'').trim();
+    if (!id) continue;
+    counts.set(id, (counts.get(id)||0)+1);
+  }
+  return new Set([...counts.entries()].filter(([,n])=>n>1).map(([id])=>id));
+}
+
+function conflictingAttendanceIds(){
+  const namesById = new Map();
+  for (const r of attRows) {
+    const id = String(r.empId||'').trim();
+    if (!id) continue;
+    const name = String(r.name||'').trim();
+    if (!namesById.has(id)) namesById.set(id, new Set());
+    if (name) namesById.get(id).add(name);
+  }
+  return new Set([...namesById.entries()].filter(([,names])=>names.size>1).map(([id])=>id));
+}
+
 function recalc() {
   // Gom nhóm 1 lần bằng Map — O(n), chạy mượt với 2000 người × 60.000 dòng công
   const attByKey = new Map();
@@ -2358,6 +2625,8 @@ function recalc() {
     if (!adjByKey.has(k)) adjByKey.set(k, []);
     adjByKey.get(k).push(a);
   }
+  const dupSalaryIds = duplicateSalaryIds();
+  const conflictAttIds = conflictingAttendanceIds();
 
   payRows = salRows.map(sr => {
     const empId = sr.empId || '';
@@ -2392,10 +2661,14 @@ function recalc() {
     const adjPlus  = adjs.filter(a=>a.dir==='plus').reduce((s,a)=>s+a.amount,0);
     const adjMinus = adjs.filter(a=>a.dir==='minus').reduce((s,a)=>s+a.amount,0);
     const net = earned + otPay + sr.travel + sr.housing + sr.allowance + adjPlus - adjMinus - sr.advance - sr.insurance;
+    const statusWarnings = [];
+    if (workDays>0 && salaryBaseMissing(sr)) statusWarnings.push('Chưa nhập lương gốc');
+    if (empId && dupSalaryIds.has(empId)) statusWarnings.push('Trùng mã trong bảng lương');
+    if (empId && conflictAttIds.has(empId)) statusWarnings.push('Một mã NV đang có nhiều tên');
 
     return {empId, name, title:sr.title, payType, salary:sr.salary, dayWage:sr.dayWage||0, dayRate, stdDays, workDays,paidLeaveDays,unpaidLeaveDays,earned,
       otDayH,otNightH,restH,holidayH,otDayPay,otNightPay,restPay,holidayPay,otPay,
-      travel:sr.travel, housing:sr.housing, allowance:sr.allowance, adjPlus, adjMinus, advance:sr.advance, insurance:sr.insurance, net};
+      travel:sr.travel, housing:sr.housing, allowance:sr.allowance, adjPlus, adjMinus, advance:sr.advance, insurance:sr.insurance, net, statusWarnings};
   });
 
   renderPayroll();
@@ -2416,6 +2689,7 @@ function renderPayroll() {
   const total = payRows.reduce((s,r)=>s+r.net,0);
   const totalEarned = payRows.reduce((s,r)=>s+r.earned,0);
   const totalOT = payRows.reduce((s,r)=>s+r.otPay,0);
+  const warnRows = payRows.filter(r=>r.statusWarnings?.length).length;
 
   $('payroll-kpis').innerHTML = `
     <div class="kpi"><div class="lbl">Nhân sự</div><div class="val">${payRows.length}</div><div class="sub">người</div></div>
@@ -2424,7 +2698,7 @@ function renderPayroll() {
     <div class="kpi"><div class="lbl">Khoản cộng thêm</div><div class="val" style="font-size:14px;color:var(--green)">${(payRows.reduce((s,r)=>s+r.adjPlus,0)/1e6).toFixed(1)}M</div><div class="sub">₫</div></div>
     <div class="kpi"><div class="lbl">Tổng thực lĩnh</div><div class="val" style="font-size:14px;color:var(--navy)">${(total/1e6).toFixed(1)}M</div><div class="sub">₫</div></div>
   `;
-  $('payroll-head-sub').textContent = `${payRows.length.toLocaleString('vi-VN')} nhân sự · Tổng: ${money(total)}`;
+  $('payroll-head-sub').textContent = `${payRows.length.toLocaleString('vi-VN')} nhân sự · Tổng: ${money(total)}${warnRows?` · ${warnRows} dòng cần kiểm tra`:''}`;
 
   const q = ($('payroll-search')?.value || '').trim();
   let items = q ? payRows.filter(r=>matchSearch(q, r.empId, r.name)) : payRows;
@@ -2437,7 +2711,7 @@ function renderPayroll() {
   renderPager('pay-pager', pg, 'pay', 'renderPayroll');
   tbody.innerHTML = pg.slice.map(r=>`<tr>
     <td style="font-weight:700;color:var(--blue);font-size:10px">${esc(r.empId||'—')}</td>
-    <td class="sticky-l"><b>${esc(r.name)}</b></td>
+    <td class="sticky-l"><b>${esc(r.name)}</b>${r.statusWarnings?.length?`<br><small style="color:#b91c1c;background:#fff5f5;border:1px solid #fecaca;border-radius:6px;padding:2px 5px;font-weight:800;display:inline-block;margin-top:3px">${esc(r.statusWarnings.join(' · '))}</small>`:''}</td>
     <td style="font-size:9.5px">${esc(r.title||'')}</td>
     <td style="font-size:10px">${r.payType==='day'
         ? '<span style="color:#c77700;font-weight:700">'+money(r.dayWage)+'</span><br><span style="font-size:8px;color:#999">/ngày</span>'
@@ -2477,7 +2751,7 @@ function renderPayroll() {
 function exportXLSX() {
   if (!payRows.length) { toast('Chưa có dữ liệu.'); return; }
   const cols = ['Mã NV','Tên','Chức vụ','Kiểu lương','Lương tháng','Lương/ngày','Ngày công','Phép có lương','Nghỉ không lương','Ngày chuẩn','Lương theo công',
-    'OT ngày (h)','OT ngày (₫)','OT đêm (h)','OT đêm (₫)','Chủ nhật (h)','Chủ nhật (₫)','Ngày lễ (h)','Ngày lễ (₫)',
+    'OT tối (h)','OT tối (₫)','OT đêm (h)','OT đêm (₫)','Chủ nhật (h)','Chủ nhật (₫)','Ngày lễ (h)','Ngày lễ (₫)',
     'Di chuyển','Chỗ ở','Phụ cấp','Cộng thêm','Trừ bớt','Tạm ứng','BH/KT','Thực lĩnh'];
   const data = [cols, ...payRows.map(r=>[
     r.empId||'', r.name, r.title||'',
@@ -2650,12 +2924,12 @@ function buildSlip(r) {
     ${r.otPay > 0 ? `<div class="pay-section">
       <div class="pay-section-title">B. Tiền tăng ca (OT)</div>
       ${r.otDayH>0?`<div class="pay-row plus">
-        <span class="lbl">OT ngày thường</span>
+        <span class="lbl">OT tối (17:30–22:00)</span>
         <span class="formula">${moneyN(Math.round(hourRate))} ₫/h × ${r.otDayH.toFixed(1)}h × ${cfg.coefDay}</span>
         <span class="amount">${money(hourRate*r.otDayH*cfg.coefDay)}</span>
       </div>`:''}
       ${r.otNightH>0?`<div class="pay-row plus">
-        <span class="lbl">OT tối/đêm</span>
+        <span class="lbl">OT đêm (22:00–06:00)</span>
         <span class="formula">${moneyN(Math.round(hourRate))} ₫/h × ${r.otNightH.toFixed(1)}h × ${cfg.coefNight}</span>
         <span class="amount">${money(r.otNightPay)}</span>
       </div>`:''}
@@ -2784,21 +3058,29 @@ async function exportAllSlipsToZip() {
   btn.disabled=true;
   const folderName='Phieu_luong_'+safeFilePart(cfg.periodLabel).replace(/\s+/g,'_');
   try {
-    const generated=[];
-    for(let i=0;i<payRows.length;i++){
-      const r=payRows[i],fileName=`${safeFilePart(r.empId||String(i+1).padStart(4,'0'))} - ${safeFilePart(r.name)} - Phieu luong.pdf`;
-      btn.textContent=`Đang tạo ${i+1}/${payRows.length}…`;
-      setPdfExportStatus(`Đang tạo PDF: ${r.empId||''} - ${r.name}`,i,payRows.length);
-      const blob=await makeSlipPdfBlob(r);generated.push({fileName,blob});
-      setPdfExportStatus(`Đã tạo: ${r.empId||''} - ${r.name}`,i+1,payRows.length);
-      await new Promise(resolve=>setTimeout(resolve,20));
+    const batchSize=100,total=payRows.length,totalBatches=Math.ceil(total/batchSize);
+    let made=0;
+    for(let b=0;b<totalBatches;b++){
+      const from=b*batchSize,to=Math.min(from+batchSize,total);
+      const zip=new JSZip(),sub=zip.folder(totalBatches>1?`${folderName}_phan_${b+1}`:folderName);
+      for(let i=from;i<to;i++){
+        const r=payRows[i],fileName=`${safeFilePart(r.empId||String(i+1).padStart(4,'0'))} - ${safeFilePart(r.name)} - Phieu luong.pdf`;
+        btn.textContent=`Đang tạo ${i+1}/${total}…`;
+        setPdfExportStatus(`Đang tạo PDF: ${r.empId||''} - ${r.name}`,i,total);
+        const blob=await makeSlipPdfBlob(r);
+        sub.file(fileName,blob);
+        made++;
+        setPdfExportStatus(`Đã tạo: ${r.empId||''} - ${r.name}`,i+1,total);
+        await new Promise(resolve=>setTimeout(resolve,15));
+      }
+      const zipName=totalBatches>1?`${folderName}_phan_${String(b+1).padStart(2,'0')}_of_${String(totalBatches).padStart(2,'0')}.zip`:folderName+'.zip';
+      setPdfExportStatus(`Đang đóng gói ZIP ${b+1}/${totalBatches}…`,to,total);
+      const zipBlob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
+      downloadBlob(zipBlob,zipName);
+      await new Promise(resolve=>setTimeout(resolve,500));
     }
-    setPdfExportStatus('Đang đóng gói các PDF thành ZIP…',payRows.length,payRows.length);
-    const zip=new JSZip(),sub=zip.folder(folderName);generated.forEach(x=>sub.file(x.fileName,x.blob));
-    const zipBlob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
-    downloadBlob(zipBlob,folderName+'.zip');
-    setPdfExportStatus(`Hoàn tất ${generated.length} PDF. Đã tải file ${folderName}.zip.`,generated.length,generated.length);
-    toast(`✓ Đã tạo ${generated.length} PDF trong file ZIP.`);
+    setPdfExportStatus(`Hoàn tất ${made} PDF trong ${totalBatches} file ZIP.`,made,total);
+    toast(`✓ Đã tạo ${made} PDF; ${totalBatches>1?'đã chia nhiều ZIP':'đã đóng gói ZIP'}.`);
   }catch(err){console.error(err);setPdfExportStatus('❌ Lỗi xuất PDF: '+(err?.message||err));toast('❌ Không thể xuất PDF.');}
   finally{btn.disabled=false;btn.textContent=oldText;}
 }
@@ -2807,100 +3089,6 @@ function exportAllSlipsToPdfFolder(){return exportAllSlipsToZip();}
 /* ─── Escape HTML ─── */
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-/* ─── Demo data ─── */
-function loadDemo() {
-  if (!confirm('Tải dữ liệu demo Sailing Hạ Long (11/03–10/04/2026)?\nDữ liệu hiện tại sẽ bị xoá.')) return;
-  attRows = []; salRows = []; adjRows = []; nextId = 1;
-
-  // Danh sách nhân sự thực tế từ file chấm công Sailing Hạ Long
-  const workers = [
-    {empId:'61077',  name:'Võ Ngọc Vương',      title:'Thợ điện', salary:14500000, travel:450000, housing:1500000, allowance:700000,  insurance:1522500},
-    {empId:'70431',  name:'Trần Hoàng Trung',    title:'Thợ mộc',  salary:13500000, travel:300000, housing:1500000, allowance:500000,  insurance:1417500},
-    {empId:'71091',  name:'Võ Kế Duy',           title:'Thợ điện', salary:14000000, travel:400000, housing:1500000, allowance:600000,  insurance:1470000},
-    {empId:'71212',  name:'Trần Thị Lan',         title:'Vệ sinh',  salary:10500000, travel:200000, housing:0,       allowance:300000,  insurance:1102500},
-    {empId:'71262',  name:'Lê Trung Tịnh',        title:'Thợ sơn',  salary:12500000, travel:250000, housing:1200000, allowance:400000,  insurance:1312500},
-    {empId:'71443',  name:'Trần Thị Nga',         title:'Vệ sinh',  salary:10500000, travel:200000, housing:0,       allowance:300000,  insurance:1102500},
-    {empId:'71447',  name:'Vân Thị Hà',           title:'Vệ sinh',  salary:10800000, travel:200000, housing:0,       allowance:300000,  insurance:1134000},
-    {empId:'71511',  name:'Nguyễn Thị Chi',       title:'Silicon',  salary:11800000, travel:300000, housing:0,       allowance:350000,  insurance:1239000},
-    {empId:'71535',  name:'Nguyễn Thị Mỹ',        title:'Vệ sinh',  salary:10500000, travel:200000, housing:0,       allowance:300000,  insurance:1102500},
-    {empId:'71634',  name:'Vũ Thị Lý',            title:'Vệ sinh',  salary:10500000, travel:200000, housing:0,       allowance:300000,  insurance:1102500},
-    {empId:'71712',  name:'Nguyễn Đức Lượng',     title:'Thợ mộc',  salary:13200000, travel:300000, housing:1500000, allowance:450000,  insurance:1386000},
-    {empId:'72079',  name:'Hạ Bá Hùng',           title:'Thợ mộc',  salary:13800000, travel:350000, housing:1500000, allowance:500000,  insurance:1449000},
-    {empId:'72114',  name:'Võ Văn Bình',           title:'Thợ mộc',  salary:13600000, travel:400000, housing:0,       allowance:450000,  insurance:1428000},
-    {empId:'72186',  name:'Phạm Trung Đức',        title:'Thợ điện', salary:14200000, travel:400000, housing:1500000, allowance:600000,  insurance:1491000},
-    {empId:'72194',  name:'Nguyễn Hải Nam',        title:'Thợ mộc',  salary:13000000, travel:300000, housing:1500000, allowance:500000,  insurance:1365000},
-    {empId:'72268',  name:'Đào Văn Thành',         title:'Thợ mộc',  salary:13000000, travel:300000, housing:1500000, allowance:400000,  insurance:1365000},
-    {empId:'72269',  name:'Đào Thị Hợp',           title:'Vệ sinh',  salary:10500000, travel:200000, housing:0,       allowance:300000,  insurance:1102500},
-    {empId:'71580',  name:'Nguyễn Thị Thúy',       title:'Cấp dưỡng', salary:9000000,  travel:500000, housing:0,       allowance:0,       insurance:0},
-    {empId:'72080',  name:'Hà Bá Ninh',            title:'Thợ sơn',  salary:0,        travel:0,      housing:800000,  allowance:0,       insurance:0, payType:'day', dayWage:500000},
-    {empId:'123456', name:'Lưu Thế Giang',         title:'Giám sát', salary:18000000, travel:600000, housing:2000000, allowance:1000000, insurance:1890000},
-  ];
-
-  // Kỳ chấm công: 11/03/2026 – 10/04/2026 (bỏ Chủ nhật)
-  const fromDate = new Date('2026-03-11T00:00:00');
-  const toDate   = new Date('2026-04-10T00:00:00');
-  const stdDays  = 26;
-
-  workers.forEach(w => {
-    let cur = new Date(fromDate);
-    while (cur <= toDate) {
-      const dateStr = dateKey(cur);
-      const dow = cur.getDay();
-      cur.setDate(cur.getDate()+1);
-      if (dow === 0) continue; // bỏ Chủ nhật
-
-      const rand = Math.random();
-      if (rand < 0.06) {
-        attRows.push({id:nextId++, empId:w.empId, name:w.name, title:w.title, date:dateStr,
-          timeIn:'', timeOut:'', hours:0, ot:0, shift:PAID_LEAVE, note:'Nghỉ phép có lương'});
-        continue;
-      }
-
-      const isNight = Math.random() < 0.10;
-      const tin  = isNight ? '20:00' : (Math.random()<0.15 ? '07:00' : '07:30');
-      const rawH = isNight ? (8 + Math.random()*2) : (8 + Math.random()*2.5);
-      const totalH = Math.round(rawH * 2) / 2;
-      const [ih,im] = tin.split(':').map(Number);
-      const outMins = ih*60 + im + Math.round(totalH*60);
-      const tout = `${String(Math.floor(outMins/60)%24).padStart(2,'0')}:${String(outMins%60).padStart(2,'0')}`;
-
-      const h  = calcHours(tin, tout);
-      const ot = calcOT(h, isNight ? 'Tối' : 'Ngày');
-      attRows.push({id:nextId++, empId:w.empId, name:w.name, title:w.title, date:dateStr,
-        timeIn:tin, timeOut:tout, hours:h, ot, shift:isNight?'Tối':'Ngày', note:ot>0?`OT ${ot.toFixed(1)}h`:''});
-    }
-  });
-
-  // Lương gốc
-  workers.forEach(w => {
-    const workDays = paidWorkDays(attRows.filter(r=>r.empId===w.empId));
-    salRows.push({empId:w.empId, name:w.name, title:w.title,
-      payType:(w.payType||'month'), salary:w.salary, dayWage:(w.dayWage||0), stdDays,
-      workDays, travel:w.travel, housing:w.housing, allowance:w.allowance,
-      advance: Math.random()<0.3 ? Math.round((500000+Math.random()*1500000)/100000)*100000 : 0,
-      insurance:w.insurance});
-  });
-
-  // Khoản thưởng/điều chỉnh
-  adjRows.push({empId:'123456', name:'Lưu Thế Giang',  dir:'plus',  cat:'Thưởng năng suất',     amount:1000000, reason:'Giám sát hoàn thành tiến độ hạng mục A đúng hạn, biên bản 10/04/2026.', date:'2026-04-10'});
-  adjRows.push({empId:'61077',  name:'Võ Ngọc Vương',  dir:'plus',  cat:'Thưởng hoàn thành tốt', amount:700000,  reason:'Lắp đặt hệ thống điện khu B vượt kế hoạch 2 ngày.', date:'2026-04-08'});
-  adjRows.push({empId:'71091',  name:'Võ Kế Duy',      dir:'plus',  cat:'Thưởng hoàn thành tốt', amount:500000,  reason:'Hoàn thành lắp đặt điện âm tường trước tiến độ.', date:'2026-04-08'});
-  adjRows.push({empId:'71535',  name:'Nguyễn Thị Mỹ', dir:'minus', cat:'Điều chỉnh đi muộn',    amount:150000,  reason:'Đi muộn 45 phút các ngày 18/03 và 25/03, điều chỉnh theo quy chế.', date:'2026-03-31'});
-  adjRows.push({empId:'71212',  name:'Trần Thị Lan',   dir:'plus',  cat:'Hỗ trợ đặc biệt',       amount:200000,  reason:'Hỗ trợ dọn dẹp bàn giao hạng mục cuối tuần 05/04.', date:'2026-04-05'});
-
-  // Cập nhật nhãn kỳ lương
-  cfg.periodLabel = 'Tháng 03–04/2026';
-  $('sidebar-period').textContent = cfg.periodLabel;
-  dataMeta={attendanceFile:'Dữ liệu DEMO tích hợp trong HTML',salaryFile:'Lương DEMO tích hợp trong HTML'};
-
-  saveData();
-  renderDataSources();
-  renderAtt();
-  renderSalary();
-  updateFlow();
-  toast('✓ Demo Sailing Hạ Long: ' + workers.length + ' nhân viên, ' + attRows.length + ' ngày công.');
-}
-
 /* ─── Init ─── */
 loadConfig();
 loadData();
@@ -2908,15 +3096,11 @@ renderAtt();
 updateFlow();
 restoreDataFromIndexedDB();
 
-// Nút demo trong topbar
-document.querySelector('.top-right').insertAdjacentHTML('afterbegin',
-  '<button class="btn btn-amber" onclick="loadDemo()" style="margin-right:4px">🎲 Tải demo</button>'
-);
-
 // period select
-$('period-sel').addEventListener('change', function(){
+$('period-sel')?.addEventListener('change', function(){
   const map = {'2026-07':'Tháng 07/2026','2026-06':'Tháng 06/2026','2026-05':'Tháng 05/2026'};
-  $('cfg-period-label').value = map[this.value]||this.value;
+  const cfgPeriod=$('cfg-period-label');
+  if(cfgPeriod) cfgPeriod.value = map[this.value]||this.value;
   cfg.periodLabel = map[this.value]||this.value;
   $('sidebar-period').textContent = cfg.periodLabel;
 });

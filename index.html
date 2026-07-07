@@ -53,15 +53,15 @@
     .card{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}
     .card-head{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px}
     .card-head h3{font-size:12px;margin:0}
-    .card-head small{color:var(--muted);font-size:9px;display:block;margin-top:2px}
+    .card-head small{color:var(--muted);font-size:9.5px;display:block;margin-top:2px}
     .card-body{padding:14px}
 
     /* ── Tables ── */
     .tbl-wrap{overflow:auto}
     table{border-collapse:collapse;width:100%;white-space:nowrap}
-    th{padding:8px 10px;background:#f8fafc;color:#687b8d;font-size:9px;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid var(--line);text-align:left;font-weight:700}
+    th{padding:8px 10px;background:#f8fafc;color:#687b8d;font-size:10px;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid var(--line);text-align:left;font-weight:700}
     .filter-row th{padding:4px;background:#edf4f9;position:sticky;top:0;z-index:2}
-    .filter-row input,.filter-row select{width:100%;height:25px;border:1px solid #cbd9e5;border-radius:5px;background:#fff;padding:0 5px;font-size:9.5px;color:var(--ink);text-transform:none;min-width:64px;outline:none}
+    .filter-row input,.filter-row select{width:100%;height:25px;border:1px solid #cbd9e5;border-radius:5px;background:#fff;padding:0 5px;font-size:10.5px;color:var(--ink);text-transform:none;min-width:64px;outline:none}
     .filter-row input:focus,.filter-row select:focus{border-color:var(--blue);box-shadow:0 0 0 2px #1769e015}
     .excel-filter-th{position:relative;padding-right:28px!important}
     .excel-filter-btn{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:1px solid #cbd9e5;border-radius:4px;background:#fff;color:#60778c;font-size:10px;line-height:14px;padding:0;display:flex;align-items:center;justify-content:center}
@@ -79,7 +79,7 @@
     .excel-filter-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .excel-filter-count{font-size:9.5px;color:var(--muted);font-weight:700}
     .excel-filter-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:9px}
-    td{padding:8px 10px;border-bottom:1px solid #edf1f4;font-size:11px;vertical-align:middle}
+    td{padding:8px 10px;border-bottom:1px solid #edf1f4;font-size:11.5px;vertical-align:middle}
     tbody tr:hover{background:#f9fbfd}
     td input[type=text],td input[type=number],td input[type=time]{
       height:27px;border:1px solid var(--line);border-radius:5px;padding:0 6px;font-size:10.5px;text-align:right;width:100%;min-width:70px;background:#fff
@@ -118,6 +118,7 @@
     .warn-line span{color:var(--muted);font-size:9.5px}
     .total-row td{background:#102a43;color:#fff;font-weight:800;border:0;font-size:11px}
     .total-row .sticky-l{background:#102a43}
+    .total-row .sticky-r{background:#102a43;box-shadow:none}
 
     /* ── Badges ── */
     .chip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:9px;font-weight:700}
@@ -171,7 +172,7 @@
     .import-panel.compact .btn{height:28px;font-size:10.5px}
 
     /* ── Info note ── */
-    .note{padding:9px 12px;border-radius:7px;font-size:9px;line-height:1.5;margin-bottom:10px}
+    .note{padding:9px 12px;border-radius:7px;font-size:10px;line-height:1.5;margin-bottom:10px}
     .note-blue{background:var(--blue2);color:#2c5a85;border:1px solid #c5ddf8}
     .note-amber{background:var(--amber2);color:#7c5819;border:1px solid #f1dda8}
     .note-green{background:var(--green2);color:#1f6847;border:1px solid #b3dfcc}
@@ -368,7 +369,7 @@
             <button class="btn btn-soft" onclick="addBlankDay()">＋ Thêm dòng trống</button>
           </div>
           <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
-            <input class="fsel" id="att-search" placeholder="🔍 Tìm mã NV / tên…" oninput="pageState.att=0;renderAtt()" style="min-width:150px">
+            <input class="fsel" id="att-search" placeholder="🔍 Tìm mã NV / tên…" oninput="debounceRenderAtt()" style="min-width:150px">
             <select class="fsel" id="att-worker-filter" onchange="pageState.att=0;pageState.sum=0;renderAtt()"><option value="all">Tất cả nhân viên</option></select>
             <span style="font-size:10px;color:var(--muted)">Từ</span>
             <input type="date" class="fsel" id="att-from" onchange="pageState.att=0;renderAtt()" style="height:30px;padding:0 6px">
@@ -409,6 +410,7 @@
                 <th class="excel-filter-th">OT (h)<button class="excel-filter-btn" data-filter-key="att.ot" onclick="openExcelFilter(event,'att','ot','Giờ OT','number')">▼</button></th>
                 <th class="excel-filter-th">Loại ca<button class="excel-filter-btn" data-filter-key="att.shift" onclick="openExcelFilter(event,'att','shift','Loại ca','select','Ngày|Tối|Chủ nhật|Nghỉ phép có lương|Nghỉ không lương|Lễ')">▼</button></th>
                 <th class="excel-filter-th">Ghi chú<button class="excel-filter-btn" data-filter-key="att.note" onclick="openExcelFilter(event,'att','note','Ghi chú','text')">▼</button></th>
+                <th></th>
               </tr></thead>
               <tbody id="att-body"></tbody>
             </table>
@@ -501,7 +503,7 @@
             </table>
           </div>
           <div id="sal-pager" style="display:flex;gap:8px;align-items:center;justify-content:center;padding:8px"></div>
-          <div id="salary-empty" style="padding:36px;text-align:center;color:var(--muted);font-size:11px">Bấm <b>↺ Đồng bộ từ chấm công</b> để tự điền danh sách nhân viên.</div>
+          <div id="salary-empty" style="padding:36px;text-align:center;color:var(--muted);font-size:11px">Nạp file <b>máy chấm công</b> ở tab Chấm công — danh sách nhân sự tự đổ sang đây. Nếu cần, bấm <b>↺ Đồng bộ lại</b>.</div>
         </div>
       </section>
 
@@ -588,13 +590,13 @@
                 <th>− Trừ</th>
                 <th>Tạm ứng</th>
                 <th>BH/KT</th>
-                <th>THỰC LĨNH</th>
+                <th class="sticky-r">THỰC LĨNH</th>
               </tr><tr class="filter-row">
                 <th><input id="pay-f-id" placeholder="Lọc mã" oninput="pageState.pay=0;renderPayroll()"></th>
                 <th><input id="pay-f-name" placeholder="Lọc tên" oninput="pageState.pay=0;renderPayroll()"></th>
                 <th><input id="pay-f-title" placeholder="Lọc chức vụ" oninput="pageState.pay=0;renderPayroll()"></th>
                 <th><select id="pay-f-type" onchange="pageState.pay=0;renderPayroll()"><option value="">Tất cả</option><option value="month">Tháng</option><option value="day">Ngày</option></select></th>
-                <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+                <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class="sticky-r"></th>
               </tr></thead>
               <tbody id="payroll-body"></tbody>
               <tfoot id="payroll-foot"></tfoot>
@@ -1414,6 +1416,12 @@ let cfg = {
   otRuleVersion: 2,
   holidays: ['2026-04-30','2026-05-01'],
 };
+
+/* ─── Kỳ lương: mỗi tháng một kho dữ liệu riêng ─── */
+function defaultPeriodOfToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
+let currentPeriod = (()=>{try{return localStorage.getItem('cl_period');}catch(e){return null;}})() || defaultPeriodOfToday();
+const periodStoreKey = base => base + '__' + currentPeriod;
+const periodLabelOf = p => {const m=String(p).match(/^(\d{4})-(\d{2})$/);return m?`Tháng ${m[2]}/${m[1]}`:String(p);};
 function loadConfig() {
   const s = localStorage.getItem('cl_cfg');
   if (s) try { cfg = {...cfg, ...JSON.parse(s)}; } catch(e){}
@@ -1430,25 +1438,6 @@ function loadConfig() {
   setv('cfg-coef-holiday',cfg.coefHoliday); setv('cfg-night-start',cfg.nightStart);
   $('sidebar-period').textContent = cfg.periodLabel;
 }
-function saveConfig() {
-  cfg.company   = $('cfg-company').value.trim();
-  cfg.project   = $('cfg-project').value.trim();
-  cfg.address   = $('cfg-address').value.trim();
-  cfg.periodLabel = $('cfg-period-label').value.trim();
-  cfg.stdDays   = +$('cfg-std-days').value || 26;
-  cfg.stdHours  = +$('cfg-std-hours').value || 8;
-  cfg.coefDay   = +$('cfg-coef-day').value || 1.5;
-  cfg.coefNight = +$('cfg-coef-night').value || 2.0;
-  cfg.coefRest  = +$('cfg-coef-rest').value || 2.0;
-  cfg.coefHoliday = +$('cfg-coef-holiday').value || 3.0;
-  cfg.nightStart  = $('cfg-night-start')?.value || '22:00';
-  cfg.workdayCutoff = cfg.workdayCutoff || '06:00';
-  cfg.otRuleVersion = 2;
-  localStorage.setItem('cl_cfg', JSON.stringify(cfg));
-  $('sidebar-period').textContent = cfg.periodLabel;
-  toast('✓ Đã lưu cấu hình.');
-}
-
 const HOLIDAY_NAMES = {'2026-04-30':'Ngày Giải phóng miền Nam 30/4','2026-05-01':'Quốc tế Lao động 1/5'};
 const PAID_LEAVE='Nghỉ phép có lương',UNPAID_LEAVE='Nghỉ không lương';
 function holidayName(date) { return (cfg.holidays||[]).includes(date) ? (HOLIDAY_NAMES[date]||'Ngày lễ') : ''; }
@@ -1525,33 +1514,35 @@ function openPayrollLocalDB() {
     req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('Không mở được kho dữ liệu'));
   });
 }
-async function saveDataToIndexedDB(snapshot) {
+async function saveDataToIndexedDB(snapshot, key) {
+  // key được chốt lúc gọi — không đọc currentPeriod ở đây vì hàm async có thể chạy SAU khi đã chuyển kỳ
   const db=await openPayrollLocalDB();
   return new Promise((resolve,reject)=>{
-    const tx=db.transaction('state','readwrite');tx.objectStore('state').put(snapshot,'latest');
+    const tx=db.transaction('state','readwrite');tx.objectStore('state').put(snapshot,key);
     tx.oncomplete=()=>{db.close();resolve(true);};tx.onerror=()=>{db.close();reject(tx.error);};
   });
 }
-async function readDataFromIndexedDB() {
+async function readDataFromIndexedDB(key) {
   const db=await openPayrollLocalDB();
   return new Promise((resolve,reject)=>{
-    const tx=db.transaction('state','readonly'),req=tx.objectStore('state').get('latest');
+    const tx=db.transaction('state','readonly'),req=tx.objectStore('state').get(key);
     req.onsuccess=()=>{db.close();resolve(req.result||null);};req.onerror=()=>{db.close();reject(req.error);};
   });
 }
 
 function saveData() {
   const updatedAt=Date.now();
-  const snapshot={attRows,salRows,adjRows,dataMeta,updatedAt};
+  const snapshot={attRows,salRows,adjRows,dataMeta,updatedAt,period:currentPeriod};
+  const idbKey=periodStoreKey('latest');
   let saved=true;
-  try { localStorage.setItem('cl_sal', JSON.stringify(salRows)); } catch(e){saved=false;}
-  try { localStorage.setItem('cl_adj', JSON.stringify(adjRows)); } catch(e){saved=false;}
-  try { localStorage.setItem('cl_att', JSON.stringify(attRows)); } catch(e){saved=false;}
-  try { localStorage.setItem('cl_meta',JSON.stringify(dataMeta)); } catch(e){saved=false;}
-  if(saved)try { localStorage.setItem('cl_saved_at',String(updatedAt)); } catch(e){saved=false;}
+  try { localStorage.setItem(periodStoreKey('cl_sal'), JSON.stringify(salRows)); } catch(e){saved=false;}
+  try { localStorage.setItem(periodStoreKey('cl_adj'), JSON.stringify(adjRows)); } catch(e){saved=false;}
+  try { localStorage.setItem(periodStoreKey('cl_att'), JSON.stringify(attRows)); } catch(e){saved=false;}
+  try { localStorage.setItem(periodStoreKey('cl_meta'),JSON.stringify(dataMeta)); } catch(e){saved=false;}
+  if(saved)try { localStorage.setItem(periodStoreKey('cl_saved_at'),String(updatedAt)); } catch(e){saved=false;}
   if(saved)updateLocalSaveStatus(true,'bộ nhớ trình duyệt');
   else updateLocalSaveStatus(null,'đang chuyển sang kho dữ liệu lớn…');
-  if(typeof indexedDB!=='undefined')saveDataToIndexedDB(snapshot)
+  if(typeof indexedDB!=='undefined')saveDataToIndexedDB(snapshot, idbKey)
     .then(()=>updateLocalSaveStatus(true,saved?'2 lớp lưu':'kho dữ liệu trên máy'))
     .catch(()=>{if(!saved)updateLocalSaveStatus(false,'trình duyệt đang chặn lưu dữ liệu');});
   return saved;
@@ -1579,15 +1570,24 @@ function isLegacyDemoState(att=attRows,sal=salRows,meta=dataMeta){
 function clearLegacyDemoState(){
   attRows=[];salRows=[];adjRows=[];payRows=[];nextId=1;
   dataMeta={attendanceFile:'Chưa nạp',salaryFile:'Chưa nạp'};
-  ['cl_att','cl_sal','cl_adj','cl_meta','cl_saved_at'].forEach(k=>localStorage.removeItem(k));
+  ['cl_att','cl_sal','cl_adj','cl_meta','cl_saved_at'].forEach(k=>{localStorage.removeItem(k);localStorage.removeItem(k+'__'+currentPeriod);});
   updateLocalSaveStatus(null,'đã xoá dữ liệu demo cũ; chờ nạp file thật');
   if(typeof saveData==='function')saveData();
 }
 function loadData() {
-  try { attRows = JSON.parse(localStorage.getItem('cl_att') || '[]'); } catch(e){ attRows=[]; }
-  try { salRows = JSON.parse(localStorage.getItem('cl_sal') || '[]'); } catch(e){ salRows=[]; }
-  try { adjRows = JSON.parse(localStorage.getItem('cl_adj') || '[]'); } catch(e){ adjRows=[]; }
-  try { dataMeta = {...dataMeta,...JSON.parse(localStorage.getItem('cl_meta')||'{}')}; } catch(e){}
+  // Di trú dữ liệu bản cũ (chưa tách theo kỳ) vào kỳ hiện tại — chỉ chạy 1 lần
+  try {
+    if (!localStorage.getItem(periodStoreKey('cl_att')) && localStorage.getItem('cl_att')) {
+      ['cl_att','cl_sal','cl_adj','cl_meta','cl_saved_at'].forEach(k=>{
+        const v=localStorage.getItem(k);
+        if(v!==null){localStorage.setItem(k+'__'+currentPeriod,v);localStorage.removeItem(k);}
+      });
+    }
+  } catch(e){}
+  try { attRows = JSON.parse(localStorage.getItem(periodStoreKey('cl_att')) || '[]'); } catch(e){ attRows=[]; }
+  try { salRows = JSON.parse(localStorage.getItem(periodStoreKey('cl_sal')) || '[]'); } catch(e){ salRows=[]; }
+  try { adjRows = JSON.parse(localStorage.getItem(periodStoreKey('cl_adj')) || '[]'); } catch(e){ adjRows=[]; }
+  try { dataMeta = {...dataMeta,...JSON.parse(localStorage.getItem(periodStoreKey('cl_meta'))||'{}')}; } catch(e){}
   if(isLegacyDemoState()){clearLegacyDemoState();renderDataSources();return;}
   const removed = sanitizeImportedData();
   const leaveChanged = normalizeLeaveTypes();
@@ -1604,9 +1604,17 @@ function loadData() {
 }
 async function restoreDataFromIndexedDB() {
   try {
-    const snapshot=await readDataFromIndexedDB();if(!snapshot)return;
-    const localTs=Number(localStorage.getItem('cl_saved_at')||0);
-    if((snapshot.updatedAt||0)<=localTs&&attRows.length)return;
+    const p=currentPeriod;
+    let snapshot=await readDataFromIndexedDB(periodStoreKey('latest'));
+    if(!snapshot&&!localStorage.getItem('cl_idb_migrated')){
+      snapshot=await readDataFromIndexedDB('latest'); // dữ liệu bản cũ chưa tách kỳ
+      if(snapshot)try{localStorage.setItem('cl_idb_migrated','1');}catch(e){}
+    }
+    if(!snapshot||p!==currentPeriod)return;
+    if(snapshot.period&&snapshot.period!==currentPeriod)return; // snapshot của kỳ khác — bỏ qua
+    const localTs=Number(localStorage.getItem(periodStoreKey('cl_saved_at'))||0);
+    // localStorage đã có bản mới hơn hoặc bằng → không khôi phục (tránh hồi sinh dữ liệu cũ/đã xoá)
+    if((snapshot.updatedAt||0)<=localTs)return;
     attRows=Array.isArray(snapshot.attRows)?snapshot.attRows:[];
     salRows=Array.isArray(snapshot.salRows)?snapshot.salRows:[];
     adjRows=Array.isArray(snapshot.adjRows)?snapshot.adjRows:[];
@@ -1651,19 +1659,14 @@ document.querySelectorAll('.modal-bd').forEach(bd => bd.addEventListener('click'
 /* ─── Attendance ─── */
 function calcHours(timeIn, timeOut) {
   if (!timeIn || !timeOut) return 0;
-  const [ih,im] = timeIn.split(':').map(Number);
-  const [oh,om] = timeOut.split(':').map(Number);
-  let h = (oh*60+om - ih*60-im) / 60;
-  if (h < 0) h += 24;
-  return Math.max(0, h);
-}
-function calcOT(hours, shift) {
-  if (shift==='Nghỉ'||shift===PAID_LEAVE||shift===UNPAID_LEAVE) return 0;
-  // Có đi làm Chủ nhật/ngày lễ → toàn bộ giờ hưởng hệ số tương ứng.
-  if (shift==='Chủ nhật' || shift==='Lễ') return Math.round((hours||0) * 10) / 10;
-  // Ngày thường không lấy "tổng giờ - 8h" làm OT.
-  // OT chỉ được ghi nhận khi có thời gian nằm trong khung tăng ca 17:30–22:00 hoặc 22:00–06:00.
-  return 0;
+  const a=hmToMinutes(timeIn,NaN), b0=hmToMinutes(timeOut,NaN);
+  if(!Number.isFinite(a)||!Number.isFinite(b0)) return 0;
+  let b=b0; if(b<a)b+=1440;
+  let mins=b-a;
+  // Trừ giờ nghỉ trưa chuẩn 11:30–13:00 nếu khung làm việc trùm qua — khớp với cách tính từ dữ liệu quẹt thật
+  mins-=Math.max(0,Math.min(b,780)-Math.max(a,690));
+  mins-=Math.max(0,Math.min(b,780+1440)-Math.max(a,690+1440));
+  return Math.max(0, Math.round(mins/60*10)/10);
 }
 function isNightShift(timeIn, shift) {
   if (!timeIn) return shift === 'Tối';
@@ -1761,7 +1764,14 @@ function refreshAttendanceWarnings(){
       }
     }
     if(r.timeIn&&r.timeOut&&!isLeave(r)){
-      const parts=calcOtBreakdown(r.date,r.timeIn,r.timeOut,r.hours,r.shift);
+      // Dòng có phiên quẹt thật: tính OT từ phiên (chính xác khi có nghỉ giữa giờ), không tính từ khoảng vào–ra
+      const sess=rowSessions(r);
+      let parts;
+      if(sess){
+        if(r.shift==='Lễ')parts={otDay:0,otNight:0,otRest:0,otHoliday:r.hours,ot:r.hours};
+        else if(r.shift==='Chủ nhật')parts={otDay:0,otNight:0,otRest:r.hours,otHoliday:0,ot:r.hours};
+        else{const p=otWindowPartsFromSessions(sess);parts={otDay:p.day,otNight:p.night,otRest:0,otHoliday:0,ot:Math.round((p.day+p.night)*10)/10};}
+      } else parts=calcOtBreakdown(r.date,r.timeIn,r.timeOut,r.hours,r.shift);
       if(r.otDay!==parts.otDay||r.otNight!==parts.otNight||r.otRest!==parts.otRest||r.otHoliday!==parts.otHoliday||r.ot!==parts.ot){
         r.otDay=parts.otDay;r.otNight=parts.otNight;r.otRest=parts.otRest;r.otHoliday=parts.otHoliday;r.ot=parts.ot;changed++;
       }
@@ -1833,10 +1843,15 @@ function openEmployeeAttendance(encodedKey) {
   setAttendanceMode('detail');
 }
 
+// Debounce ô tìm kiếm: dữ liệu lớn không bị khựng theo từng phím gõ
+let attSearchTimer=null;
+function debounceRenderAtt(){
+  pageState.att=0;pageState.sum=0;
+  clearTimeout(attSearchTimer);
+  attSearchTimer=setTimeout(renderAtt,250);
+}
 function renderAtt() {
-  normalizeLeaveTypes();
-  reclassifyAttendanceCalendar();
-  refreshAttendanceWarnings();
+  // Chuẩn hoá dữ liệu chỉ chạy sau import/khôi phục/sửa dòng — không chạy lại mỗi lần lọc/tìm
   updateHolidayStatus();
   const filter = $('att-worker-filter').value;
   const q = ($('att-search')?.value || '').trim();
@@ -1844,10 +1859,12 @@ function renderAtt() {
   const to   = $('att-to')?.value || '';
   let rows = filter==='all' ? attRows : attRows.filter(r=>(r.empId&&r.empId===filter)||(!r.empId&&r.name===filter));
   if (q) rows = rows.filter(r=>matchSearch(q, r.empId, r.name));
-  rows=rows.filter(r=>{
-    const d=new Date((r.date||'')+'T00:00:00');
-    return passesExcelFilters('att',{...r,...attendanceShiftColumns(r),dow:!isNaN(d)?DAYS_VI[d.getDay()]:''});
-  });
+  if (Object.keys(excelFilters.att||{}).length) {
+    rows=rows.filter(r=>{
+      const d=new Date((r.date||'')+'T00:00:00');
+      return passesExcelFilters('att',{...r,...attendanceShiftColumns(r),dow:!isNaN(d)?DAYS_VI[d.getDay()]:''});
+    });
+  }
   // Lọc theo khoảng ngày (chuỗi yyyy-mm-dd so sánh trực tiếp được)
   if (from) rows = rows.filter(r=>r.date && r.date >= from);
   if (to)   rows = rows.filter(r=>r.date && r.date <= to);
@@ -1892,6 +1909,7 @@ function renderAtt() {
         <td class="cell-ot" style="text-align:center;font-weight:700;color:var(--amber)">${r.ot ? r.ot.toFixed(1) : '—'}</td>
         <td><select style="height:27px;border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:10.5px;background:#fff" onchange="updateAtt(${r.id},'shift',this.value)">${shiftOpts}</select></td>
         <td><input type="text" value="${esc(r.note||'')}" onchange="updateAtt(${r.id},'note',this.value)" style="min-width:90px;${warn?'border:2px solid #ef4444;background:#fff5f5;color:#b91c1c;font-weight:800':''}"></td>
+        <td><button class="btn btn-danger" style="height:24px;padding:0 7px;font-size:10px" title="Xoá dòng này" onclick="deleteAtt(${r.id})">✕</button></td>
       </tr>`;
     }).join('');
   }
@@ -1988,16 +2006,62 @@ function renderAttSummary() {
   applyAttendanceLayout();
 }
 
+// Đọc lại các phiên quẹt đã lưu trên dòng (import từ máy chấm công)
+function rowSessions(r){
+  if(!Array.isArray(r?.sessions)||!r.sessions.length)return null;
+  const sess=r.sessions
+    .map(x=>({start:new Date(String(x.s)+':00'),end:new Date(String(x.e)+':00')}))
+    .filter(x=>!isNaN(x.start)&&!isNaN(x.end)&&x.end>x.start);
+  return sess.length?sess:null;
+}
+function serializeSessions(sess){
+  return sess.map(s=>({s:dateKey(s.start)+'T'+fmtHM(s.start),e:dateKey(s.end)+'T'+fmtHM(s.end)}));
+}
+// Tính lại giờ/OT của 1 dòng từ phiên quẹt thật — giữ nguyên giờ nghỉ giữa các phiên
+function recomputeRowFromSessions(r,sess){
+  r.hours=sessionHours(sess);
+  r.shiftTimes=buildShiftTimesFromSessions(sess);
+  r.timeIn=fmtHM(sess[0].start);
+  r.timeOut=fmtHM(sess[sess.length-1].end);
+  let otDay=0,otNight=0,otRest=0,otHoliday=0;
+  if(r.shift==='Lễ')otHoliday=r.hours;
+  else if(r.shift==='Chủ nhật')otRest=r.hours;
+  else{const p=otWindowPartsFromSessions(sess);otDay=p.day;otNight=p.night;}
+  r.otDay=Math.round(otDay*10)/10;r.otNight=Math.round(otNight*10)/10;
+  r.otRest=Math.round(otRest*10)/10;r.otHoliday=Math.round(otHoliday*10)/10;
+  r.ot=Math.round((r.otDay+r.otNight+r.otRest+r.otHoliday)*10)/10;
+  r.sessions=serializeSessions(sess);
+}
 function updateAtt(id, field, val) {
   const r = attRows.find(x=>x.id===id);
   if (!r) return;
   r[field] = val;
   if (field==='timeIn'||field==='timeOut'||field==='shift') {
-    delete r.shiftTimes;
-    r.hours = calcHours(r.timeIn, r.timeOut);
-    if (isLeave(r)) { r.timeIn='';r.timeOut='';r.hours=0; }
-    const parts=calcOtBreakdown(r.date,r.timeIn,r.timeOut,r.hours,r.shift);
-    r.otDay=parts.otDay; r.otNight=parts.otNight; r.otRest=parts.otRest; r.otHoliday=parts.otHoliday; r.ot=parts.ot;
+    if (isLeave(r)) {
+      r.timeIn='';r.timeOut='';r.hours=0;r.ot=0;r.otDay=0;r.otNight=0;r.otRest=0;r.otHoliday=0;
+      delete r.sessions; delete r.shiftTimes;
+    } else {
+      let sess=rowSessions(r);
+      if (sess && (field==='timeIn'||field==='timeOut') && /^\d{1,2}:\d{2}$/.test(String(val||''))) {
+        // Dòng từ máy chấm công: chỉ dời giờ đầu/cuối phiên, KHÔNG phá các phiên giữa (giữ giờ nghỉ trưa)
+        const [h,m]=String(val).split(':').map(Number);
+        if(field==='timeIn')sess[0].start.setHours(h,m,0,0);
+        else{
+          const last=sess[sess.length-1];
+          last.end=new Date(last.start);last.end.setHours(h,m,0,0);
+          if(last.end<=last.start)last.end.setDate(last.end.getDate()+1);
+        }
+        sess=sess.filter(x=>x.end>x.start);
+      }
+      if (sess && sess.length) {
+        recomputeRowFromSessions(r,sess);
+      } else {
+        delete r.shiftTimes; delete r.sessions;
+        r.hours = calcHours(r.timeIn, r.timeOut);
+        const parts=calcOtBreakdown(r.date,r.timeIn,r.timeOut,r.hours,r.shift);
+        r.otDay=parts.otDay; r.otNight=parts.otNight; r.otRest=parts.otRest; r.otHoliday=parts.otHoliday; r.ot=parts.ot;
+      }
+    }
     r.note=mergeAttendanceNote(r.note,attendanceWarnings(r.date,r.timeIn,r.timeOut,r.shift));
     // Chỉ cập nhật 2 ô tính toán trong dòng — không re-render toàn bộ
     const row = document.querySelector(`tr[data-id="${id}"]`);
@@ -2006,14 +2070,18 @@ function updateAtt(id, field, val) {
       row.querySelector('.cell-ot').textContent    = r.ot    ? r.ot.toFixed(1)    : '—';
     }
   }
-  if (field==='date') { reclassifyAttendanceCalendar(); renderAtt(); }
+  if (field==='date') { reclassifyAttendanceCalendar(); refreshAttendanceWarnings(); renderAtt(); }
   scheduleAutoSave();
 }
 
 function deleteAtt(id) {
-  attRows = attRows.filter(r=>r.id!==id);
-  scheduleAutoSave();
+  const r = attRows.find(x=>x.id===id);
+  if (!r) return;
+  if (!confirm(`Xoá dòng chấm công: ${r.empId||'(chưa mã)'} · ${r.name||'(chưa tên)'} · ngày ${formatDateVN(r.date)||'?'}?`)) return;
+  attRows = attRows.filter(x=>x.id!==id);
+  saveData();
   renderAtt();
+  toast('✓ Đã xoá 1 dòng chấm công.');
 }
 
 function clearAttendanceFilters(silent=false) {
@@ -2036,23 +2104,6 @@ function addBlankDay() {
   attendanceViewMode='detail';
   renderAtt();
   toast('✓ Đã thêm dòng trống và xoá bộ lọc để anh thấy ngay.');
-}
-
-function saveAtt() {
-  saveData();
-  toast('✓ Đã lưu bảng chấm công.');
-  renderAttSummary();
-  updateFlow();
-}
-
-function sortAtt() {
-  attRows.sort((a,b)=>{
-    const na = (a.name||'').localeCompare(b.name||'');
-    if (na!==0) return na;
-    return (a.date||'').localeCompare(b.date||'');
-  });
-  scheduleAutoSave();
-  renderAtt();
 }
 
 function clearAtt() {
@@ -2227,6 +2278,10 @@ function handleFileList(files) {
           $('drop-label').textContent = `✓ Đây là bảng lương offer — đã nạp ${n} dòng vào tab Lương gốc`;
           return;
         }
+        if (attRows.length && !confirm(`File "${file.name}" sẽ THAY TOÀN BỘ ${attRows.length.toLocaleString('vi-VN')} dòng chấm công hiện có của ${cfg.periodLabel}.\nTiếp tục nạp?`)) {
+          $('drop-label').textContent = 'Đã huỷ — giữ nguyên dữ liệu hiện có.';
+          return;
+        }
         const previousAtt=attRows,previousNextId=nextId;
         attRows=[];nextId=1;
         const count = importObjects(rows, file.name);
@@ -2243,6 +2298,10 @@ function handleFileList(files) {
     const reader = new FileReader();
     reader.onload = e => {
       const lines = e.target.result.split(/\r?\n/).filter(l=>l.trim());
+      if (attRows.length && !confirm(`File "${file.name}" sẽ THAY TOÀN BỘ ${attRows.length.toLocaleString('vi-VN')} dòng chấm công hiện có của ${cfg.periodLabel}.\nTiếp tục nạp?`)) {
+        $('drop-label').textContent = 'Đã huỷ — giữ nguyên dữ liệu hiện có.';
+        return;
+      }
       const previousAtt=attRows,previousNextId=nextId;
       attRows=[];nextId=1;
       const count = importLines(lines, file.name);
@@ -2257,6 +2316,7 @@ function handleFileList(files) {
     const removed = sanitizeImportedData();
     normalizeLeaveTypes();
     reclassifyAttendanceCalendar();
+    refreshAttendanceWarnings();
     // Tự động đồng bộ danh sách nhân sự sang bảng lương offer — không cần bấm nút
     let nNew = 0;
     if (count) nNew = syncSalaryFromAtt(true);
@@ -2437,18 +2497,6 @@ function otWindowPartsFromSessions(sessions){
   }
   return {day:Math.round(eveningMin/6)/10, night:Math.round(nightMin/6)/10};
 }
-function allocateOTFromSessions(sessions,otHours){
-  let remaining=Math.round((otHours||0)*60),day=0,night=0;
-  for(let i=sessions.length-1;i>=0&&remaining>0;i--){
-    let t=new Date(sessions[i].end);
-    while(remaining>0&&t>sessions[i].start){
-      t=new Date(t.getTime()-60000);
-      if(isNightDateTime(t))night++;else day++;
-      remaining--;
-    }
-  }
-  return {day:Math.round(day/6)/10,night:Math.round(night/6)/10};
-}
 function sessionText(sessions){
   const parts=sessions.map(s=>`${fmtHM(s.start)}–${fmtHM(s.end)}${dateKey(s.end)!==dateKey(s.start)?'(+1)':''}`);
   return parts.length>5?parts.slice(0,5).join(', ')+`… (+${parts.length-5} phiên)`:parts.join(', ');
@@ -2515,7 +2563,7 @@ function importPunches(rows) {
     attendanceSessionWarnings(sessions,shift).forEach(n=>noteParts.push(n));
     attRows.push({id:nextId++, empId:g.empId, name:g.name, title:'', date:g.date,
       timeIn:tin, timeOut:tout, hours:h, ot, otDay, otNight, otRest, otHoliday, shift,
-      shiftTimes, punchCount:paired.punchCount, note:noteParts.filter(Boolean).join(' · ')});
+      shiftTimes, sessions:serializeSessions(sessions), punchCount:paired.punchCount, note:noteParts.filter(Boolean).join(' · ')});
     count++;
   }
   return count;
@@ -2611,22 +2659,6 @@ function importObjects(rows, sourceName) {
   }
   return count;
 }
-
-/* ─── Dán từ Excel ─── */
-function parsePaste() {
-  const text = $('paste-area').value.trim();
-  if (!text) { toast('Chưa có dữ liệu trong ô dán.'); return; }
-  const lines = text.split(/\r?\n/).filter(l=>l.trim());
-  const count = importLines(lines, 'clipboard');
-  if (count) {
-    saveData(); renderAtt();
-    $('paste-area').value = '';
-    toast(`✓ Đã đọc ${count} dòng từ dữ liệu dán.`);
-  } else {
-    toast('⚠ Không nhận dạng được dữ liệu. Kiểm tra thứ tự cột: Tên · Chức vụ · Ngày · Giờ vào · Giờ ra.');
-  }
-}
-
 
 /* ─── Salary ─── */
 function attendanceWarningGroups(){
@@ -3254,7 +3286,7 @@ function renderPayroll() {
     <td style="color:var(--red)">${r.adjMinus?money(r.adjMinus):'—'}</td>
     <td style="color:var(--amber)">${r.advance?money(r.advance):'—'}</td>
     <td>${r.insurance?money(r.insurance):'—'}</td>
-    <td style="font-weight:800;font-size:12px">${money(r.net)}</td>
+    <td class="sticky-r" style="font-weight:800;font-size:12px">${money(r.net)}</td>
   </tr>`).join('');
   tfoot.innerHTML = `<tr class="total-row">
     <td class="sticky-l" colspan="5" style="text-align:right">TỔNG</td>
@@ -3268,7 +3300,7 @@ function renderPayroll() {
     <td>${money(payRows.reduce((s,r)=>s+r.adjMinus,0))}</td>
     <td>${money(payRows.reduce((s,r)=>s+r.advance,0))}</td>
     <td>${money(payRows.reduce((s,r)=>s+r.insurance,0))}</td>
-    <td>${money(total)}</td>
+    <td class="sticky-r">${money(total)}</td>
   </tr>`;
 }
 
@@ -3630,26 +3662,44 @@ async function exportAllSlipsToZip() {
   }catch(err){console.error(err);setPdfExportStatus('❌ Lỗi xuất PDF: '+(err?.message||err));toast('❌ Không thể xuất PDF.');}
   finally{btn.disabled=false;btn.textContent=oldText;}
 }
-function exportAllSlipsToPdfFolder(){return exportAllSlipsToZip();}
-
 /* ─── Escape HTML ─── */
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* ─── Chuyển kỳ lương: lưu kỳ đang mở, nạp kho dữ liệu của kỳ mới ─── */
+function initPeriodSelect(){
+  const sel=$('period-sel'); if(!sel)return;
+  const now=new Date(), opts=new Set([currentPeriod]);
+  for(let i=-18;i<=3;i++){
+    const d=new Date(now.getFullYear(),now.getMonth()+i,1);
+    opts.add(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`);
+  }
+  sel.innerHTML=[...opts].sort().reverse().map(p=>`<option value="${p}"${p===currentPeriod?' selected':''}>${periodLabelOf(p)}</option>`).join('');
+}
+function switchPeriod(p){
+  if(!p||p===currentPeriod)return;
+  saveData(); // chốt dữ liệu kỳ đang mở trước khi chuyển
+  currentPeriod=p;
+  try{localStorage.setItem('cl_period',p);}catch(e){}
+  cfg.periodLabel=periodLabelOf(p);
+  $('sidebar-period').textContent=cfg.periodLabel;
+  attRows=[];salRows=[];adjRows=[];payRows=[];nextId=1;
+  dataMeta={attendanceFile:'Chưa nạp',salaryFile:'Chưa nạp'};
+  loadData();
+  restoreDataFromIndexedDB();
+  renderAtt();renderSalary();renderAdj();recalc();renderSlipList();updateFlow();
+  toast('✓ Đang xem '+cfg.periodLabel+' — mỗi tháng có kho dữ liệu riêng.');
+}
 
 /* ─── Init ─── */
 loadConfig();
+cfg.periodLabel = periodLabelOf(currentPeriod);
+$('sidebar-period').textContent = cfg.periodLabel;
+initPeriodSelect();
 loadData();
 renderAtt();
 updateFlow();
 restoreDataFromIndexedDB();
-
-// period select
-$('period-sel')?.addEventListener('change', function(){
-  const map = {'2026-07':'Tháng 07/2026','2026-06':'Tháng 06/2026','2026-05':'Tháng 05/2026'};
-  const cfgPeriod=$('cfg-period-label');
-  if(cfgPeriod) cfgPeriod.value = map[this.value]||this.value;
-  cfg.periodLabel = map[this.value]||this.value;
-  $('sidebar-period').textContent = cfg.periodLabel;
-});
+$('period-sel')?.addEventListener('change', function(){ switchPeriod(this.value); });
 
 // set default date for adj form
 document.addEventListener('DOMContentLoaded', () => {

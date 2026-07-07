@@ -408,7 +408,6 @@
                 <th class="excel-filter-th">OT đêm ra<button class="excel-filter-btn" data-filter-key="att.nightOut" onclick="openExcelFilter(event,'att','nightOut','OT đêm ra','time')">▼</button></th>
                 <th class="excel-filter-th">Giờ làm<button class="excel-filter-btn" data-filter-key="att.hours" onclick="openExcelFilter(event,'att','hours','Giờ làm','number')">▼</button></th>
                 <th class="excel-filter-th">OT (h)<button class="excel-filter-btn" data-filter-key="att.ot" onclick="openExcelFilter(event,'att','ot','Giờ OT','number')">▼</button></th>
-                <th class="excel-filter-th">Loại ca<button class="excel-filter-btn" data-filter-key="att.shift" onclick="openExcelFilter(event,'att','shift','Loại ca','select','Ngày|Tối|Chủ nhật|Nghỉ phép có lương|Nghỉ không lương|Lễ')">▼</button></th>
                 <th class="excel-filter-th">Ghi chú<button class="excel-filter-btn" data-filter-key="att.note" onclick="openExcelFilter(event,'att','note','Ghi chú','text')">▼</button></th>
                 <th></th>
               </tr></thead>
@@ -1737,18 +1736,23 @@ function stripAutoOtNote(note){
   return String(note||'').split(' · ').filter(Boolean).filter(x=>!/^OT\s+[0-9.,]+h/i.test(x.trim())).join(' · ');
 }
 function humanizeAttendanceNote(note){
-  return String(note||'')
-    .replace(/chưa ghép được phiên/gi,'chưa đủ cặp giờ vào\\/ra')
-    .replace(/Có lượt ra ([0-9:]+) nhưng chưa có lượt vào phù hợp/gi,'Thiếu giờ chấm công lượt vào')
-    .replace(/Thiếu giờ vào ([^·]+?) trước lượt ra [0-9:]+/gi,'Thiếu giờ chấm công lượt vào $1')
-    .replace(/Thiếu giờ ra ([^·]+?) sau lượt vào [0-9:]+/gi,'Thiếu giờ chấm công lượt ra $1')
-    .replace(/chưa đủ cặp giờ vào\/ra/gi,'Chưa đủ giờ chấm công lượt vào/ra')
-    .replace(/Lẻ (\\d+) lượt quẹt — thiếu lượt ghép cặp/gi,'Số lần chấm công bị lẻ ($1 lần) — kiểm tra thiếu giờ vào hoặc giờ ra')
+  const text=String(note||'')
+    .replace(/chưa ghép được phiên/gi,'chưa đủ cặp giờ vào/ra')
+    .replace(/Có lượt ra ([0-9:]+) nhưng chưa có lượt vào phù hợp/gi,'Thiếu chấm công giờ vào')
+    .replace(/Thiếu giờ vào ([^·]+?) trước lượt ra [0-9:]+/gi,'Thiếu chấm công giờ vào $1')
+    .replace(/Thiếu giờ ra ([^·]+?) sau lượt vào [0-9:]+/gi,'Thiếu chấm công giờ ra $1')
+    .replace(/Thiếu giờ chấm công lượt vào/gi,'Thiếu chấm công giờ vào')
+    .replace(/Thiếu giờ chấm công lượt ra/gi,'Thiếu chấm công giờ ra')
+    .replace(/tăng ca tối/gi,'OT tối')
+    .replace(/tăng ca đêm/gi,'OT đêm')
+    .replace(/chưa đủ cặp giờ vào\/ra/gi,'Chưa đủ chấm công giờ vào/ra')
     .replace(/Số lần quẹt thẻ bị lẻ/gi,'Số lần chấm công bị lẻ')
     .replace(/thiếu lượt ghép cặp/gi,'thiếu giờ vào hoặc giờ ra')
     .replace(/không phù hợp/gi,'cần kiểm tra lại')
     .replace(/bất thường/gi,'cần kiểm tra')
     .replace(/chưa xác định/gi,'chưa rõ');
+  // Bỏ phần liệt kê "Ca: ..." — 8 cột khung giờ đã hiển thị đủ các phiên làm việc
+  return text.split(' · ').filter(p=>!/^Ca:\s*/i.test(p.trim())).join(' · ');
 }
 function refreshAttendanceWarnings(){
   let changed=0;
@@ -1883,8 +1887,6 @@ function renderAtt() {
       const i = pg.offset + si;
       const dateObj = r.date ? new Date(r.date+'T00:00:00') : null;
       const dow = dateObj ? DAYS_VI[dateObj.getDay()] : '';
-      const shiftOpts = ['Ngày','Tối','Chủ nhật',PAID_LEAVE,UNPAID_LEAVE,'Lễ'].map(s=>
-        `<option${r.shift===s?' selected':''}>${s}</option>`).join('');
       const warn = isWarningNote(r.note);
       const slots=attendanceShiftColumns(r);
       const slotCell=v=>`<td style="text-align:center;font-size:10px;font-weight:700;color:${v?'#18324a':'#9aa9b7'}">${esc(v||'—')}</td>`;
@@ -1907,7 +1909,6 @@ function renderAtt() {
         ${slotCell(slots.nightOut)}
         <td class="cell-hours" style="text-align:center;font-weight:700;color:var(--blue)">${r.hours ? r.hours.toFixed(1) : '—'}</td>
         <td class="cell-ot" style="text-align:center;font-weight:700;color:var(--amber)">${r.ot ? r.ot.toFixed(1) : '—'}</td>
-        <td><select style="height:27px;border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:10.5px;background:#fff" onchange="updateAtt(${r.id},'shift',this.value)">${shiftOpts}</select></td>
         <td><input type="text" value="${esc(r.note||'')}" onchange="updateAtt(${r.id},'note',this.value)" style="min-width:90px;${warn?'border:2px solid #ef4444;background:#fff5f5;color:#b91c1c;font-weight:800':''}"></td>
         <td><button class="btn btn-danger" style="height:24px;padding:0 7px;font-size:10px" title="Xoá dòng này" onclick="deleteAtt(${r.id})">✕</button></td>
       </tr>`;
@@ -2379,15 +2380,30 @@ function putSlot(slots,key,value){
 function caLabelFromDateTime(dt,mode){
   const m=minutesOfDay(dt);
   const cut=hmToMinutes(cfg.workdayCutoff||'06:00',360);
-  if(m<=cut)return 'tăng ca đêm';
+  if(m<=cut)return 'OT đêm';
   if(m<hmToMinutes('12:15',735))return 'ca sáng';
   if(m<hmToMinutes('17:30',1050))return 'ca chiều';
-  if(mode==='out'&&m<=hmToMinutes('22:15',1335))return 'tăng ca tối';
-  if(m<hmToMinutes(cfg.nightStart||'22:00',1320))return 'tăng ca tối';
-  return 'tăng ca đêm';
+  if(mode==='out'&&m<=hmToMinutes('22:15',1335))return 'OT tối';
+  if(m<hmToMinutes(cfg.nightStart||'22:00',1320))return 'OT tối';
+  return 'OT đêm';
 }
-function missingInNote(dt){return `Thiếu giờ chấm công lượt vào ${caLabelFromDateTime(dt,'in')}`;}
-function missingOutNote(dt){return `Thiếu giờ chấm công lượt ra ${caLabelFromDateTime(dt,'out')}`;}
+// dt của missingInNote là lượt RA có sẵn (nhãn ca theo mode 'out'); của missingOutNote là lượt VÀO có sẵn (mode 'in')
+function missingInNote(dt){return `Thiếu chấm công giờ vào ${caLabelFromDateTime(dt,'out')}`;}
+function missingOutNote(dt){return `Thiếu chấm công giờ ra ${caLabelFromDateTime(dt,'in')}`;}
+// Xếp 1 mốc giờ lẻ vào đúng cột khung giờ (cùng ngưỡng với buildShiftTimesFromSessions)
+function inSlotKeyByMinutes(m){
+  if(m<=hmToMinutes('12:15',735))return 'morningIn';
+  if(m<hmToMinutes('17:30',1050))return 'afternoonIn';
+  if(m<hmToMinutes('22:00',1320))return 'eveningIn';
+  return 'nightIn';
+}
+function outSlotKeyByMinutes(m){
+  if(m<=hmToMinutes(cfg.workdayCutoff||'06:00',360))return 'nightOut';
+  if(m<=hmToMinutes('12:30',750))return 'morningOut';
+  if(m<=hmToMinutes('17:30',1050))return 'afternoonOut';
+  if(m<=hmToMinutes('22:30',1350))return 'eveningOut';
+  return 'nightOut';
+}
 function inferOddPunchNote(dt){
   const m=minutesOfDay(dt);
   const near=(target,span=75)=>Math.abs(m-hmToMinutes(target,0))<=span;
@@ -2420,8 +2436,14 @@ function attendanceShiftColumns(r){
   const base=r.date||'2026-01-01';
   const makeDt=t=>{const [h,m=0]=String(t||'').split(':').map(Number);const d=new Date(base+'T00:00:00');d.setHours(h||0,m||0,0,0);return d;};
   const start=r.timeIn?makeDt(r.timeIn):null,end=r.timeOut?makeDt(r.timeOut):null;
-  if(start&&end&&end<=start)end.setDate(end.getDate()+1);
-  return buildShiftTimesFromSessions(start&&end?[{start,end}]:[]);
+  if(start&&end){
+    if(end<=start)end.setDate(end.getDate()+1);
+    return buildShiftTimesFromSessions([{start,end}]);
+  }
+  // Chỉ có 1 mốc giờ (thiếu vào hoặc ra): vẫn xếp vào đúng cột khung giờ
+  if(start)putSlot(slots,inSlotKeyByMinutes(minutesOfDay(start)),start);
+  if(end)putSlot(slots,outSlotKeyByMinutes(minutesOfDay(end)),end);
+  return slots;
 }
 function punchDirection(state){
   const s=String(state||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -2440,28 +2462,34 @@ function pairPunchSessions(punches){
   }
   const hasIn=unique.some(p=>punchDirection(p.newState)==='in');
   const hasOut=unique.some(p=>punchDirection(p.newState)==='out');
-  const sessions=[],notes=[];
+  const sessions=[],notes=[],orphans=[];
   if(hasIn&&hasOut){
     let pending=null;
     for(const p of unique){
       const dir=punchDirection(p.newState);
       if(dir==='in'){
-        if(pending)notes.push(missingOutNote(pending.dt));
+        if(pending){notes.push(missingOutNote(pending.dt));orphans.push({dt:pending.dt,dir:'in'});}
         pending=p;
       }else if(dir==='out'){
         if(pending&&p.dt>pending.dt){sessions.push({start:pending.dt,end:p.dt});pending=null;}
-        else notes.push(missingInNote(p.dt));
+        else {notes.push(missingInNote(p.dt));orphans.push({dt:p.dt,dir:'out'});}
       }
     }
-    if(pending)notes.push(missingOutNote(pending.dt));
+    if(pending){notes.push(missingOutNote(pending.dt));orphans.push({dt:pending.dt,dir:'in'});}
   }else{
     for(let i=0;i+1<unique.length;i+=2){
       if(unique[i+1].dt>unique[i].dt)sessions.push({start:unique[i].dt,end:unique[i+1].dt});
     }
-    if(unique.length%2)notes.push(`${inferOddPunchNote(unique[unique.length-1].dt)} · Số lần quẹt thẻ bị lẻ (${unique.length} lần)`);
+    if(unique.length%2){
+      const lastDt=unique[unique.length-1].dt,m=minutesOfDay(lastDt);
+      const near=(t,span=75)=>Math.abs(m-hmToMinutes(t,0))<=span;
+      const looksLikeIn=near('07:30')||near('13:00')||near('17:30')||m>=hmToMinutes('22:00',1320);
+      notes.push(`${inferOddPunchNote(lastDt)} · Số lần quẹt thẻ bị lẻ (${unique.length} lần)`);
+      orphans.push({dt:lastDt,dir:looksLikeIn?'in':'out'});
+    }
   }
   if(duplicates)notes.push(`Bỏ ${duplicates} lượt quẹt trùng trong 1 phút`);
-  return {sessions,notes,punchCount:unique.length};
+  return {sessions,notes,orphans,punchCount:unique.length};
 }
 function sessionHours(sessions){
   return Math.round(sessions.reduce((s,x)=>s+Math.max(0,x.end-x.start)/3600000,0)*10)/10;
@@ -2497,10 +2525,6 @@ function otWindowPartsFromSessions(sessions){
   }
   return {day:Math.round(eveningMin/6)/10, night:Math.round(nightMin/6)/10};
 }
-function sessionText(sessions){
-  const parts=sessions.map(s=>`${fmtHM(s.start)}–${fmtHM(s.end)}${dateKey(s.end)!==dateKey(s.start)?'(+1)':''}`);
-  return parts.length>5?parts.slice(0,5).join(', ')+`… (+${parts.length-5} phiên)`:parts.join(', ');
-}
 
 /* ─── Đọc bản ghi máy chấm công THÔ (AC-No · Name · Time · State) ─── */
 /* Mỗi dòng = 1 lần quẹt thẻ. Gom theo ngày công; các lượt quẹt được ghép thành từng phiên làm việc. */
@@ -2528,9 +2552,17 @@ function importPunches(rows) {
   for (const g of groups.values()) {
     const paired=pairPunchSessions(g.punches);
     const sessions=paired.sessions;
+    const orphans=paired.orphans||[];
     const first=sessions[0],last=sessions[sessions.length-1];
-    const tin  = first ? fmtHM(first.start) : (g.punches[0]?fmtHM(g.punches[0].dt):'');
-    const tout = last ? fmtHM(last.end) : '';
+    // Lượt quẹt lẻ: đặt vào đúng phía Vào đầu / Ra cuối theo hướng quẹt của máy
+    const orphanIns=orphans.filter(o=>o.dir==='in'),orphanOuts=orphans.filter(o=>o.dir==='out');
+    let tinDt = first ? first.start : (orphanIns[0] ? orphanIns[0].dt : null);
+    if (orphanIns[0] && tinDt && orphanIns[0].dt < tinDt) tinDt = orphanIns[0].dt;
+    let toutDt = last ? last.end : null;
+    const lastOrphanOut = orphanOuts[orphanOuts.length-1];
+    if (lastOrphanOut && (!toutDt || lastOrphanOut.dt > toutDt)) toutDt = lastOrphanOut.dt;
+    const tin  = tinDt ? fmtHM(tinDt) : (orphanOuts.length ? '' : (g.punches[0]?fmtHM(g.punches[0].dt):''));
+    const tout = toutDt ? fmtHM(toutDt) : '';
     const h = sessionHours(sessions);
     const dateObj = new Date(g.date+'T00:00:00');
     const holiday = holidayName(g.date);
@@ -2555,7 +2587,9 @@ function importPunches(rows) {
     otRest=Math.round(otRest*10)/10; otHoliday=Math.round(otHoliday*10)/10;
     const ot=otDay+otNight+otRest+otHoliday;
     const shiftTimes=buildShiftTimesFromSessions(sessions);
-    const noteParts=[`Ca: ${sessionText(sessions)||'chưa đủ cặp giờ vào/ra'}`];
+    // Lượt quẹt lẻ vẫn hiển thị vào đúng cột khung giờ (sáng/chiều/OT tối/OT đêm)
+    orphans.forEach(o=>putSlot(shiftTimes,o.dir==='out'?outSlotKeyByMinutes(minutesOfDay(o.dt)):inSlotKeyByMinutes(minutesOfDay(o.dt)),o.dt));
+    const noteParts=[];
     if (otDay+otNight>0 && shift!=='Chủ nhật' && shift!=='Lễ') noteParts.push(`OT ${(otDay+otNight).toFixed(1)}h (tối ${otDay.toFixed(1)}h, đêm ${otNight.toFixed(1)}h)`);
     if (shift==='Chủ nhật') noteParts.push('Làm Chủ nhật');
     if (shift==='Lễ') noteParts.push(holiday);

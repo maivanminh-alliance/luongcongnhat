@@ -66,10 +66,18 @@
     .excel-filter-th{position:relative;padding-right:28px!important}
     .excel-filter-btn{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:1px solid #cbd9e5;border-radius:4px;background:#fff;color:#60778c;font-size:10px;line-height:14px;padding:0;display:flex;align-items:center;justify-content:center}
     .excel-filter-btn:hover,.excel-filter-btn.active{background:#dcecff;border-color:var(--blue);color:var(--blue)}
-    .excel-filter-menu{position:fixed;z-index:120;width:230px;background:#fff;border:1px solid #b9c9d8;border-radius:8px;box-shadow:0 14px 34px #102a4333;padding:10px;display:none;text-transform:none;letter-spacing:0}
+    .excel-filter-menu{position:fixed;z-index:120;width:300px;background:#fff;border:1px solid #b9c9d8;border-radius:8px;box-shadow:0 14px 34px #102a4333;padding:10px;display:none;text-transform:none;letter-spacing:0}
     .excel-filter-menu.open{display:block}
     .excel-filter-menu b{display:block;font-size:11px;color:var(--navy);margin-bottom:7px}
     .excel-filter-menu input,.excel-filter-menu select{width:100%;height:31px;border:1px solid var(--line);border-radius:6px;padding:0 7px;font-size:11px;outline:none;background:#fff}
+    .excel-filter-mini-actions{display:flex;gap:6px;margin:7px 0;align-items:center;justify-content:space-between}
+    .excel-filter-mini-actions button{border:0;background:#eef5fb;border-radius:6px;padding:5px 8px;font-size:10px;font-weight:800;color:#37566f;cursor:pointer}
+    .excel-filter-list{max-height:210px;overflow:auto;border:1px solid var(--line);border-radius:7px;background:#fbfdff;padding:4px}
+    .excel-filter-item{display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:5px;font-size:10.5px;color:var(--ink);cursor:pointer}
+    .excel-filter-item:hover{background:#eef6ff}
+    .excel-filter-item input{width:14px;height:14px;min-width:14px}
+    .excel-filter-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .excel-filter-count{font-size:9.5px;color:var(--muted);font-weight:700}
     .excel-filter-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:9px}
     td{padding:8px 10px;border-bottom:1px solid #edf1f4;font-size:11px;vertical-align:middle}
     tbody tr:hover{background:#f9fbfd}
@@ -87,6 +95,27 @@
     tbody tr:hover .sticky-r{background:#f9fbfd}
     .note-compact{display:inline-block;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle;color:var(--muted)}
     .note-compact.warn{max-width:190px;color:#b91c1c;background:#fff5f5;border:1px solid #fecaca;border-radius:7px;padding:4px 7px;font-weight:700}
+    .warn-dashboard{padding:12px;background:#fffafa}
+    .warn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:9px;max-height:430px;overflow:auto;padding-right:4px}
+    .warn-card{border:1px solid #fecaca;background:#fff;border-radius:10px;overflow:hidden}
+    .warn-card-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:10px 11px;background:#fff5f5;border-bottom:1px solid #fee2e2}
+    .warn-person b{display:block;color:var(--ink);font-size:11.5px}
+    .warn-person span{display:block;color:var(--muted);font-size:9.5px;margin-top:2px}
+    .warn-count{text-align:right;color:#b91c1c;font-weight:900;font-size:16px;min-width:40px}
+    .warn-count small{display:block;color:#b91c1c;font-size:8.5px;font-weight:800}
+    .warn-badges{display:flex;flex-wrap:wrap;gap:5px;padding:9px 11px}
+    .warn-badge{background:#fff5f5;border:1px solid #fecaca;color:#b91c1c;border-radius:99px;padding:4px 7px;font-size:9px;font-weight:800}
+    .warn-badge-extra{cursor:pointer}
+    .warn-card.show-all-badges .warn-badge.is-hidden{display:inline-flex!important}
+    .warn-card.show-all-badges .warn-badge-extra{display:none}
+    .warn-toggle{margin:0 11px 10px;border:0;background:#1769e0;color:#fff;border-radius:7px;height:26px;padding:0 9px;font-size:10px;font-weight:800;cursor:pointer}
+    .warn-detail{display:none;border-top:1px solid #fee2e2;max-height:210px;overflow:auto;background:#fff;padding:4px 11px 9px}
+    .warn-card.open .warn-detail{display:block}
+    .warn-line{padding:7px 8px;border-bottom:1px dashed #f3c7c7;font-size:10px;border-radius:7px;cursor:pointer}
+    .warn-line:hover{background:#fff5f5}
+    .warn-line:last-child{border-bottom:0}
+    .warn-line b{color:#b91c1c}
+    .warn-line span{color:var(--muted);font-size:9.5px}
     .total-row td{background:#102a43;color:#fff;font-weight:800;border:0;font-size:11px}
     .total-row .sticky-l{background:#102a43}
 
@@ -134,6 +163,12 @@
     .import-panel.drag-over{border-style:solid;box-shadow:0 0 0 4px #1769e018}
     .import-panel strong{display:block;font-size:11.5px;margin-bottom:4px}
     .import-panel span{font-size:9.5px;color:var(--muted)}
+    .import-panel.compact{padding:10px 14px}
+    .import-panel.compact .import-icon{font-size:20px;margin-bottom:2px}
+    .import-panel.compact strong{font-size:10.5px;margin-bottom:2px}
+    .import-panel.compact span{font-size:8.8px}
+    .import-panel.compact .import-actions{margin-top:7px!important}
+    .import-panel.compact .btn{height:28px;font-size:10.5px}
 
     /* ── Info note ── */
     .note{padding:9px 12px;border-radius:7px;font-size:9px;line-height:1.5;margin-bottom:10px}
@@ -149,6 +184,18 @@
     .modal-hd h3{font-size:13px;margin:0}
     .modal-bd-inner{padding:16px;display:grid;gap:11px}
     .modal-ft{padding:10px 16px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:7px}
+    .modal-box.wide{width:min(860px,97vw)}
+    .modal-box.xwide{width:min(1180px,98vw)}
+    .mini-att-table{max-height:58vh;overflow:auto;border:1px solid var(--line);border-radius:10px}
+    .mini-att-table table{min-width:1180px}
+    .dq-list{display:grid;gap:8px;max-height:58vh;overflow:auto;padding-right:4px}
+    .dq-item{border:1px solid #fecaca;background:#fffafa;border-radius:9px;padding:9px 10px}
+    .dq-item.warn{border-color:#f1dda8;background:#fffaf0}
+    .dq-type{display:inline-flex;border-radius:99px;padding:3px 7px;font-size:8.5px;font-weight:900;margin-bottom:5px}
+    .dq-type.high{background:#fff5f5;color:#b91c1c;border:1px solid #fecaca}
+    .dq-type.warn{background:#fff8e8;color:#b7791f;border:1px solid #f1dda8}
+    .dq-main{font-size:11px;font-weight:850;color:var(--ink)}
+    .dq-sub{font-size:9.5px;color:var(--muted);margin-top:3px;line-height:1.45}
     .form-label{font-size:9px;color:var(--muted);display:block;margin-bottom:4px;font-weight:650}
     .form-input,.form-select{width:100%;height:33px;border:1px solid var(--line);border-radius:7px;padding:0 9px;background:#fff;font-size:12px;outline:none}
     .form-input:focus,.form-select:focus{border-color:var(--blue)}
@@ -158,13 +205,13 @@
     /* ── Pay Slip Modal ── */
     .slip-bd{position:fixed;inset:0;background:#102a4380;z-index:50;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow:auto}
     .slip-bd.open{display:flex}
-    .slip-box{background:#fff;border-radius:12px;box-shadow:0 22px 60px #102a4355;width:min(720px,98vw);margin:auto}
+    .slip-box{background:#fff;border-radius:12px;box-shadow:0 22px 60px #102a4355;width:min(980px,98vw);margin:auto}
     .slip-toolbar{padding:11px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:2;border-radius:12px 12px 0 0}
     .slip-toolbar h3{font-size:13px;margin:0}
     .slip-inner{padding:22px 26px}
 
     /* ── Phiếu lương styles ── */
-    .slip{font-size:12px;color:#172b3f;max-width:670px;margin:0 auto}
+    .slip{font-size:12px;color:#172b3f;max-width:930px;margin:0 auto}
     .slip-hdr{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:14px;border-bottom:2px solid var(--navy);margin-bottom:16px}
     .slip-org b{display:block;font-size:14px;font-weight:900;color:var(--navy)}
     .slip-org span{display:block;font-size:9.5px;color:var(--muted);margin-top:3px}
@@ -176,12 +223,15 @@
     .slip-info-item b{display:block;font-size:11.5px;margin-top:2px}
 
     /* Bảng chấm công trong phiếu */
-    .att-table-slip{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:14px}
-    .att-table-slip th{padding:6px 8px;background:#102a43;color:#c9dfef;font-size:8.5px;text-transform:uppercase;letter-spacing:.3px;border:0;text-align:center}
-    .att-table-slip td{padding:5px 8px;border-bottom:1px solid #edf1f4;text-align:center}
+    .att-table-slip{width:100%;max-width:100%;border-collapse:collapse;font-size:9.5px;margin-bottom:14px;table-layout:fixed}
+    .att-table-slip th{padding:6px 5px;background:#102a43;color:#c9dfef;font-size:8px;text-transform:uppercase;letter-spacing:.2px;border:0;text-align:center}
+    .att-table-slip td{padding:5px 5px;border-bottom:1px solid #edf1f4;text-align:center;overflow:hidden;text-overflow:ellipsis}
     .att-table-slip tr:nth-child(even) td{background:#f9fbfd}
     .att-table-slip .ot-cell{color:var(--amber);font-weight:700}
+    .att-table-slip .special-cell{color:#1769e0;font-weight:700}
     .att-table-slip .rest-cell{color:var(--muted);font-style:italic}
+    .att-table-slip .slip-shift{font-size:8.5px;color:#6f8092;white-space:normal;line-height:1.25}
+    .att-table-slip .slip-note{text-align:left;font-size:8.5px;color:#6f8092;white-space:normal;overflow-wrap:anywhere;word-break:break-word;line-height:1.25}
     .att-table-slip tfoot td{background:#e9f2ff;color:var(--blue);font-weight:800;border-top:2px solid var(--blue)}
 
     /* Bảng tính lương trong phiếu */
@@ -213,7 +263,7 @@
       .print-area{ display:block !important; padding:12px }
     }
     .print-area{ display:none }
-    .pdf-render-host{position:fixed;left:-12000px;top:0;width:720px;background:#fff;padding:24px;z-index:-1;pointer-events:none}
+    .pdf-render-host{position:fixed;left:-12000px;top:0;width:980px;background:#fff;padding:24px;z-index:-1;pointer-events:none}
 
     /* ── Toast ── */
     .toast{position:fixed;right:18px;bottom:18px;z-index:99;background:#102a43;color:#fff;border-radius:8px;padding:10px 14px;font-size:10.5px;opacity:0;transform:translateY(18px);transition:.2s;pointer-events:none}
@@ -282,17 +332,17 @@
         </div>
 
         <!-- ── Khu vực import ── -->
-        <div class="import-panel" id="drop-zone" style="margin-bottom:10px"
+        <div class="import-panel compact" id="drop-zone" style="margin-bottom:10px"
              onclick="$('csv-input').click()"
              ondragover="event.preventDefault();this.classList.add('drag-over')"
              ondragleave="this.classList.remove('drag-over')"
              ondrop="event.preventDefault();this.classList.remove('drag-over');handleFileList(event.dataTransfer.files)">
-          <div style="font-size:32px;margin-bottom:6px">📂</div>
+          <div class="import-icon">📂</div>
           <strong>Kéo thả file máy chấm công (MCC) vào đây — hoặc bấm để chọn file</strong>
           <span style="display:block;margin-top:5px">.XLSX · .XLS · Đọc được bản ghi thô của máy chấm công (<b>AC-No · Name · Time · State</b>) — tự gom thành ngày công theo <b>Mã NV</b></span>
-          <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap" onclick="event.stopPropagation()">
-            <button class="btn btn-primary" style="height:34px;font-size:12px" onclick="$('csv-input').click()">⇩ 1. Nạp file máy chấm công</button>
-            <button class="btn btn-soft" style="height:34px;font-size:12px" onclick="$('salary-csv').click()" title="Nạp bảng lương offer để lấy TÊN CÓ DẤU + mức lương, đối chiếu theo Mã NV">⇩ 2. Nạp bảng lương offer (tên có dấu)</button>
+          <div class="import-actions" style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap" onclick="event.stopPropagation()">
+            <button class="btn btn-primary" onclick="$('csv-input').click()">1. Nạp file máy chấm công</button>
+            <button class="btn btn-soft" onclick="$('salary-csv').click()" title="Nạp bảng lương offer để lấy TÊN CÓ DẤU + mức lương, đối chiếu theo Mã NV">2. Nạp bảng lương offer</button>
           </div>
           <input id="csv-input" type="file" accept=".xlsx,.xls" hidden onchange="handleFileList(this.files);this.value=''">
           <div id="drop-label" style="margin-top:8px;font-size:10px;color:var(--blue);min-height:16px"></div>
@@ -325,8 +375,6 @@
             <span style="font-size:10px;color:var(--muted)">đến</span>
             <input type="date" class="fsel" id="att-to" onchange="pageState.att=0;renderAtt()" style="height:30px;padding:0 6px">
             <button class="btn btn-soft" onclick="clearAttendanceFilters()" title="Xoá toàn bộ lọc chấm công">✕ Lọc</button>
-            <button class="btn btn-soft" onclick="sortAtt()">↕ Sắp xếp</button>
-            <button class="btn btn-green" onclick="saveAtt()">💾 Lưu</button>
             <button class="btn btn-amber" onclick="clearAtt()">🗑 Xoá tất cả</button>
           </div>
         </div>
@@ -336,8 +384,6 @@
             <div><h3>Chi tiết chấm công từng ngày</h3><small id="att-summary-head">0 dòng · chỉnh sửa trực tiếp trên bảng</small></div>
             <div style="display:flex;gap:6px">
               <button class="btn btn-soft" onclick="setAttendanceMode('summary')">← Thu gọn</button>
-              <button class="btn btn-soft" onclick="sortAtt()">↕ Sắp xếp</button>
-              <button class="btn btn-green" onclick="saveAtt()">💾 Lưu</button>
             </div>
           </div>
           <div class="tbl-wrap">
@@ -349,8 +395,16 @@
                 <th class="excel-filter-th">Chức vụ<button class="excel-filter-btn" data-filter-key="att.title" onclick="openExcelFilter(event,'att','title','Chức vụ','text')">▼</button></th>
                 <th class="excel-filter-th">Ngày<button class="excel-filter-btn" data-filter-key="att.date" onclick="openExcelFilter(event,'att','date','Ngày','date')">▼</button></th>
                 <th class="excel-filter-th">Thứ<button class="excel-filter-btn" data-filter-key="att.dow" onclick="openExcelFilter(event,'att','dow','Thứ','select','CN|T2|T3|T4|T5|T6|T7')">▼</button></th>
-                <th class="excel-filter-th">Giờ vào<button class="excel-filter-btn" data-filter-key="att.timeIn" onclick="openExcelFilter(event,'att','timeIn','Giờ vào','time')">▼</button></th>
-                <th class="excel-filter-th">Giờ ra<button class="excel-filter-btn" data-filter-key="att.timeOut" onclick="openExcelFilter(event,'att','timeOut','Giờ ra','time')">▼</button></th>
+                <th class="excel-filter-th">Vào đầu<button class="excel-filter-btn" data-filter-key="att.timeIn" onclick="openExcelFilter(event,'att','timeIn','Vào đầu','time')">▼</button></th>
+                <th class="excel-filter-th">Ra cuối<button class="excel-filter-btn" data-filter-key="att.timeOut" onclick="openExcelFilter(event,'att','timeOut','Ra cuối','time')">▼</button></th>
+                <th class="excel-filter-th">Sáng vào<button class="excel-filter-btn" data-filter-key="att.morningIn" onclick="openExcelFilter(event,'att','morningIn','Sáng vào','time')">▼</button></th>
+                <th class="excel-filter-th">Sáng ra<button class="excel-filter-btn" data-filter-key="att.morningOut" onclick="openExcelFilter(event,'att','morningOut','Sáng ra','time')">▼</button></th>
+                <th class="excel-filter-th">Chiều vào<button class="excel-filter-btn" data-filter-key="att.afternoonIn" onclick="openExcelFilter(event,'att','afternoonIn','Chiều vào','time')">▼</button></th>
+                <th class="excel-filter-th">Chiều ra<button class="excel-filter-btn" data-filter-key="att.afternoonOut" onclick="openExcelFilter(event,'att','afternoonOut','Chiều ra','time')">▼</button></th>
+                <th class="excel-filter-th">OT tối vào<button class="excel-filter-btn" data-filter-key="att.eveningIn" onclick="openExcelFilter(event,'att','eveningIn','OT tối vào','time')">▼</button></th>
+                <th class="excel-filter-th">OT tối ra<button class="excel-filter-btn" data-filter-key="att.eveningOut" onclick="openExcelFilter(event,'att','eveningOut','OT tối ra','time')">▼</button></th>
+                <th class="excel-filter-th">OT đêm vào<button class="excel-filter-btn" data-filter-key="att.nightIn" onclick="openExcelFilter(event,'att','nightIn','OT đêm vào','time')">▼</button></th>
+                <th class="excel-filter-th">OT đêm ra<button class="excel-filter-btn" data-filter-key="att.nightOut" onclick="openExcelFilter(event,'att','nightOut','OT đêm ra','time')">▼</button></th>
                 <th class="excel-filter-th">Giờ làm<button class="excel-filter-btn" data-filter-key="att.hours" onclick="openExcelFilter(event,'att','hours','Giờ làm','number')">▼</button></th>
                 <th class="excel-filter-th">OT (h)<button class="excel-filter-btn" data-filter-key="att.ot" onclick="openExcelFilter(event,'att','ot','Giờ OT','number')">▼</button></th>
                 <th class="excel-filter-th">Loại ca<button class="excel-filter-btn" data-filter-key="att.shift" onclick="openExcelFilter(event,'att','shift','Loại ca','select','Ngày|Tối|Chủ nhật|Nghỉ phép có lương|Nghỉ không lương|Lễ')">▼</button></th>
@@ -461,6 +515,22 @@
 
         <div class="note note-amber">
           <b>Lưu ý:</b> Chỉ nhập các khoản <b>phát sinh riêng tháng này</b> (thưởng hoàn thành, đi muộn, truy lĩnh…). Phụ cấp cố định hằng tháng đã có ở tab <b>Lương gốc</b>.
+        </div>
+
+        <div class="card" id="adj-att-alert-card" style="display:none;border-color:#fecaca;background:#fffafa;margin-bottom:10px">
+          <div class="card-head">
+            <div>
+              <h3 style="color:#b91c1c">Nhân sự có cảnh báo chấm công</h3>
+              <small id="adj-att-alert-sub">Dựa vào dữ liệu chấm công — xem lỗi tại đây trước khi nhập cộng/trừ tháng này</small>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button class="btn btn-soft" style="height:28px" onclick="toggleAllWarningCards(true)">Mở tất cả</button>
+              <button class="btn btn-soft" style="height:28px" onclick="toggleAllWarningCards(false)">Thu gọn</button>
+            </div>
+          </div>
+          <div class="warn-dashboard">
+            <div class="warn-grid" id="adj-att-alert-body"></div>
+          </div>
         </div>
 
         <div class="card">
@@ -629,6 +699,53 @@
   </div>
 </div>
 
+<!-- Chi tiết chấm công theo ngày -->
+<div class="modal-bd" id="modal-att-day-detail">
+  <div class="modal-box xwide">
+    <div class="modal-hd">
+      <h3 id="att-day-detail-title">Chi tiết chấm công</h3>
+      <button class="btn btn-soft" style="height:28px;padding:0 10px" onclick="closeModal('att-day-detail')">✕</button>
+    </div>
+    <div class="modal-bd-inner">
+      <div class="note note-blue" id="att-day-detail-sub">Dữ liệu được lọc từ bảng chấm công.</div>
+      <div class="mini-att-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã NV</th><th>Tên nhân viên</th><th>Chức vụ</th><th>Ngày</th><th>Thứ</th>
+              <th>Vào đầu</th><th>Ra cuối</th><th>Sáng vào</th><th>Sáng ra</th>
+              <th>Chiều vào</th><th>Chiều ra</th><th>OT tối vào</th><th>OT tối ra</th>
+              <th>OT đêm vào</th><th>OT đêm ra</th><th>Giờ làm</th><th>OT (h)</th><th>Loại ca</th><th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody id="att-day-detail-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-soft" onclick="closeModal('att-day-detail')">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cảnh báo dữ liệu -->
+<div class="modal-bd" id="modal-data-quality">
+  <div class="modal-box wide">
+    <div class="modal-hd">
+      <h3>⚠ Cảnh báo dữ liệu cần kiểm tra</h3>
+      <button class="btn btn-soft" style="height:28px;padding:0 10px" onclick="closeModal('data-quality')">✕</button>
+    </div>
+    <div class="modal-bd-inner">
+      <div class="note note-amber" id="dq-summary">Hệ thống đối chiếu bằng Mã NV. Các dòng dưới đây cần kiểm tra trước khi chốt lương.</div>
+      <div class="dq-list" id="dq-list"></div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-soft" onclick="closeModal('data-quality')">Đóng</button>
+      <button class="btn btn-primary" onclick="switchView('salary');closeModal('data-quality')">Mở bảng lương gốc</button>
+    </div>
+  </div>
+</div>
+
 <!-- Pay Slip Modal -->
 <div class="slip-bd" id="slip-modal">
   <div class="slip-box">
@@ -646,8 +763,15 @@
 <div class="print-area" id="print-area"></div>
 <div class="excel-filter-menu" id="excel-filter-menu" onclick="event.stopPropagation()">
   <b id="excel-filter-title">Lọc dữ liệu</b>
-  <input id="excel-filter-input" placeholder="Nhập điều kiện lọc…">
-  <select id="excel-filter-select" style="display:none"></select>
+  <input id="excel-filter-search" placeholder="Tìm trong danh sách lọc…" oninput="renderExcelFilterChoices()">
+  <div class="excel-filter-mini-actions">
+    <div>
+      <button onclick="setExcelFilterChecks(true)">Chọn tất cả</button>
+      <button onclick="setExcelFilterChecks(false)">Bỏ chọn</button>
+    </div>
+    <span class="excel-filter-count" id="excel-filter-count">0 mục</span>
+  </div>
+  <div class="excel-filter-list" id="excel-filter-list"></div>
   <div class="excel-filter-actions">
     <button class="btn btn-soft" style="height:27px" onclick="clearExcelFilter()">Xóa lọc</button>
     <button class="btn btn-primary" style="height:27px" onclick="applyExcelFilter()">Áp dụng</button>
@@ -1129,6 +1253,13 @@ const money = n => new Intl.NumberFormat('vi-VN').format(Math.round(n||0)) + ' �
 const moneyN = n => new Intl.NumberFormat('vi-VN').format(Math.round(n||0));
 const parseMoney = v => Number(String(v??'').replace(/[^\d-]/g,'')) || 0;
 function formatMoneyInput(el) { el.value = moneyN(parseMoney(el.value)); }
+function foldPersonName(v){
+  return String(v||'')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/đ/g,'d').replace(/Đ/g,'D')
+    .replace(/[^a-zA-Z0-9]/g,'')
+    .toLowerCase();
+}
 const DAYS_VI = ['CN','T2','T3','T4','T5','T6','T7'];
 
 // Nhận diện dòng metadata kỹ thuật bị kéo nhầm từ file kiểm tra/inspect.
@@ -1174,29 +1305,71 @@ function matchSearch(q, ...fields) {
 const filterText = id => ($(id)?.value||'').trim();
 const excelFilters={att:{},sum:{}};
 let activeExcelFilter=null;
+let activeExcelChoices=[];
 function openExcelFilter(event,scope,field,label,type='text',options='') {
   event.stopPropagation();
-  activeExcelFilter={scope,field,type};
-  const menu=$('excel-filter-menu'),input=$('excel-filter-input'),select=$('excel-filter-select');
+  activeExcelFilter={scope,field,type,options};
+  const menu=$('excel-filter-menu'),search=$('excel-filter-search');
   $('excel-filter-title').textContent='Lọc: '+label;
-  const current=excelFilters[scope]?.[field]?.value||'';
-  if(type==='select'){
-    input.style.display='none';select.style.display='block';
-    select.innerHTML='<option value="">Tất cả</option>'+String(options).split('|').filter(Boolean).map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
-    select.value=current;setTimeout(()=>select.focus(),0);
-  }else{
-    select.style.display='none';input.style.display='block';input.type=['date','time','number'].includes(type)?type:'text';
-    input.placeholder=type==='number'?'Nhập giá trị chính xác…':'Nhập nội dung cần lọc…';input.value=current;setTimeout(()=>{input.focus();input.select();},0);
-  }
-  const rect=event.currentTarget.getBoundingClientRect(),w=230;
+  search.value='';
+  activeExcelChoices=buildExcelFilterChoices(scope,field,type,options);
+  renderExcelFilterChoices();
+  setTimeout(()=>{search.focus();search.select();},0);
+  const rect=event.currentTarget.getBoundingClientRect(),w=300;
   menu.style.left=Math.max(8,Math.min(window.innerWidth-w-8,rect.right-w))+'px';
-  menu.style.top=Math.min(window.innerHeight-170,rect.bottom+4)+'px';menu.classList.add('open');
+  menu.style.top=Math.min(window.innerHeight-320,rect.bottom+4)+'px';menu.classList.add('open');
+}
+function excelFilterRecordValue(v,type){
+  if(v===null||v===undefined||v==='')return '';
+  if(type==='number')return Number.isFinite(+v)?String(Math.round(+v*10)/10):String(v);
+  return String(v);
+}
+function excelFilterLabel(v){return v===''?'(Trống)':v;}
+function excelFilterRecords(scope){
+  if(scope==='att')return attRows.map(r=>{
+    const d=new Date((r.date||'')+'T00:00:00');
+    return {...r,...attendanceShiftColumns(r),dow:!isNaN(d)?DAYS_VI[d.getDay()]:''};
+  });
+  if(scope==='sum')return buildAttendanceSummaryRecords({applyExcel:false});
+  return [];
+}
+function buildExcelFilterChoices(scope,field,type,options=''){
+  const forced=String(options||'').split('|').filter(Boolean);
+  const values=forced.length?forced:excelFilterRecords(scope).map(r=>excelFilterRecordValue(r[field],type));
+  const unique=[...new Set(values.map(v=>excelFilterRecordValue(v,type)))].sort((a,b)=>{
+    if(type==='number')return (+a||0)-(+b||0);
+    return excelFilterLabel(a).localeCompare(excelFilterLabel(b),'vi');
+  });
+  const current=excelFilters[scope]?.[field]?.values;
+  const selected=new Set(Array.isArray(current)?current:unique);
+  return unique.map(v=>({value:v,label:excelFilterLabel(v),checked:selected.has(v)}));
+}
+function renderExcelFilterChoices(){
+  const list=$('excel-filter-list'),count=$('excel-filter-count'),q=($('excel-filter-search')?.value||'').trim().toLocaleLowerCase('vi-VN');
+  if(!list)return;
+  const shown=activeExcelChoices.filter(c=>!q||c.label.toLocaleLowerCase('vi-VN').includes(q));
+  if(count)count.textContent=`${activeExcelChoices.filter(c=>c.checked).length}/${activeExcelChoices.length} mục`;
+  list.innerHTML=shown.length?shown.map((c,i)=>`<label class="excel-filter-item" title="${esc(c.label)}">
+    <input type="checkbox" data-filter-value="${esc(c.value)}" ${c.checked?'checked':''} onchange="toggleExcelFilterChoice(this)">
+    <span>${esc(c.label)}</span>
+  </label>`).join(''):'<div style="padding:14px;text-align:center;color:var(--muted);font-size:10px">Không có nội dung phù hợp</div>';
+}
+function toggleExcelFilterChoice(input){
+  const v=input.dataset.filterValue;
+  const c=activeExcelChoices.find(x=>x.value===v);
+  if(c)c.checked=input.checked;
+  renderExcelFilterChoices();
+}
+function setExcelFilterChecks(checked){
+  const q=($('excel-filter-search')?.value||'').trim().toLocaleLowerCase('vi-VN');
+  activeExcelChoices.forEach(c=>{if(!q||c.label.toLocaleLowerCase('vi-VN').includes(q))c.checked=checked;});
+  renderExcelFilterChoices();
 }
 function applyExcelFilter(){
   if(!activeExcelFilter)return;
   const {scope,field,type}=activeExcelFilter;
-  const value=(type==='select'?$('excel-filter-select').value:$('excel-filter-input').value).trim();
-  if(value)excelFilters[scope][field]={value,type};else delete excelFilters[scope][field];
+  const selected=activeExcelChoices.filter(c=>c.checked).map(c=>c.value);
+  if(selected.length&&selected.length<activeExcelChoices.length)excelFilters[scope][field]={values:selected,type};else delete excelFilters[scope][field];
   closeExcelFilter();refreshExcelFilterButtons();scope==='att'?renderAtt():renderAttSummary();
 }
 function clearExcelFilter(){
@@ -1212,7 +1385,9 @@ function refreshExcelFilterButtons(){
 }
 function passesExcelFilters(scope,record){
   return Object.entries(excelFilters[scope]||{}).every(([field,f])=>{
-    const raw=record[field]??'',value=f.value;
+    const raw=excelFilterRecordValue(record[field],f.type);
+    if(Array.isArray(f.values))return f.values.includes(raw);
+    const value=f.value;
     if(f.type==='number')return Math.abs((Number(raw)||0)-Number(value))<0.001;
     if(['date','time','select'].includes(f.type))return String(raw)===value;
     return String(raw).toLocaleLowerCase('vi-VN').includes(value.toLocaleLowerCase('vi-VN'));
@@ -1437,7 +1612,7 @@ async function restoreDataFromIndexedDB() {
     adjRows=Array.isArray(snapshot.adjRows)?snapshot.adjRows:[];
     dataMeta={...dataMeta,...(snapshot.dataMeta||{})};
     if(isLegacyDemoState()){clearLegacyDemoState();renderDataSources();renderAtt();renderSalary();updateFlow();return;}
-    sanitizeImportedData();normalizeLeaveTypes();reclassifyAttendanceCalendar();mergeDuplicateEmployeeCodes();applyProperNames();
+    sanitizeImportedData();normalizeLeaveTypes();reclassifyAttendanceCalendar();refreshAttendanceWarnings();mergeDuplicateEmployeeCodes();applyProperNames();
     nextId=Math.max(1,...attRows.map(r=>r.id||0))+1;
     renderDataSources();renderAtt();renderSalary();updateFlow();
     updateLocalSaveStatus(true,'khôi phục từ kho dữ liệu trên máy');
@@ -1486,8 +1661,9 @@ function calcOT(hours, shift) {
   if (shift==='Nghỉ'||shift===PAID_LEAVE||shift===UNPAID_LEAVE) return 0;
   // Có đi làm Chủ nhật/ngày lễ → toàn bộ giờ hưởng hệ số tương ứng.
   if (shift==='Chủ nhật' || shift==='Lễ') return Math.round((hours||0) * 10) / 10;
-  const ot = Math.max(0, hours - cfg.stdHours);
-  return Math.round(ot * 10) / 10;
+  // Ngày thường không lấy "tổng giờ - 8h" làm OT.
+  // OT chỉ được ghi nhận khi có thời gian nằm trong khung tăng ca 17:30–22:00 hoặc 22:00–06:00.
+  return 0;
 }
 function isNightShift(timeIn, shift) {
   if (!timeIn) return shift === 'Tối';
@@ -1554,11 +1730,19 @@ function mergeAttendanceNote(note,warnings){
   const base=String(note||'').split(' · ').filter(Boolean).filter(x=>!/Vào trễ|Ra sớm/.test(x));
   return [...base,...warnings].join(' · ');
 }
+function stripAutoOtNote(note){
+  return String(note||'').split(' · ').filter(Boolean).filter(x=>!/^OT\s+[0-9.,]+h/i.test(x.trim())).join(' · ');
+}
 function humanizeAttendanceNote(note){
   return String(note||'')
     .replace(/chưa ghép được phiên/gi,'chưa đủ cặp giờ vào\\/ra')
-    .replace(/Có lượt ra ([0-9:]+) nhưng chưa có lượt vào phù hợp/gi,'Thiếu giờ vào trước lượt ra $1')
-    .replace(/Lẻ (\\d+) lượt quẹt — thiếu lượt ghép cặp/gi,'Số lần quẹt thẻ bị lẻ ($1 lần) — kiểm tra thiếu giờ vào hoặc giờ ra')
+    .replace(/Có lượt ra ([0-9:]+) nhưng chưa có lượt vào phù hợp/gi,'Thiếu giờ chấm công lượt vào')
+    .replace(/Thiếu giờ vào ([^·]+?) trước lượt ra [0-9:]+/gi,'Thiếu giờ chấm công lượt vào $1')
+    .replace(/Thiếu giờ ra ([^·]+?) sau lượt vào [0-9:]+/gi,'Thiếu giờ chấm công lượt ra $1')
+    .replace(/chưa đủ cặp giờ vào\/ra/gi,'Chưa đủ giờ chấm công lượt vào/ra')
+    .replace(/Lẻ (\\d+) lượt quẹt — thiếu lượt ghép cặp/gi,'Số lần chấm công bị lẻ ($1 lần) — kiểm tra thiếu giờ vào hoặc giờ ra')
+    .replace(/Số lần quẹt thẻ bị lẻ/gi,'Số lần chấm công bị lẻ')
+    .replace(/thiếu lượt ghép cặp/gi,'thiếu giờ vào hoặc giờ ra')
     .replace(/không phù hợp/gi,'cần kiểm tra lại')
     .replace(/bất thường/gi,'cần kiểm tra')
     .replace(/chưa xác định/gi,'chưa rõ');
@@ -1575,6 +1759,14 @@ function refreshAttendanceWarnings(){
       if(r.shift!=='Tối'||r.otDay!==parts.otDay||r.otNight!==parts.otNight||r.ot!==parts.ot){
         r.shift='Tối';r.otDay=parts.otDay;r.otNight=parts.otNight;r.otRest=parts.otRest;r.otHoliday=parts.otHoliday;r.ot=parts.ot;changed++;
       }
+    }
+    if(r.timeIn&&r.timeOut&&!isLeave(r)){
+      const parts=calcOtBreakdown(r.date,r.timeIn,r.timeOut,r.hours,r.shift);
+      if(r.otDay!==parts.otDay||r.otNight!==parts.otNight||r.otRest!==parts.otRest||r.otHoliday!==parts.otHoliday||r.ot!==parts.ot){
+        r.otDay=parts.otDay;r.otNight=parts.otNight;r.otRest=parts.otRest;r.otHoliday=parts.otHoliday;r.ot=parts.ot;changed++;
+      }
+      const cleanNote=parts.ot ? String(r.note||'') : stripAutoOtNote(r.note);
+      if(cleanNote!==String(r.note||'')){r.note=cleanNote;changed++;}
     }
     const next=mergeAttendanceNote(r.note,attendanceWarnings(r.date,r.timeIn,r.timeOut,r.shift));
     if(next!==String(r.note||'')){r.note=next;changed++;}
@@ -1610,11 +1802,8 @@ function calcOtBreakdown(date,timeIn,timeOut,hours,shift){
   const end=new Date(baseDate+'T00:00:00');
   end.setHours(oh||0,om||0,0,0);
   if(end<=start)end.setDate(end.getDate()+1);
-  const tinM=hmToMinutes(timeIn,NaN),eveningStart=hmToMinutes('17:30',1050),cut=hmToMinutes(cfg.workdayCutoff||'06:00',360);
-  const isOtOnly = shift==='Tối' || (Number.isFinite(tinM) && (tinM>=eveningStart || tinM<=cut));
-  const ot = isOtOnly ? h : calcOT(h, shift);
-  if (!ot) return zero;
-  const part=allocateOTFromSessions([{start,end}],ot);
+  const part=otWindowPartsFromSessions([{start,end}]);
+  if (!part.day && !part.night) return zero;
   return {otDay:part.day,otNight:part.night,otRest:0,otHoliday:0,ot:part.day+part.night};
 }
 
@@ -1655,7 +1844,10 @@ function renderAtt() {
   const to   = $('att-to')?.value || '';
   let rows = filter==='all' ? attRows : attRows.filter(r=>(r.empId&&r.empId===filter)||(!r.empId&&r.name===filter));
   if (q) rows = rows.filter(r=>matchSearch(q, r.empId, r.name));
-  rows=rows.filter(r=>{const d=new Date((r.date||'')+'T00:00:00');return passesExcelFilters('att',{...r,dow:!isNaN(d)?DAYS_VI[d.getDay()]:''});});
+  rows=rows.filter(r=>{
+    const d=new Date((r.date||'')+'T00:00:00');
+    return passesExcelFilters('att',{...r,...attendanceShiftColumns(r),dow:!isNaN(d)?DAYS_VI[d.getDay()]:''});
+  });
   // Lọc theo khoảng ngày (chuỗi yyyy-mm-dd so sánh trực tiếp được)
   if (from) rows = rows.filter(r=>r.date && r.date >= from);
   if (to)   rows = rows.filter(r=>r.date && r.date <= to);
@@ -1677,6 +1869,8 @@ function renderAtt() {
       const shiftOpts = ['Ngày','Tối','Chủ nhật',PAID_LEAVE,UNPAID_LEAVE,'Lễ'].map(s=>
         `<option${r.shift===s?' selected':''}>${s}</option>`).join('');
       const warn = isWarningNote(r.note);
+      const slots=attendanceShiftColumns(r);
+      const slotCell=v=>`<td style="text-align:center;font-size:10px;font-weight:700;color:${v?'#18324a':'#9aa9b7'}">${esc(v||'—')}</td>`;
       return `<tr data-id="${r.id}">
         <td style="color:var(--muted);font-size:9.5px">${i+1}</td>
         <td><input type="text" value="${esc(r.empId||'')}" onchange="updateAtt(${r.id},'empId',this.value)" style="min-width:65px;font-weight:700;color:var(--blue)"></td>
@@ -1686,6 +1880,14 @@ function renderAtt() {
         <td style="color:var(--muted);font-size:10px;text-align:center">${dow}</td>
         <td><input type="time" value="${r.timeIn||''}" onchange="updateAtt(${r.id},'timeIn',this.value)"></td>
         <td><input type="time" value="${r.timeOut||''}" onchange="updateAtt(${r.id},'timeOut',this.value)"></td>
+        ${slotCell(slots.morningIn)}
+        ${slotCell(slots.morningOut)}
+        ${slotCell(slots.afternoonIn)}
+        ${slotCell(slots.afternoonOut)}
+        ${slotCell(slots.eveningIn)}
+        ${slotCell(slots.eveningOut)}
+        ${slotCell(slots.nightIn)}
+        ${slotCell(slots.nightOut)}
         <td class="cell-hours" style="text-align:center;font-weight:700;color:var(--blue)">${r.hours ? r.hours.toFixed(1) : '—'}</td>
         <td class="cell-ot" style="text-align:center;font-weight:700;color:var(--amber)">${r.ot ? r.ot.toFixed(1) : '—'}</td>
         <td><select style="height:27px;border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:10.5px;background:#fff" onchange="updateAtt(${r.id},'shift',this.value)">${shiftOpts}</select></td>
@@ -1733,8 +1935,7 @@ function isWarningNote(note) {
   return /⚠|trễ|sớm|thiếu|lẻ|không phù hợp|chưa ghép|chưa xác định|không tìm thấy|bất thường/i.test(String(note||''));
 }
 
-function renderAttSummary() {
-  // Group by empId (primary) or name (fallback)
+function buildAttendanceSummaryRecords({applyExcel=true}={}) {
   const q=($('att-search')?.value||'').trim(),filter=$('att-worker-filter')?.value||'all';
   const from=$('att-from')?.value||'',to=$('att-to')?.value||'';
   let sourceRows=attRows;
@@ -1749,7 +1950,7 @@ function renderAttSummary() {
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(r);
   });
-  let summaries=[...groups.entries()].map(([key,rows])=>({
+  return [...groups.entries()].map(([key,rows])=>({
     key,rows,empId:rows[0]?.empId||'',name:rows[0]?.name||'',title:rows[0]?.title||'',
     workDays:paidWorkDays(rows),paidLeaveDays:rows.filter(isPaidLeave).length,unpaidLeaveDays:rows.filter(isUnpaidLeave).length,
     totalH:rows.reduce((s,r)=>s+(r.hours||0),0),
@@ -1757,8 +1958,12 @@ function renderAttSummary() {
     otDay:rows.reduce((s,r)=>s+getOtParts(r).day,0),otNight:rows.reduce((s,r)=>s+getOtParts(r).night,0),
     restH:rows.reduce((s,r)=>s+getOtParts(r).rest,0),holidayH:rows.reduce((s,r)=>s+getOtParts(r).holiday,0),
     notes:[...new Set(rows.map(r=>r.note).filter(Boolean))].join('; ')
-  })).filter(r=>passesExcelFilters('sum',r)).sort((a,b)=>a.key.localeCompare(b.key));
-  if (!groups.size) { $('summary-body').innerHTML='';$('sum-pager').innerHTML='';applyAttendanceLayout();return; }
+  })).filter(r=>!applyExcel||passesExcelFilters('sum',r)).sort((a,b)=>a.key.localeCompare(b.key));
+}
+
+function renderAttSummary() {
+  const summaries=buildAttendanceSummaryRecords({applyExcel:true});
+  if (!summaries.length) { $('summary-body').innerHTML='';$('sum-pager').innerHTML='';if($('att-summary-sub'))$('att-summary-sub').textContent='0 nhân viên';applyAttendanceLayout();return; }
   const pg = pageSlice(summaries, 'sum');
   renderPager('sum-pager', pg, 'sum', 'renderAttSummary');
   if($('att-summary-sub'))$('att-summary-sub').textContent=`${summaries.length.toLocaleString('vi-VN')} nhân viên · mỗi người một dòng · bấm Xem chi tiết khi cần`;
@@ -1788,6 +1993,7 @@ function updateAtt(id, field, val) {
   if (!r) return;
   r[field] = val;
   if (field==='timeIn'||field==='timeOut'||field==='shift') {
+    delete r.shiftTimes;
     r.hours = calcHours(r.timeIn, r.timeOut);
     if (isLeave(r)) { r.timeIn='';r.timeOut='';r.hours=0; }
     const parts=calcOtBreakdown(r.date,r.timeIn,r.timeOut,r.hours,r.shift);
@@ -2061,6 +2267,7 @@ function handleFileList(files) {
       ? `✓ Đã nạp ${count} dòng · ${nWorkers} nhân sự — đã tự đồng bộ sang bảng lương offer`
       : '⚠ Không nhận được dữ liệu — kiểm tra tên cột: Mã NV · Ngày · Giờ vào · Giờ ra';
     toast(count ? `✓ Nạp ${count} dòng · tự đồng bộ ${nWorkers} nhân sự sang bảng lương${removed?` · đã bỏ ${removed} dòng metadata`:''}` : '⚠ Không đọc được dữ liệu.');
+    if (count) setTimeout(showDataQualityWarnings, 80);
   }
 }
 
@@ -2093,6 +2300,69 @@ function isNightDateTime(dt){
   const m=minutesOfDay(dt),night=hmToMinutes(cfg.nightStart||'22:00',1320),cut=hmToMinutes(cfg.workdayCutoff||'06:00',360);
   return m>=night||m<=cut;
 }
+function emptyShiftTimes(){
+  return {morningIn:'',morningOut:'',afternoonIn:'',afternoonOut:'',eveningIn:'',eveningOut:'',nightIn:'',nightOut:''};
+}
+function slotTimeText(v){
+  if(!v)return '';
+  if(v instanceof Date)return fmtHM(v);
+  const s=String(v);
+  const m=s.match(/(\d{1,2}):(\d{2})/);
+  return m?String(m[1]).padStart(2,'0')+':'+m[2]:'';
+}
+function putSlot(slots,key,value){
+  const t=slotTimeText(value);
+  if(!t)return;
+  if(!slots[key])slots[key]=t;
+  else if(!String(slots[key]).split(/\s*,\s*/).includes(t))slots[key]+=', '+t;
+}
+function caLabelFromDateTime(dt,mode){
+  const m=minutesOfDay(dt);
+  const cut=hmToMinutes(cfg.workdayCutoff||'06:00',360);
+  if(m<=cut)return 'tăng ca đêm';
+  if(m<hmToMinutes('12:15',735))return 'ca sáng';
+  if(m<hmToMinutes('17:30',1050))return 'ca chiều';
+  if(mode==='out'&&m<=hmToMinutes('22:15',1335))return 'tăng ca tối';
+  if(m<hmToMinutes(cfg.nightStart||'22:00',1320))return 'tăng ca tối';
+  return 'tăng ca đêm';
+}
+function missingInNote(dt){return `Thiếu giờ chấm công lượt vào ${caLabelFromDateTime(dt,'in')}`;}
+function missingOutNote(dt){return `Thiếu giờ chấm công lượt ra ${caLabelFromDateTime(dt,'out')}`;}
+function inferOddPunchNote(dt){
+  const m=minutesOfDay(dt);
+  const near=(target,span=75)=>Math.abs(m-hmToMinutes(target,0))<=span;
+  if(near('07:30')||near('13:00')||near('17:30')||m>=hmToMinutes('22:00',1320))return missingOutNote(dt);
+  return missingInNote(dt);
+}
+function buildShiftTimesFromSessions(sessions){
+  const slots=emptyShiftTimes();
+  (sessions||[]).forEach(s=>{
+    const start=s.start instanceof Date?s.start:new Date(s.start);
+    const end=s.end instanceof Date?s.end:new Date(s.end);
+    if(isNaN(start)||isNaN(end))return;
+    const a=minutesOfDay(start),b=minutesOfDay(end),cross=dateKey(end)!==dateKey(start)||b<a;
+    if(a<=hmToMinutes('12:15',735))putSlot(slots,'morningIn',start);
+    else if(a<hmToMinutes('17:30',1050))putSlot(slots,'afternoonIn',start);
+    else if(a<hmToMinutes('22:00',1320))putSlot(slots,'eveningIn',start);
+    else putSlot(slots,'nightIn',start);
+    if(cross||b<=hmToMinutes(cfg.workdayCutoff||'06:00',360))putSlot(slots,'nightOut',end);
+    else if(b<=hmToMinutes('12:30',750))putSlot(slots,'morningOut',end);
+    else if(b<=hmToMinutes('17:30',1050))putSlot(slots,'afternoonOut',end);
+    else if(b<=hmToMinutes('22:30',1350))putSlot(slots,'eveningOut',end);
+    else putSlot(slots,'nightOut',end);
+  });
+  return slots;
+}
+function attendanceShiftColumns(r){
+  const slots={...emptyShiftTimes(),...(r.shiftTimes||{})};
+  if(Object.values(slots).some(Boolean))return slots;
+  if(!r.timeIn&&!r.timeOut)return slots;
+  const base=r.date||'2026-01-01';
+  const makeDt=t=>{const [h,m=0]=String(t||'').split(':').map(Number);const d=new Date(base+'T00:00:00');d.setHours(h||0,m||0,0,0);return d;};
+  const start=r.timeIn?makeDt(r.timeIn):null,end=r.timeOut?makeDt(r.timeOut):null;
+  if(start&&end&&end<=start)end.setDate(end.getDate()+1);
+  return buildShiftTimesFromSessions(start&&end?[{start,end}]:[]);
+}
 function punchDirection(state){
   const s=String(state||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   if (/(^|[^a-z])out($|[^a-z])/.test(s)||s.includes('/out')||s.includes(' ra')||s.includes('checkout')||s.includes('check out')) return 'out';
@@ -2116,25 +2386,56 @@ function pairPunchSessions(punches){
     for(const p of unique){
       const dir=punchDirection(p.newState);
       if(dir==='in'){
-        if(pending)notes.push(`Thiếu giờ ra sau lượt vào ${fmtHM(pending.dt)}`);
+        if(pending)notes.push(missingOutNote(pending.dt));
         pending=p;
       }else if(dir==='out'){
         if(pending&&p.dt>pending.dt){sessions.push({start:pending.dt,end:p.dt});pending=null;}
-        else notes.push(`Thiếu giờ vào trước lượt ra ${fmtHM(p.dt)}`);
+        else notes.push(missingInNote(p.dt));
       }
     }
-    if(pending)notes.push(`Thiếu giờ ra sau lượt vào ${fmtHM(pending.dt)}`);
+    if(pending)notes.push(missingOutNote(pending.dt));
   }else{
     for(let i=0;i+1<unique.length;i+=2){
       if(unique[i+1].dt>unique[i].dt)sessions.push({start:unique[i].dt,end:unique[i+1].dt});
     }
-    if(unique.length%2)notes.push(`Số lần quẹt thẻ bị lẻ (${unique.length} lần) — kiểm tra thiếu giờ vào hoặc giờ ra`);
+    if(unique.length%2)notes.push(`${inferOddPunchNote(unique[unique.length-1].dt)} · Số lần quẹt thẻ bị lẻ (${unique.length} lần)`);
   }
   if(duplicates)notes.push(`Bỏ ${duplicates} lượt quẹt trùng trong 1 phút`);
   return {sessions,notes,punchCount:unique.length};
 }
 function sessionHours(sessions){
   return Math.round(sessions.reduce((s,x)=>s+Math.max(0,x.end-x.start)/3600000,0)*10)/10;
+}
+function overlapMinutes(aStart,aEnd,bStart,bEnd){
+  return Math.max(0, Math.min(aEnd,bEnd) - Math.max(aStart,bStart)) / 60000;
+}
+function dateAtMinutes(day, minutes){
+  const d = new Date(day);
+  d.setHours(0,0,0,0);
+  d.setMinutes(minutes);
+  return d;
+}
+function otWindowPartsFromSessions(sessions){
+  let eveningMin = 0, nightMin = 0;
+  const eveningStart = hmToMinutes('17:30',1050);
+  const nightStart = hmToMinutes(cfg.nightStart||'22:00',1320);
+  const nightEnd = hmToMinutes(cfg.workdayCutoff||'06:00',360);
+  for (const s of sessions||[]) {
+    const start = s.start instanceof Date ? s.start : new Date(s.start);
+    const end = s.end instanceof Date ? s.end : new Date(s.end);
+    if (isNaN(start)||isNaN(end)||end<=start) continue;
+    const cursor = new Date(start);
+    cursor.setHours(0,0,0,0);
+    cursor.setDate(cursor.getDate()-1);
+    const stop = new Date(end);
+    stop.setHours(0,0,0,0);
+    stop.setDate(stop.getDate()+1);
+    for (let day = new Date(cursor); day <= stop; day.setDate(day.getDate()+1)) {
+      eveningMin += overlapMinutes(start,end,dateAtMinutes(day,eveningStart),dateAtMinutes(day,nightStart));
+      nightMin += overlapMinutes(start,end,dateAtMinutes(day,nightStart),dateAtMinutes(new Date(day.getTime()+86400000),nightEnd));
+    }
+  }
+  return {day:Math.round(eveningMin/6)/10, night:Math.round(nightMin/6)/10};
 }
 function allocateOTFromSessions(sessions,otHours){
   let remaining=Math.round((otHours||0)*60),day=0,night=0;
@@ -2195,26 +2496,26 @@ function importPunches(rows) {
     });
     const isOtOnly = !!first && !hasRegularWork && (minutesOfDay(first.start)>=eveningStart || isNight);
     const shift = holiday ? 'Lễ' : (isSunday ? 'Chủ nhật' : ((isNight||isOtOnly) ? 'Tối' : 'Ngày'));
-    const baseExtra = isOtOnly ? h : Math.max(0,h-cfg.stdHours);
     let otDay=0, otNight=0, otRest=0, otHoliday=0;
     if (shift==='Lễ') otHoliday=h;
     else if (shift==='Chủ nhật') otRest=h;
     else {
-      const part=allocateOTFromSessions(sessions,baseExtra);
+      const part=otWindowPartsFromSessions(sessions);
       otDay=part.day; otNight=part.night;
     }
     otDay=Math.round(otDay*10)/10; otNight=Math.round(otNight*10)/10;
     otRest=Math.round(otRest*10)/10; otHoliday=Math.round(otHoliday*10)/10;
     const ot=otDay+otNight+otRest+otHoliday;
+    const shiftTimes=buildShiftTimesFromSessions(sessions);
     const noteParts=[`Ca: ${sessionText(sessions)||'chưa đủ cặp giờ vào/ra'}`];
-    if (baseExtra>0 && shift!=='Chủ nhật' && shift!=='Lễ') noteParts.push(`OT ${baseExtra.toFixed(1)}h (tối ${otDay.toFixed(1)}h, đêm ${otNight.toFixed(1)}h)`);
+    if (otDay+otNight>0 && shift!=='Chủ nhật' && shift!=='Lễ') noteParts.push(`OT ${(otDay+otNight).toFixed(1)}h (tối ${otDay.toFixed(1)}h, đêm ${otNight.toFixed(1)}h)`);
     if (shift==='Chủ nhật') noteParts.push('Làm Chủ nhật');
     if (shift==='Lễ') noteParts.push(holiday);
     paired.notes.forEach(n=>noteParts.push(n));
     attendanceSessionWarnings(sessions,shift).forEach(n=>noteParts.push(n));
     attRows.push({id:nextId++, empId:g.empId, name:g.name, title:'', date:g.date,
       timeIn:tin, timeOut:tout, hours:h, ot, otDay, otNight, otRest, otHoliday, shift,
-      punchCount:paired.punchCount, note:noteParts.filter(Boolean).join(' · ')});
+      shiftTimes, punchCount:paired.punchCount, note:noteParts.filter(Boolean).join(' · ')});
     count++;
   }
   return count;
@@ -2328,6 +2629,134 @@ function parsePaste() {
 
 
 /* ─── Salary ─── */
+function attendanceWarningGroups(){
+  const groups=new Map();
+  for(const r of attRows||[]){
+    const note=humanizeAttendanceNote(r.note||'');
+    if(!isWarningNote(note))continue;
+    const key=r.empId||r.name||'';
+    if(!key)continue;
+    if(!groups.has(key))groups.set(key,{empId:r.empId||'',name:r.name||'',title:r.title||'',dates:new Set(),notes:new Set(),detailMap:new Map(),details:[]});
+    const g=groups.get(key);
+    if(r.date)g.dates.add(r.date);
+    const parts=note.split(/\s*(?:;| · )\s*/).map(x=>x.trim()).filter(Boolean).filter(isWarningNote).map(n=>n.replace(/^⚠\s*/,''));
+    parts.forEach(n=>g.notes.add(n));
+    if(parts.length){
+      const dkey=r.date||'Không rõ ngày';
+      if(!g.detailMap.has(dkey))g.detailMap.set(dkey,{date:r.date||'',shift:r.shift||'',time:`${r.timeIn||'—'}–${r.timeOut||'—'}`,notes:new Set(),count:0});
+      const d=g.detailMap.get(dkey);
+      d.count++;
+      if(!d.shift&&r.shift)d.shift=r.shift;
+      if(d.time==='—–—' && (r.timeIn||r.timeOut))d.time=`${r.timeIn||'—'}–${r.timeOut||'—'}`;
+      parts.forEach(n=>d.notes.add(n));
+    }
+  }
+  for(const g of groups.values()){
+    g.details=[...g.detailMap.values()]
+      .map(d=>({...d,notes:[...d.notes]}))
+      .sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+    delete g.detailMap;
+  }
+  return [...groups.values()].sort((a,b)=>(b.dates.size-a.dates.size)||String(a.name).localeCompare(String(b.name),'vi'));
+}
+
+function formatDateVN(dateStr){
+  const m=String(dateStr||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return m?`${m[3]}/${m[2]}/${m[1]}`:String(dateStr||'');
+}
+
+function dayOfWeekVN(dateStr){
+  const d = new Date(String(dateStr||'')+'T00:00:00');
+  return isNaN(d) ? '' : DAYS_VI[d.getDay()];
+}
+
+function openAttendanceDayDetail(empIdEnc,nameEnc,dateEnc){
+  const empId = decodeURIComponent(empIdEnc||'');
+  const name = decodeURIComponent(nameEnc||'');
+  const date = decodeURIComponent(dateEnc||'');
+  const rows = (attRows||[]).filter(r=>{
+    const samePerson = empId ? String(r.empId||'')===empId : String(r.name||'')===name;
+    return samePerson && String(r.date||'')===date;
+  });
+  $('att-day-detail-title').textContent = `Chi tiết chấm công — ${empId?empId+' · ':''}${name||'Nhân sự'} — ${formatDateVN(date)}`;
+  const warnCount = rows.reduce((s,r)=>{
+    const parts=humanizeAttendanceNote(r.note||'').split(/\s*(?:;| · )\s*/).filter(isWarningNote);
+    return s+parts.length;
+  },0);
+  $('att-day-detail-sub').textContent = `${rows.length} dòng chấm công · ${warnCount} cảnh báo trong ngày này`;
+  $('att-day-detail-body').innerHTML = rows.length ? rows.map(r=>{
+    const slots=attendanceShiftColumns(r);
+    const note=humanizeAttendanceNote(r.note||'');
+    const warn=isWarningNote(note);
+    const slotCell=v=>v?esc(v):'<span style="color:#94a3b8">—</span>';
+    return `<tr>
+      <td style="font-weight:800;color:var(--blue)">${esc(r.empId||'—')}</td>
+      <td><b>${esc(r.name||'')}</b></td>
+      <td>${esc(r.title||'')}</td>
+      <td>${esc(formatDateVN(r.date))}</td>
+      <td>${esc(dayOfWeekVN(r.date))}</td>
+      <td>${esc(r.timeIn||'—')}</td>
+      <td>${esc(r.timeOut||'—')}</td>
+      <td>${slotCell(slots.morningIn)}</td>
+      <td>${slotCell(slots.morningOut)}</td>
+      <td>${slotCell(slots.afternoonIn)}</td>
+      <td>${slotCell(slots.afternoonOut)}</td>
+      <td>${slotCell(slots.eveningIn)}</td>
+      <td>${slotCell(slots.eveningOut)}</td>
+      <td>${slotCell(slots.nightIn)}</td>
+      <td>${slotCell(slots.nightOut)}</td>
+      <td style="font-weight:800;color:var(--blue)">${(+r.hours||0).toFixed(1)}</td>
+      <td style="font-weight:800;color:${(+r.ot||0)>0?'#d97706':'#94a3b8'}">${(+r.ot||0)>0?(+r.ot||0).toFixed(1):'—'}</td>
+      <td>${esc(r.shift||'')}</td>
+      <td>${note?`<span class="${warn?'note-compact warn':'note-compact'}" title="${esc(note)}">${esc(note)}</span>`:'—'}</td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="19" style="text-align:center;color:var(--muted);padding:20px">Không tìm thấy dòng chấm công của ngày này.</td></tr>';
+  openModal('att-day-detail');
+}
+
+function renderAdjustmentAttendanceAlerts(){
+  const card=$('adj-att-alert-card'),body=$('adj-att-alert-body'),sub=$('adj-att-alert-sub');
+  if(!card||!body)return;
+  const groups=attendanceWarningGroups();
+  if(!groups.length){
+    card.style.display='none';
+    body.innerHTML='';
+    return;
+  }
+  card.style.display='block';
+  const totalDays=groups.reduce((s,g)=>s+g.dates.size,0);
+  const totalWarnings=groups.reduce((s,g)=>s+g.details.reduce((x,d)=>x+d.notes.length,0),0);
+  if(sub)sub.textContent=`${groups.length.toLocaleString('vi-VN')} nhân sự · ${totalDays.toLocaleString('vi-VN')} ngày có cảnh báo · ${totalWarnings.toLocaleString('vi-VN')} cảnh báo`;
+  body.innerHTML=groups.map((g,idx)=>{
+    const noteArr=[...g.notes];
+    const topNotes=noteArr.map((n,i)=>`<span class="warn-badge${i>=5?' is-hidden':''}" ${i>=5?'style="display:none"':''}>${esc(n)}</span>`).join('');
+    const noteMore=noteArr.length>5?`<button type="button" class="warn-badge warn-badge-extra" onclick="this.closest('.warn-card').classList.add('show-all-badges')">+${noteArr.length-5} loại khác</button>`:'';
+    const empArg=encodeURIComponent(g.empId||'');
+    const nameArg=encodeURIComponent(g.name||'');
+    const details=g.details.map(d=>`<div class="warn-line" onclick="openAttendanceDayDetail('${empArg}','${nameArg}','${encodeURIComponent(d.date||'')}')" title="Bấm để xem bảng chấm công ngày này">
+      <b>${esc(formatDateVN(d.date)||d.date||'Không rõ ngày')}</b>
+      ${d.notes.length>1?`<span> · ${d.notes.length} cảnh báo</span>`:''}
+      <br>${esc(d.notes.join(' · '))}
+    </div>`).join('');
+    return `<div class="warn-card${idx<3?' open':''}">
+      <div class="warn-card-head">
+        <div class="warn-person">
+          <b>${esc(g.empId?g.empId+' · '+g.name:g.name||'—')}</b>
+          <span>${esc(g.title||'Chưa có chức vụ')}</span>
+        </div>
+        <div class="warn-count">${g.dates.size}<small>ngày lỗi</small></div>
+      </div>
+      <div class="warn-badges">${topNotes}${noteMore}</div>
+      <button class="warn-toggle" onclick="this.closest('.warn-card').classList.toggle('open')">Xem / ẩn chi tiết (${g.details.length} ngày)</button>
+      <div class="warn-detail">${details}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleAllWarningCards(open){
+  document.querySelectorAll('#adj-att-alert-body .warn-card').forEach(c=>c.classList.toggle('open',!!open));
+}
+
 function renderSalary() {
   const tbody = $('salary-body');
   const q = ($('salary-search')?.value || '').trim();
@@ -2495,6 +2924,7 @@ function processOfferRows(rows, fileName) {
   syncSalaryFromAtt(true);
   saveData(); renderSalary(); renderAtt();renderDataSources();
   toast(`✓ Đã nạp ${count} dòng lương offer từ ${fileName}` + (renamed?` · đồng bộ ${renamed} ô tên/chức vụ chấm công`:''));
+  setTimeout(showDataQualityWarnings, 80);
   return count;
 }
 
@@ -2522,6 +2952,7 @@ function handleSalaryCSV(input) {
 
 /* ─── Adjustments ─── */
 function renderAdj() {
+  renderAdjustmentAttendanceAlerts();
   // sync worker select (cap 500 — với danh sách lớn hơn, gõ trực tiếp mã NV)
   const sel = $('adj-worker');
   const workers = salRows.slice(0, 500);
@@ -2589,6 +3020,11 @@ function salaryBaseMissing(sr){
   return payType==='day' ? !(+sr.dayWage>0) : !(+sr.salary>0);
 }
 
+function salaryRowHasMoney(sr){
+  return ['salary','dayWage','travel','housing','allowance','advance','insurance']
+    .some(k => (+sr?.[k]||0) > 0);
+}
+
 function duplicateSalaryIds(){
   const counts = new Map();
   for (const s of salRows) {
@@ -2609,6 +3045,93 @@ function conflictingAttendanceIds(){
     if (name) namesById.get(id).add(name);
   }
   return new Set([...namesById.entries()].filter(([,names])=>names.size>1).map(([id])=>id));
+}
+
+function buildDataQualityIssues(){
+  const issues = [];
+  const salById = new Map();
+  const attById = new Map();
+  const byFoldedName = new Map();
+  const pushIssue = (level, type, main, sub='') => issues.push({level, type, main, sub});
+  const pushName = (name, empId, source) => {
+    const key = foldPersonName(name);
+    if (!key) return;
+    if (!byFoldedName.has(key)) byFoldedName.set(key, {label:name, ids:new Set(), sources:new Set()});
+    const item = byFoldedName.get(key);
+    item.ids.add(String(empId||'(trống mã)').trim());
+    item.sources.add(source);
+  };
+
+  for (const s of salRows) {
+    const id = String(s.empId||'').trim();
+    if (id) {
+      if (!salById.has(id)) salById.set(id, []);
+      salById.get(id).push(s);
+    } else if (String(s.name||'').trim()) {
+      pushIssue('high', 'Thiếu mã bảng lương', `Bảng lương có nhân sự "${s.name}" nhưng chưa có Mã NV`, 'Cần bổ sung Mã NV để đối chiếu chính xác với máy chấm công');
+    }
+    pushName(s.name, id, 'bảng lương');
+  }
+  for (const r of attRows) {
+    const id = String(r.empId||'').trim();
+    if (id) {
+      if (!attById.has(id)) attById.set(id, []);
+      attById.get(id).push(r);
+    } else if (String(r.name||'').trim()) {
+      pushIssue('high', 'Thiếu mã chấm công', `Máy chấm công có dòng của "${r.name}" nhưng chưa có Mã NV`, `${r.date||''} · cần sửa file nguồn hoặc nhập mã trước khi tính`);
+    }
+    pushName(r.name, id, 'chấm công');
+  }
+
+  for (const [id, rows] of salById) {
+    if (rows.length > 1) pushIssue('high', 'Trùng mã bảng lương', `Mã ${id} xuất hiện ${rows.length} dòng trong bảng lương`, rows.map(r=>r.name||'(chưa tên)').join(' · '));
+  }
+  for (const [id, rows] of attById) {
+    const names = [...new Set(rows.map(r=>String(r.name||'').trim()).filter(Boolean))];
+    if (names.length > 1) pushIssue('high', 'Một mã nhiều tên', `Mã ${id} đang có ${names.length} tên trong chấm công`, names.join(' · '));
+  }
+  for (const [id, rows] of attById) {
+    const sr = salById.get(id)?.[0];
+    const names = [...new Set(rows.map(r=>String(r.name||'').trim()).filter(Boolean))].join(' · ');
+    const workDays = paidWorkDays(rows);
+    if (!sr) {
+      pushIssue('high', 'Thiếu bảng lương', `Mã ${id} có chấm công nhưng chưa có bảng lương offer`, `${names||'(chưa tên)'} · ${workDays} ngày công`);
+    } else if (workDays > 0 && salaryBaseMissing(sr)) {
+      pushIssue('high', 'Chưa nhập lương gốc', `Mã ${id} có ${workDays} ngày công nhưng lương gốc = 0`, `${sr.name||names||'(chưa tên)'} · cần nhập lương tháng hoặc lương/ngày`);
+    }
+  }
+  for (const [id, rows] of salById) {
+    const sr = rows[0];
+    if (!attById.has(id) && salaryRowHasMoney(sr)) {
+      pushIssue('high', 'Có lương nhưng không có công', `Mã ${id} có lương/phụ cấp nhưng không có chấm công`, `${sr.name||'(chưa tên)'} · kiểm tra có nhập nhầm mã hoặc thiếu dữ liệu máy chấm công không`);
+    }
+  }
+  for (const item of byFoldedName.values()) {
+    if (item.ids.size > 1) {
+      pushIssue('warn', 'Tên giống nhưng khác mã', `Tên "${item.label}" đang gắn nhiều mã NV`, `Các mã: ${[...item.ids].join(' · ')} · Nguồn: ${[...item.sources].join(', ')}`);
+    }
+  }
+  return issues;
+}
+
+function showDataQualityWarnings(){
+  const issues = buildDataQualityIssues();
+  if (!issues.length) return false;
+  const list = $('dq-list');
+  const summary = $('dq-summary');
+  if (summary) summary.textContent = `Phát hiện ${issues.length} vấn đề cần kiểm tra. Hệ thống dùng Mã NV làm khóa đối chiếu chính; hãy sửa mã/lương trước khi chốt lương.`;
+  if (list) {
+    const shown = issues.slice(0, 150);
+    list.innerHTML = shown.map(x=>`
+      <div class="dq-item ${x.level==='warn'?'warn':''}">
+        <span class="dq-type ${x.level==='warn'?'warn':'high'}">${esc(x.type)}</span>
+        <div class="dq-main">${esc(x.main)}</div>
+        <div class="dq-sub">${esc(x.sub||'')}</div>
+      </div>
+    `).join('') + (issues.length > shown.length ? `<div class="dq-item warn"><div class="dq-main">+${issues.length-shown.length} vấn đề khác</div><div class="dq-sub">Danh sách đang rút gọn để trình duyệt không bị nặng.</div></div>` : '');
+  }
+  openModal('data-quality');
+  return true;
 }
 
 function recalc() {
@@ -2662,7 +3185,9 @@ function recalc() {
     const adjMinus = adjs.filter(a=>a.dir==='minus').reduce((s,a)=>s+a.amount,0);
     const net = earned + otPay + sr.travel + sr.housing + sr.allowance + adjPlus - adjMinus - sr.advance - sr.insurance;
     const statusWarnings = [];
+    if (!empId) statusWarnings.push('Thiếu mã NV');
     if (workDays>0 && salaryBaseMissing(sr)) statusWarnings.push('Chưa nhập lương gốc');
+    if (workDays===0 && salaryRowHasMoney(sr)) statusWarnings.push('Có lương/phụ cấp nhưng không có chấm công');
     if (empId && dupSalaryIds.has(empId)) statusWarnings.push('Trùng mã trong bảng lương');
     if (empId && conflictAttIds.has(empId)) statusWarnings.push('Một mã NV đang có nhiều tên');
 
@@ -2777,8 +3302,9 @@ function updateFlow() {
   const hasAdj = adjRows.length > 0;
   const hasPay = payRows.length > 0;
   const nWorkers = [...new Set(attRows.map(r=>r.empId||r.name).filter(Boolean))].length;
+  const attWarn = typeof attendanceWarningGroups==='function' ? attendanceWarningGroups().length : 0;
   setFlow('fs1', hasAtt, hasAtt ? nWorkers + ' nhân sự · ' + attRows.length + ' ngày' : 'Chưa có dữ liệu');
-  setFlow('fs2', hasSal, hasSal ? salRows.filter(s=>s.salary>0).length + ' người có lương' : 'Chưa nhập lương');
+  setFlow('fs2', hasSal, (hasSal ? salRows.filter(s=>s.salary>0).length + ' người có lương' : 'Chưa nhập lương') + (attWarn ? ' · ' + attWarn + ' người cần xem' : ''));
   setFlow('fs3', hasAdj, hasAdj ? adjRows.length + ' khoản phát sinh' : 'Không bắt buộc');
   setFlow('fs4', hasPay, hasPay ? payRows.length + ' người · đã tính' : 'Chờ bước 1+2');
   setFlow('fs5', hasPay, hasPay ? 'Sẵn sàng xuất' : 'Chờ bước 4');
@@ -2801,15 +3327,18 @@ function renderSlipList() {
   if (q) items = items.filter(({r})=>matchSearch(q, r.empId, r.name));
   const pg = pageSlice(items, 'slip');
   renderPager('slip-pager', pg, 'slip', 'renderSlipList');
-  tbody.innerHTML = pg.slice.map(({r,i})=>`<tr>
+  tbody.innerHTML = pg.slice.map(({r,i})=>{
+    const warnText = (r.statusWarnings||[]).join(' · ');
+    return `<tr>
     <td style="font-weight:700;color:var(--blue);font-size:10px">${esc(r.empId||'—')}</td>
-    <td class="sticky-l"><b>${esc(r.name)}</b></td>
+    <td class="sticky-l"><b>${esc(r.name)}</b>${warnText?`<br><small style="color:#b91c1c;background:#fff5f5;border:1px solid #fecaca;border-radius:6px;padding:2px 5px;font-weight:800;display:inline-block;margin-top:3px">${esc(warnText)}</small>`:''}</td>
     <td>${esc(r.title||'')}</td>
     <td style="text-align:center">${r.workDays} ngày</td>
     <td style="font-weight:800">${money(r.net)}</td>
-    <td><span class="chip chip-green">Đã tính</span></td>
+    <td>${warnText?`<span class="chip chip-red" title="${esc(warnText)}">Cần kiểm tra</span>`:`<span class="chip chip-green">Đã tính</span>`}</td>
     <td><button class="btn btn-primary" style="height:28px;font-size:11px" onclick="openSlip(${i})">Xem phiếu →</button></td>
-  </tr>`).join('');
+  </tr>`;
+  }).join('');
 }
 
 /* ─── Pay Slip ─── */
@@ -2825,6 +3354,16 @@ function openSlip(idx) {
 function closeSlip() { $('slip-modal').classList.remove('open'); }
 $('slip-modal').addEventListener('click', e => { if(e.target===$('slip-modal')) closeSlip(); });
 
+function slipNoteText(note){
+  const parts=String(note||'').split(/\s*(?:;| · )\s*/).map(x=>x.trim()).filter(Boolean);
+  const important=parts.filter(p=>isWarningNote(p)||/OT|Làm Chủ nhật|Ngày|Quốc tế|Giải phóng|Bỏ .*trùng/i.test(p));
+  const picked=(important.length?important:parts).slice(0,3).join(' · ')
+    .replace(/[⚠△▲]/g,'')
+    .replace(/\s{2,}/g,' ')
+    .trim();
+  return picked.length>150?picked.slice(0,150).trim()+'…':picked;
+}
+
 function buildSlip(r) {
   const orgLine  = [cfg.company, cfg.project, cfg.address].filter(Boolean).join(' · ') || 'Công ty / Tổ chức';
   // match att by empId (primary) or name (fallback)
@@ -2838,9 +3377,10 @@ function buildSlip(r) {
     const dayLbl  = d ? d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'}) : a.date;
     const dowLbl  = d ? DAYS_VI[d.getDay()] : '';
     const isRest  = isLeave(a);
-    const isNight = isNightShift(a.timeIn, a.shift);
     const hours   = a.hours||0;
-    const ot      = a.ot||0;
+    const otParts = getOtParts(a);
+    const ot      = (otParts.day||0) + (otParts.night||0);
+    const special = (otParts.rest||0) + (otParts.holiday||0);
     return `<tr>
       <td>${dayLbl}</td>
       <td>${dowLbl}</td>
@@ -2848,13 +3388,14 @@ function buildSlip(r) {
       <td>${isRest?'—':a.timeOut||'—'}</td>
       <td style="font-weight:${hours>0?700:400};color:${hours>0?'#172b3f':'#aaa'}">${hours>0?hours.toFixed(1):'—'}</td>
       <td class="${ot>0?'ot-cell':''}">${ot>0?ot.toFixed(1):'—'}</td>
-      <td style="font-size:9px;color:#6f8092">${a.shift}${isNight&&!isRest?' · Tối':''}</td>
-      <td style="font-size:9px;color:#aaa">${esc(a.note||'')}</td>
+      <td class="${special>0?'special-cell':''}">${special>0?special.toFixed(1):'—'}</td>
+      <td class="slip-note">${esc(slipNoteText(a.note||''))}</td>
     </tr>`;
   }).join('');
 
   const totalWorkH = attList.reduce((s,a)=>s+(a.hours||0),0);
-  const totalOTH   = attList.reduce((s,a)=>s+(a.ot||0),0);
+  const totalOTH   = attList.reduce((s,a)=>{const p=getOtParts(a);return s+(p.day||0)+(p.night||0);},0);
+  const totalSpecialH = attList.reduce((s,a)=>{const p=getOtParts(a);return s+(p.rest||0)+(p.holiday||0);},0);
 
   // adj rows for this person
   const adjMine   = r.empId ? adjRows.filter(a=>a.empId===r.empId) : adjRows.filter(a=>!a.empId&&a.name===r.name);
@@ -2898,13 +3439,18 @@ function buildSlip(r) {
     <div class="pay-section">
       <div class="pay-section-title">Chi tiết chấm công từng ngày</div>
       <table class="att-table-slip">
-        <thead><tr><th>Ngày</th><th>Thứ</th><th>Giờ vào</th><th>Giờ ra</th><th>Số giờ</th><th>OT (h)</th><th>Ca</th><th>Ghi chú</th></tr></thead>
+        <colgroup>
+          <col style="width:6%"><col style="width:4%"><col style="width:7%"><col style="width:7%">
+          <col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:55%">
+        </colgroup>
+        <thead><tr><th>Ngày</th><th>Thứ</th><th>Giờ vào</th><th>Giờ ra</th><th>Số giờ</th><th>Tăng ca</th><th>CN/Lễ</th><th>Ghi chú</th></tr></thead>
         <tbody>${attRowsHTML}</tbody>
         <tfoot><tr>
           <td colspan="4" style="text-align:right;font-weight:800">TỔNG</td>
           <td>${totalWorkH.toFixed(1)} h</td>
           <td>${totalOTH.toFixed(1)} h</td>
-          <td colspan="2"></td>
+          <td>${totalSpecialH.toFixed(1)} h</td>
+          <td></td>
         </tr></tfoot>
       </table>
     </div>

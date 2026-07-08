@@ -445,7 +445,6 @@
                 <th class="excel-filter-th">Phép có lương<button class="excel-filter-btn" data-filter-key="sum.paidLeaveDays" onclick="openExcelFilter(event,'sum','paidLeaveDays','Ngày phép có lương','number')">▼</button></th>
                 <th class="excel-filter-th">Nghỉ không lương<button class="excel-filter-btn" data-filter-key="sum.unpaidLeaveDays" onclick="openExcelFilter(event,'sum','unpaidLeaveDays','Ngày nghỉ không lương','number')">▼</button></th>
                 <th class="excel-filter-th">Tổng giờ<button class="excel-filter-btn" data-filter-key="sum.totalH" onclick="openExcelFilter(event,'sum','totalH','Tổng giờ','number')">▼</button></th>
-                <th class="excel-filter-th">Thứ Bảy (h)<button class="excel-filter-btn" data-filter-key="sum.saturdayH" onclick="openExcelFilter(event,'sum','saturdayH','Giờ làm Thứ Bảy','number')">▼</button></th>
                 <th class="excel-filter-th">OT tối (h)<button class="excel-filter-btn" data-filter-key="sum.otDay" onclick="openExcelFilter(event,'sum','otDay','OT tối','number')">▼</button></th>
                 <th class="excel-filter-th">OT đêm (h)<button class="excel-filter-btn" data-filter-key="sum.otNight" onclick="openExcelFilter(event,'sum','otNight','OT đêm','number')">▼</button></th>
                 <th class="excel-filter-th">Chủ nhật (h)<button class="excel-filter-btn" data-filter-key="sum.restH" onclick="openExcelFilter(event,'sum','restH','Giờ Chủ nhật','number')">▼</button></th>
@@ -476,7 +475,7 @@
         </div>
 
         <div class="note note-blue">
-          <b>Quy trình:</b> ① Nạp file <b>máy chấm công</b> ở tab Chấm công — danh sách nhân sự <b>tự động đổ sang đây</b> (không cần bấm nút) → ② Nạp <b>bảng lương offer</b> (Mã NV · Tên · <b>Kiểu lương</b> · Lương tháng · Lương/ngày · Phụ cấp) để điền mức lương — hệ thống tự khớp theo <b>Mã NV</b> → ③ Bấm <b>⚡ Tính lương</b>. Cột <b style="color:#c77700">Kiểu lương</b> quyết định người tính <b>theo tháng</b> (lương tháng ÷ ngày chuẩn × công) hay <b>theo ngày</b> (đơn giá ngày × công). Thưởng/phạt riêng từng tháng → tab <b>Cộng/Trừ phát sinh</b>.
+          <b>Quy trình:</b> ① Nạp file <b>máy chấm công</b> ở tab Chấm công — danh sách nhân sự <b>tự động đổ sang đây</b> (không cần bấm nút) → ② Nạp <b>bảng lương offer</b> (Mã NV · Tên · <b>Kiểu lương</b> · Lương tháng · Lương/ngày · Phụ cấp) để điền mức lương — hệ thống tự khớp theo <b>Mã NV</b> → ③ Bấm <b>⚡ Tính lương</b>. Cột <b style="color:#c77700">Kiểu lương</b> quyết định người tính <b>theo tháng</b> (lương tháng ÷ ngày chuẩn × công) hay <b>theo ngày</b> (đơn giá ngày × công). Cột <b style="color:#7657d6">Lương tính OT</b>: ai có phụ cấp gộp trong lương (VD lương 12tr gồm 3tr phụ cấp) thì nhập phần lương cơ bản (9tr) — tăng ca/CN/lễ nhân trên mức đó, mỗi người một mức; bỏ trống = tính trên toàn bộ lương. Thưởng/phạt riêng từng tháng → tab <b>Cộng/Trừ phát sinh</b>.
         </div>
 
         <div class="card">
@@ -497,6 +496,7 @@
                 <th>Lương tháng (₫)</th>
                 <th style="color:#c77700">Lương/ngày (₫)</th>
                 <th>Ngày chuẩn</th>
+                <th style="color:#7657d6" title="Lương cơ bản để nhân hệ số tăng ca/CN/lễ — KHÔNG gồm phụ cấp. Bỏ trống = OT tính trên lương tháng/lương ngày.">Lương tính OT (₫)</th>
                 <th>Di chuyển/tháng (₫)</th>
                 <th>Chỗ ở/tháng (₫)</th>
                 <th>Phụ cấp khác (₫)</th>
@@ -507,7 +507,7 @@
                 <th><input id="sal-f-name" placeholder="Lọc tên" oninput="pageState.sal=0;renderSalary()"></th>
                 <th><input id="sal-f-title" placeholder="Lọc chức vụ" oninput="pageState.sal=0;renderSalary()"></th>
                 <th><select id="sal-f-type" onchange="pageState.sal=0;renderSalary()"><option value="">Tất cả</option><option value="month">Tháng</option><option value="day">Ngày</option></select></th>
-                <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+                <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
               </tr></thead>
               <tbody id="salary-body"></tbody>
             </table>
@@ -567,6 +567,7 @@
       <section class="view" id="view-payroll">
         <div style="display:flex;justify-content:flex-end;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap">
           <div style="display:flex;gap:7px">
+            <button class="btn btn-soft" onclick="openCoefModal()" title="Cấu hình hệ số tăng ca, Chủ nhật, ngày lễ và ngày/giờ công chuẩn">⚙ Hệ số OT/Lễ</button>
             <button class="btn btn-green" onclick="recalc()">⚡ Tính lương</button>
             <button class="btn btn-soft" onclick="exportXLSX()">⇩ Xuất Excel</button>
             <button class="btn btn-primary" onclick="switchView('slips')">🖨 Xuất phiếu lương</button>
@@ -709,6 +710,33 @@
       <div><label class="form-label">Lý do *</label><textarea class="form-textarea" id="adj-reason" placeholder="Nhập lý do rõ ràng…"></textarea></div>
     </div>
     <div class="modal-ft"><button class="btn btn-soft" onclick="closeModal('add-adj')">Hủy</button><button class="btn btn-primary" onclick="doAddAdj()">Lưu khoản này</button></div>
+  </div>
+</div>
+
+<!-- Hệ số tăng ca / ngày lễ -->
+<div class="modal-bd" id="modal-coef">
+  <div class="modal-box">
+    <div class="modal-hd"><h3>⚙ Hệ số tăng ca & ngày lễ</h3><button class="btn btn-soft" style="height:28px;padding:0 10px" onclick="closeModal('coef')">✕</button></div>
+    <div class="modal-bd-inner">
+      <div class="note note-blue"><b>Công thức OT:</b> tiền 1 giờ OT = <b>Lương tính OT ÷ ngày chuẩn ÷ giờ chuẩn × hệ số</b>. Với nhân sự có phụ cấp gộp trong lương (VD lương 12tr nhưng 3tr là phụ cấp vùng/ăn cơm/nhà ở…), nhập phần lương cơ bản (9tr) vào cột <b style="color:#7657d6">Lương tính OT</b> ở tab <b>Lương gốc</b> — OT sẽ nhân trên mức đó, mỗi người một mức riêng. Bỏ trống = OT tính trên lương tháng / lương ngày.</div>
+      <div class="form-row">
+        <div><label class="form-label">Hệ số OT tối (17:30–22:00)</label><input class="form-input" id="coef-day" type="number" step="0.1" min="1"></div>
+        <div><label class="form-label">Hệ số OT đêm (22:00–06:00)</label><input class="form-input" id="coef-night" type="number" step="0.1" min="1"></div>
+      </div>
+      <div class="form-row">
+        <div><label class="form-label">Hệ số làm Chủ nhật</label><input class="form-input" id="coef-rest" type="number" step="0.1" min="1"></div>
+        <div><label class="form-label">Hệ số làm ngày Lễ</label><input class="form-input" id="coef-holiday" type="number" step="0.1" min="1"></div>
+      </div>
+      <div class="form-row">
+        <div><label class="form-label">Ngày công chuẩn / tháng</label><input class="form-input" id="coef-std-days" type="number" min="1"></div>
+        <div><label class="form-label">Giờ công chuẩn / ngày</label><input class="form-input" id="coef-std-hours" type="number" min="1"></div>
+      </div>
+      <div class="note note-amber">Tham khảo luật VN: OT ngày thường ≥ 150% · OT đêm ≥ 200% · Chủ nhật ≥ 200% · Ngày lễ ≥ 300%. Hệ số áp chung toàn dự án; lưu xong hệ thống tự tính lại toàn bộ.</div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-soft" onclick="closeModal('coef')">Hủy</button>
+      <button class="btn btn-primary" onclick="saveCoefConfig()">💾 Lưu & tính lại</button>
+    </div>
   </div>
 </div>
 
@@ -1512,7 +1540,6 @@ function normalizeLeaveTypes(){
   return changed;
 }
 function paidWorkDays(rows){return rows.filter(r=>(!isLeave(r)&&!['Chủ nhật','Lễ'].includes(r.shift)&&(r.hours||0)>0)||isPaidLeave(r)).length;}
-function isSaturdayRow(r){const d=new Date((r?.date||'')+'T00:00:00');return !isNaN(d)&&d.getDay()===6;}
 function reclassifyAttendanceCalendar() {
   let changed=0;
   for (const r of attRows||[]) {
@@ -1535,11 +1562,10 @@ function reclassifyAttendanceCalendar() {
 function updateHolidayStatus() {
   const el=$('holiday-status'); if(!el) return;
   const sundayRows=attRows.filter(r=>r.shift==='Chủ nhật'&&r.hours>0).length;
-  const saturdayRows=attRows.filter(r=>isSaturdayRow(r)&&r.hours>0&&!isLeave(r)).length;
   const holidayRows=attRows.filter(r=>r.shift==='Lễ'&&r.hours>0).length;
   const paidLeave=attRows.filter(isPaidLeave).length,unpaidLeave=attRows.filter(isUnpaidLeave).length;
   const dates=(cfg.holidays||[]).map(d=>new Date(d+'T00:00:00').toLocaleDateString('vi-VN')).join(', ');
-  el.innerHTML=`<b>Lịch đã áp dụng:</b> Thứ Bảy × 1.0 (${saturdayRows} dòng) · Chủ nhật × ${cfg.coefRest} (${sundayRows} dòng) · Ngày lễ ${dates} × ${cfg.coefHoliday} (${holidayRows} dòng) · Phép có lương ${paidLeave} ngày · Nghỉ không lương ${unpaidLeave} ngày.`;
+  el.innerHTML=`<b>Lịch đã áp dụng:</b> OT tối × ${cfg.coefDay} · OT đêm × ${cfg.coefNight} · Chủ nhật × ${cfg.coefRest} (${sundayRows} dòng) · Ngày lễ ${dates} × ${cfg.coefHoliday} (${holidayRows} dòng) · Phép có lương ${paidLeave} ngày · Nghỉ không lương ${unpaidLeave} ngày.`;
 }
 
 /* ─── Data ─── */
@@ -2061,7 +2087,6 @@ function buildAttendanceSummaryRecords({applyExcel=true}={}) {
     key,rows,empId:rows[0]?.empId||'',name:rows[0]?.name||'',title:rows[0]?.title||'',
     workDays:paidWorkDays(rows),paidLeaveDays:rows.filter(isPaidLeave).length,unpaidLeaveDays:rows.filter(isUnpaidLeave).length,
     totalH:rows.reduce((s,r)=>s+(r.hours||0),0),
-    saturdayH:rows.filter(isSaturdayRow).reduce((s,r)=>s+(r.hours||0),0),
     otDay:rows.reduce((s,r)=>s+getOtParts(r).day,0),otNight:rows.reduce((s,r)=>s+getOtParts(r).night,0),
     restH:rows.reduce((s,r)=>s+getOtParts(r).rest,0),holidayH:rows.reduce((s,r)=>s+getOtParts(r).holiday,0),
     regionDaysText:(()=>{const m={};rows.forEach(r=>{if(isRegionCountedDay(r))m[r.region]=(m[r.region]||0)+1;});return ['1','2','3','4'].filter(v=>m[v]).map(v=>`V${v}×${m[v]}`).join(' · ');})(),
@@ -2076,7 +2101,7 @@ function renderAttSummary() {
   const pg = pageSlice(summaries, 'sum');
   renderPager('sum-pager', pg, 'sum', 'renderAttSummary');
   if($('att-summary-sub'))$('att-summary-sub').textContent=`${summaries.length.toLocaleString('vi-VN')} nhân viên · mỗi người một dòng · bấm Xem chi tiết khi cần`;
-  $('summary-body').innerHTML = pg.slice.map(({key,empId,name,title,workDays,paidLeaveDays,unpaidLeaveDays,totalH,saturdayH,otDay,otNight,restH,holidayH,regionDaysText,anomalyCount,notes}) => {
+  $('summary-body').innerHTML = pg.slice.map(({key,empId,name,title,workDays,paidLeaveDays,unpaidLeaveDays,totalH,otDay,otNight,restH,holidayH,regionDaysText,anomalyCount,notes}) => {
     const noteInfo=compactSummaryNotes(notes);
     return `<tr>
       <td style="font-weight:700;color:var(--blue);font-size:10px">${esc(empId||'—')}</td>
@@ -2085,7 +2110,6 @@ function renderAttSummary() {
       <td style="text-align:center;color:var(--green);font-weight:700">${paidLeaveDays||'—'}</td>
       <td style="text-align:center;color:var(--red);font-weight:700">${unpaidLeaveDays||'—'}</td>
       <td style="text-align:center">${totalH.toFixed(1)}</td>
-      <td style="text-align:center;color:#547089;font-weight:700">${saturdayH?saturdayH.toFixed(1):'—'}</td>
       <td style="text-align:center;color:var(--amber)">${otDay.toFixed(1)}</td>
       <td style="text-align:center;color:var(--purple,#7657d6)">${otNight.toFixed(1)}</td>
       <td style="text-align:center;color:#1769e0;font-weight:700">${restH?restH.toFixed(1):'—'}</td>
@@ -2232,6 +2256,26 @@ function doAddWorker() {
   saveData(); renderAtt();
   closeModal('add-worker');
   toast(`✓ Đã thêm ${empId} – ${name} – ${attRows.filter(r=>r.empId===empId).length} ngày.`);
+}
+
+/* ─── Hệ số tăng ca / ngày lễ ─── */
+function openCoefModal(){
+  $('coef-day').value=cfg.coefDay; $('coef-night').value=cfg.coefNight;
+  $('coef-rest').value=cfg.coefRest; $('coef-holiday').value=cfg.coefHoliday;
+  $('coef-std-days').value=cfg.stdDays; $('coef-std-hours').value=cfg.stdHours;
+  openModal('coef');
+}
+function saveCoefConfig(){
+  cfg.coefDay=+$('coef-day').value||1.5;
+  cfg.coefNight=+$('coef-night').value||2.0;
+  cfg.coefRest=+$('coef-rest').value||2.0;
+  cfg.coefHoliday=+$('coef-holiday').value||3.0;
+  cfg.stdDays=+$('coef-std-days').value||26;
+  cfg.stdHours=+$('coef-std-hours').value||8;
+  try{localStorage.setItem('cl_cfg',JSON.stringify(cfg));}catch(e){}
+  closeModal('coef');
+  updateHolidayStatus(); recalc();
+  toast('✓ Đã lưu hệ số và tính lại toàn bộ bảng lương.');
 }
 
 /* ─── Phụ cấp khu vực theo vùng lương tối thiểu ─── */
@@ -3032,6 +3076,7 @@ function renderSalary() {
       <td><input class="money-input" type="text" inputmode="numeric" value="${moneyN(r.salary||0)}" ${monStyle} oninput="formatMoneyInput(this)" onfocus="this.select()" onchange="salRows[${i}].salary=parseMoney(this.value);renderSalary()"></td>
       <td><input class="money-input" type="text" inputmode="numeric" value="${moneyN(r.dayWage||0)}" ${dayStyle} oninput="formatMoneyInput(this)" onfocus="this.select()" onchange="salRows[${i}].dayWage=parseMoney(this.value);renderSalary()"></td>
       <td><input type="number" value="${r.stdDays||cfg.stdDays}" onchange="salRows[${i}].stdDays=+this.value;renderSalary()"></td>
+      <td><input class="money-input" type="text" inputmode="numeric" value="${r.otBase?moneyN(r.otBase):''}" placeholder="= lương" title="Lương cơ bản nhân hệ số OT (không gồm phụ cấp). Bỏ trống = dùng lương tháng/ngày." style="color:#7657d6;font-weight:700" oninput="this.value=this.value.trim()?moneyN(parseMoney(this.value)):''" onfocus="this.select()" onchange="salRows[${i}].otBase=parseMoney(this.value)"></td>
       <td><input class="money-input" type="text" inputmode="numeric" value="${moneyN(r.travel||0)}" oninput="formatMoneyInput(this)" onfocus="this.select()" onchange="salRows[${i}].travel=parseMoney(this.value)"></td>
       <td><input class="money-input" type="text" inputmode="numeric" value="${moneyN(r.housing||0)}" oninput="formatMoneyInput(this)" onfocus="this.select()" onchange="salRows[${i}].housing=parseMoney(this.value)"></td>
       <td><input class="money-input" type="text" inputmode="numeric" value="${moneyN(r.allowance||0)}" oninput="formatMoneyInput(this)" onfocus="this.select()" onchange="salRows[${i}].allowance=parseMoney(this.value)"></td>
@@ -3067,7 +3112,7 @@ function syncSalaryFromAtt(silent) {
     let sr = empId ? salByEmpId.get(empId) : salByName.get(name);
     if (!sr) {
       // Nhân sự mới từ chấm công → thêm dòng offer trống để nhập lương
-      sr = {empId, name, title, payType:'month', salary:0, dayWage:0, stdDays:cfg.stdDays, travel:0, housing:0, allowance:0, advance:0, insurance:0};
+      sr = {empId, name, title, payType:'month', salary:0, dayWage:0, otBase:0, stdDays:cfg.stdDays, travel:0, housing:0, allowance:0, advance:0, insurance:0};
       salRows.push(sr);
       if (empId) salByEmpId.set(empId, sr);
       salByName.set(name, sr);
@@ -3116,8 +3161,9 @@ function processOfferRows(rows, fileName) {
   const kName  = fk('tên','name','họ');
   const kTitle = fk('chức','title','nghề','vụ');
   const kType  = fk('kiểu lương','kieu luong','kiểu','loại lương','payment');
-  const kDay   = fkx([kType], 'lương/ngày','/ngày','/ngay','lương ngày','day wage','daily');
-  const kSal   = fkx([kType,kDay], 'lương tháng','luong thang','salary','lương','luong');
+  const kOtBase= fk('lương tính ot','luong tinh ot','lương cơ bản','luong co ban','lương đóng bh','luong dong bh','đóng bảo hiểm');
+  const kDay   = fkx([kType,kOtBase], 'lương/ngày','/ngày','/ngay','lương ngày','day wage','daily');
+  const kSal   = fkx([kType,kDay,kOtBase], 'lương tháng','luong thang','salary','lương','luong');
   const kStd   = fk('chuẩn','chuan','std','tiêu chuẩn');
   const kTravel= fk('di chuyển','di chuyen','travel','xe');
   const kHouse = fk('chỗ ở','cho o','housing','nhà');
@@ -3132,7 +3178,7 @@ function processOfferRows(rows, fileName) {
     const rawTitle = kTitle ? String(row[kTitle]||'').trim() : '';
     if (isArtifactMetaRecord({empId,name,title:rawTitle})) continue;
     let sr = findSal(empId, name);
-    if(!sr){sr={empId,name,title:'',payType:'month',salary:0,dayWage:0,stdDays:cfg.stdDays,travel:0,housing:0,allowance:0,advance:0,insurance:0};addSal(sr);}
+    if(!sr){sr={empId,name,title:'',payType:'month',salary:0,dayWage:0,otBase:0,stdDays:cfg.stdDays,travel:0,housing:0,allowance:0,advance:0,insurance:0};addSal(sr);}
     sr.empId = empId || sr.empId;
     if(name) sr.name = name; // tên CÓ DẤU từ offer là tên chuẩn để hiển thị
     if(kTitle)  sr.title    = String(row[kTitle]||sr.title).trim();
@@ -3143,6 +3189,7 @@ function processOfferRows(rows, fileName) {
     }
     if(kDay)    sr.dayWage  = num(row[kDay])   || sr.dayWage;
     if(kSal)    sr.salary   = num(row[kSal])   || sr.salary;
+    if(kOtBase) sr.otBase   = num(row[kOtBase])|| sr.otBase;
     if(kStd)    sr.stdDays  = num(row[kStd])   || sr.stdDays;
     if(kTravel) sr.travel   = num(row[kTravel])|| sr.travel;
     if(kHouse)  sr.housing  = num(row[kHouse]) || sr.housing;
@@ -3410,7 +3457,10 @@ function recalc() {
     const restH    = rows.reduce((s,r)=>s+getOtParts(r).rest,0);
     const holidayH = rows.reduce((s,r)=>s+getOtParts(r).holiday,0);
 
-    const hourRate = dayRate / cfg.stdHours;
+    // Lương tính OT: nếu khai riêng lương cơ bản (không gồm phụ cấp) thì OT/CN/Lễ nhân trên mức đó
+    const otBase   = +sr.otBase||0;
+    const otDayRate= otBase>0 ? otBase/stdDays : dayRate;
+    const hourRate = otDayRate / cfg.stdHours;
     const otDayPay=hourRate*otDayH*cfg.coefDay;
     const otNightPay=hourRate*otNightH*cfg.coefNight;
     const restPay=hourRate*restH*cfg.coefRest;
@@ -3442,6 +3492,7 @@ function recalc() {
 
     return {empId, name, title:sr.title, payType, salary:sr.salary, dayWage:sr.dayWage||0, dayRate, stdDays, workDays,paidLeaveDays,unpaidLeaveDays,earned,
       otDayH,otNightH,restH,holidayH,otDayPay,otNightPay,restPay,holidayPay,otPay,
+      otBase,otHourRate:hourRate,
       regionPay,regionDaysText,regionFormula,
       travel:sr.travel, housing:sr.housing, allowance:sr.allowance, adjPlus, adjMinus, advance:sr.advance, insurance:sr.insurance, net, statusWarnings};
   });
@@ -3527,7 +3578,7 @@ function renderPayroll() {
 /* ─── Xuất Excel (.xlsx) ─── */
 function exportXLSX() {
   if (!payRows.length) { toast('Chưa có dữ liệu.'); return; }
-  const cols = ['Mã NV','Tên','Chức vụ','Kiểu lương','Lương tháng','Lương/ngày','Ngày công','Phép có lương','Nghỉ không lương','Ngày chuẩn','Lương theo công',
+  const cols = ['Mã NV','Tên','Chức vụ','Kiểu lương','Lương tháng','Lương/ngày','Lương tính OT','Ngày công','Phép có lương','Nghỉ không lương','Ngày chuẩn','Lương theo công',
     'OT tối (h)','OT tối (₫)','OT đêm (h)','OT đêm (₫)','Chủ nhật (h)','Chủ nhật (₫)','Ngày lễ (h)','Ngày lễ (₫)',
     'Vùng (ngày)','PC khu vực','Di chuyển','Chỗ ở','Phụ cấp','Cộng thêm','Trừ bớt','Tạm ứng','BH/KT','Thực lĩnh'];
   const data = [cols, ...payRows.map(r=>[
@@ -3535,6 +3586,7 @@ function exportXLSX() {
     r.payType==='day'?'Ngày':'Tháng',
     r.payType==='day'?'':r.salary,
     r.payType==='day'?r.dayWage:'',
+    r.otBase||'',
     r.workDays,r.paidLeaveDays,r.unpaidLeaveDays,r.stdDays, Math.round(r.earned),
     r.otDayH,Math.round(r.otDayPay),r.otNightH,Math.round(r.otNightPay),r.restH,Math.round(r.restPay),r.holidayH,Math.round(r.holidayPay),
     r.regionDaysText||'', Math.round(r.regionPay||0),
@@ -3669,7 +3721,7 @@ function buildSlip(r) {
     </div>`).join('');
 
   const dayRate  = r.dayRate || (r.payType==='day' ? r.dayWage : r.salary / r.stdDays);
-  const hourRate = dayRate / stdHours;
+  const hourRate = r.otHourRate || dayRate / stdHours;
 
   return `<div class="slip">
     <div class="slip-hdr">
@@ -3721,7 +3773,7 @@ function buildSlip(r) {
     </div>
 
     ${r.otPay > 0 ? `<div class="pay-section">
-      <div class="pay-section-title">B. Tiền tăng ca (OT)</div>
+      <div class="pay-section-title">B. Tiền tăng ca (OT)${r.otBase?` — tính trên lương cơ bản ${moneyN(r.otBase)} ₫/tháng (không gồm phụ cấp)`:''}</div>
       ${r.otDayH>0?`<div class="pay-row plus">
         <span class="lbl">OT tối (17:30–22:00)</span>
         <span class="formula">${moneyN(Math.round(hourRate))} ₫/h × ${r.otDayH.toFixed(1)}h × ${cfg.coefDay}</span>

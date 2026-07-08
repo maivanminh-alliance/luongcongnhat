@@ -95,6 +95,12 @@
     tbody tr:hover .sticky-r{background:#f9fbfd}
     .note-compact{display:inline-block;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle;color:var(--muted)}
     .note-compact.warn{max-width:190px;color:#b91c1c;background:#fff5f5;border:1px solid #fecaca;border-radius:7px;padding:4px 7px;font-weight:700}
+    /* Cột "Cần kiểm tra" — báo cáo bất thường giờ công cho người chốt công */
+    .anom{display:block;border-radius:6px;padding:3px 7px;font-size:9.5px;font-weight:700;margin:2px 0;white-space:normal;max-width:240px;line-height:1.35}
+    .anom-high{background:#fff5f5;color:#b91c1c;border:1px solid #fecaca}
+    .anom-warn{background:#fff7e6;color:#9a6b00;border:1px solid #f1dda8}
+    .anom-info{background:#eef4fa;color:#41586d;border:1px solid #d5e3ef;font-weight:600}
+    .anom-count{display:inline-block;background:#fff5f5;color:#b91c1c;border:1px solid #fecaca;border-radius:99px;padding:3px 9px;font-size:10px;font-weight:800}
     .warn-dashboard{padding:12px;background:#fffafa}
     .warn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:9px;max-height:430px;overflow:auto;padding-right:4px}
     .warn-card{border:1px solid #fecaca;background:#fff;border-radius:10px;overflow:hidden}
@@ -367,6 +373,7 @@
           <div style="display:flex;gap:7px;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="openModal('add-worker')">＋ Thêm nhân viên</button>
             <button class="btn btn-soft" onclick="addBlankDay()">＋ Thêm dòng trống</button>
+            <button class="btn btn-soft" onclick="openRegionModal()" title="Gán vùng lương tối thiểu (1-4) cho từng giai đoạn làm việc để tính phụ cấp khu vực">🗺 Vùng & PC khu vực</button>
           </div>
           <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
             <input class="fsel" id="att-search" placeholder="🔍 Tìm mã NV / tên…" oninput="debounceRenderAtt()" style="min-width:150px">
@@ -408,6 +415,8 @@
                 <th class="excel-filter-th">OT đêm ra<button class="excel-filter-btn" data-filter-key="att.nightOut" onclick="openExcelFilter(event,'att','nightOut','OT đêm ra','time')">▼</button></th>
                 <th class="excel-filter-th">Giờ làm<button class="excel-filter-btn" data-filter-key="att.hours" onclick="openExcelFilter(event,'att','hours','Giờ làm','number')">▼</button></th>
                 <th class="excel-filter-th">OT (h)<button class="excel-filter-btn" data-filter-key="att.ot" onclick="openExcelFilter(event,'att','ot','Giờ OT','number')">▼</button></th>
+                <th class="excel-filter-th">Vùng<button class="excel-filter-btn" data-filter-key="att.region" onclick="openExcelFilter(event,'att','region','Vùng','select','1|2|3|4')">▼</button></th>
+                <th style="min-width:180px;color:#b91c1c">⚠ Cần kiểm tra</th>
                 <th class="excel-filter-th">Ghi chú<button class="excel-filter-btn" data-filter-key="att.note" onclick="openExcelFilter(event,'att','note','Ghi chú','text')">▼</button></th>
                 <th></th>
               </tr></thead>
@@ -441,6 +450,8 @@
                 <th class="excel-filter-th">OT đêm (h)<button class="excel-filter-btn" data-filter-key="sum.otNight" onclick="openExcelFilter(event,'sum','otNight','OT đêm','number')">▼</button></th>
                 <th class="excel-filter-th">Chủ nhật (h)<button class="excel-filter-btn" data-filter-key="sum.restH" onclick="openExcelFilter(event,'sum','restH','Giờ Chủ nhật','number')">▼</button></th>
                 <th class="excel-filter-th">Ngày lễ (h)<button class="excel-filter-btn" data-filter-key="sum.holidayH" onclick="openExcelFilter(event,'sum','holidayH','Giờ ngày lễ','number')">▼</button></th>
+                <th style="color:#0e7490">Vùng (ngày)</th>
+                <th style="color:#b91c1c">⚠ Cần kiểm tra</th>
                 <th class="excel-filter-th">Ghi chú<button class="excel-filter-btn" data-filter-key="sum.notes" onclick="openExcelFilter(event,'sum','notes','Ghi chú','text')">▼</button></th>
                 <th>Thao tác</th>
               </tr></thead>
@@ -582,6 +593,7 @@
                 <th>OT đêm</th>
                 <th>Chủ nhật ×2</th>
                 <th>Ngày lễ ×3</th>
+                <th style="color:#0e7490">PC khu vực</th>
                 <th>Di chuyển</th>
                 <th>Chỗ ở</th>
                 <th>Phụ cấp</th>
@@ -595,7 +607,7 @@
                 <th><input id="pay-f-name" placeholder="Lọc tên" oninput="pageState.pay=0;renderPayroll()"></th>
                 <th><input id="pay-f-title" placeholder="Lọc chức vụ" oninput="pageState.pay=0;renderPayroll()"></th>
                 <th><select id="pay-f-type" onchange="pageState.pay=0;renderPayroll()"><option value="">Tất cả</option><option value="month">Tháng</option><option value="day">Ngày</option></select></th>
-                <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class="sticky-r"></th>
+                <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class="sticky-r"></th>
               </tr></thead>
               <tbody id="payroll-body"></tbody>
               <tfoot id="payroll-foot"></tfoot>
@@ -697,6 +709,43 @@
       <div><label class="form-label">Lý do *</label><textarea class="form-textarea" id="adj-reason" placeholder="Nhập lý do rõ ràng…"></textarea></div>
     </div>
     <div class="modal-ft"><button class="btn btn-soft" onclick="closeModal('add-adj')">Hủy</button><button class="btn btn-primary" onclick="doAddAdj()">Lưu khoản này</button></div>
+  </div>
+</div>
+
+<!-- Phụ cấp khu vực theo vùng -->
+<div class="modal-bd" id="modal-region">
+  <div class="modal-box wide">
+    <div class="modal-hd"><h3>🗺 Phụ cấp khu vực theo vùng (quy định 2026)</h3><button class="btn btn-soft" style="height:28px;padding:0 10px" onclick="closeModal('region')">✕</button></div>
+    <div class="modal-bd-inner">
+      <div class="note note-blue"><b>Cách tính:</b> PC khu vực = <b>mức lương tối thiểu vùng ÷ ngày công chuẩn (26)</b> × số ngày <b>có mặt làm việc</b> tại vùng đó (tính cả CN/lễ có đi làm, không tính ngày nghỉ). Mức bên dưới là quy định 2026 — công ty áp mức khác thì sửa trực tiếp rồi bấm <b>Lưu đơn giá</b>.</div>
+      <div style="display:grid;grid-template-columns:70px 1fr auto;gap:8px 12px;align-items:center">
+        <b style="font-size:11px">Vùng 1</b><input class="form-input money-input" id="region-wage-1" inputmode="numeric" oninput="formatMoneyInput(this);updateRegionRateLabel('1')" onfocus="this.select()"><span id="region-rate-1" style="font-size:10.5px;color:var(--muted);min-width:130px"></span>
+        <b style="font-size:11px">Vùng 2</b><input class="form-input money-input" id="region-wage-2" inputmode="numeric" oninput="formatMoneyInput(this);updateRegionRateLabel('2')" onfocus="this.select()"><span id="region-rate-2" style="font-size:10.5px;color:var(--muted)"></span>
+        <b style="font-size:11px">Vùng 3</b><input class="form-input money-input" id="region-wage-3" inputmode="numeric" oninput="formatMoneyInput(this);updateRegionRateLabel('3')" onfocus="this.select()"><span id="region-rate-3" style="font-size:10.5px;color:var(--muted)"></span>
+        <b style="font-size:11px">Vùng 4</b><input class="form-input money-input" id="region-wage-4" inputmode="numeric" oninput="formatMoneyInput(this);updateRegionRateLabel('4')" onfocus="this.select()"><span id="region-rate-4" style="font-size:10.5px;color:var(--muted)"></span>
+      </div>
+      <div class="pay-section-title" style="margin-top:6px">Gán vùng cho ngày công (điều chuyển giữa các vùng)</div>
+      <div class="form-row">
+        <div><label class="form-label">Nhân viên</label><select class="form-select" id="region-worker"><option value="">Tất cả nhân viên</option></select></div>
+        <div><label class="form-label">Vùng áp dụng</label>
+          <select class="form-select" id="region-value">
+            <option value="1">Vùng 1</option><option value="2">Vùng 2</option>
+            <option value="3">Vùng 3</option><option value="4">Vùng 4</option>
+            <option value="">— Xoá vùng (không tính PC) —</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div><label class="form-label">Từ ngày</label><input class="form-input" type="date" id="region-from"></div>
+        <div><label class="form-label">Đến ngày</label><input class="form-input" type="date" id="region-to"></div>
+      </div>
+      <div class="note note-amber">Ví dụ điều chuyển: gán <b>Vùng 1</b> từ 01–05, bấm Áp vùng → đổi sang <b>Vùng 2</b> từ 06–15, bấm Áp vùng → tiếp tục Vùng 3, Vùng 4… Mỗi ngày công giữ vùng riêng nên chuyển bao nhiêu lần trong tháng cũng tính đúng.</div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-soft" onclick="closeModal('region')">Đóng</button>
+      <button class="btn btn-green" onclick="saveRegionRates()">💾 Lưu đơn giá</button>
+      <button class="btn btn-primary" onclick="applyRegionAssign()">Áp vùng cho ngày công</button>
+    </div>
   </div>
 </div>
 
@@ -1412,6 +1461,11 @@ let cfg = {
   workStart: '07:30',
   workEnd: '17:00',
   graceMinutes: 5,
+  punchDedupMinutes: 5, // các lượt chấm cách nhau ≤ 5 phút coi là chấm lặp (quên đã chấm / đưa mặt qua máy)
+  abnormalLongH: 12,  // giờ công/ngày vượt mức này → báo "dài bất thường" để kiểm tra thủ công
+  abnormalShortH: 3,  // giờ công/ngày dưới mức này (nhưng > 0) → báo "ngắn bất thường"
+  // Lương tối thiểu vùng 2026 (₫/tháng) — dùng tính PC khu vực = mức vùng ÷ ngày chuẩn × ngày có mặt
+  regionWages: {'1':5310000,'2':4730000,'3':4140000,'4':3700000},
   otRuleVersion: 2,
   holidays: ['2026-04-30','2026-05-01'],
 };
@@ -1747,6 +1801,7 @@ function humanizeAttendanceNote(note){
     .replace(/tăng ca đêm/gi,'OT đêm')
     .replace(/chưa đủ cặp giờ vào\/ra/gi,'Chưa đủ chấm công giờ vào/ra')
     .replace(/Số lần quẹt thẻ bị lẻ/gi,'Số lần chấm công bị lẻ')
+    .replace(/Bỏ (\d+) lượt quẹt trùng trong 1 phút/gi,'Bỏ $1 lượt chấm công trùng')
     .replace(/thiếu lượt ghép cặp/gi,'thiếu giờ vào hoặc giờ ra')
     .replace(/không phù hợp/gi,'cần kiểm tra lại')
     .replace(/bất thường/gi,'cần kiểm tra')
@@ -1887,7 +1942,6 @@ function renderAtt() {
       const i = pg.offset + si;
       const dateObj = r.date ? new Date(r.date+'T00:00:00') : null;
       const dow = dateObj ? DAYS_VI[dateObj.getDay()] : '';
-      const warn = isWarningNote(r.note);
       const slots=attendanceShiftColumns(r);
       const slotCell=v=>`<td style="text-align:center;font-size:10px;font-weight:700;color:${v?'#18324a':'#9aa9b7'}">${esc(v||'—')}</td>`;
       return `<tr data-id="${r.id}">
@@ -1909,7 +1963,11 @@ function renderAtt() {
         ${slotCell(slots.nightOut)}
         <td class="cell-hours" style="text-align:center;font-weight:700;color:var(--blue)">${r.hours ? r.hours.toFixed(1) : '—'}</td>
         <td class="cell-ot" style="text-align:center;font-weight:700;color:var(--amber)">${r.ot ? r.ot.toFixed(1) : '—'}</td>
-        <td><input type="text" value="${esc(r.note||'')}" onchange="updateAtt(${r.id},'note',this.value)" style="min-width:90px;${warn?'border:2px solid #ef4444;background:#fff5f5;color:#b91c1c;font-weight:800':''}"></td>
+        <td><select style="height:27px;border:1px solid var(--line);border-radius:5px;padding:0 4px;font-size:10.5px;background:#fff;font-weight:700;color:#0e7490" onchange="updateAtt(${r.id},'region',this.value)">
+          <option value="">—</option>${['1','2','3','4'].map(v=>`<option value="${v}"${String(r.region||'')===v?' selected':''}>V${v}</option>`).join('')}
+        </select></td>
+        <td>${anomalyBadges(r)}</td>
+        <td><input type="text" value="${esc(r.note||'')}" onchange="updateAtt(${r.id},'note',this.value)" style="min-width:90px"></td>
         <td><button class="btn btn-danger" style="height:24px;padding:0 7px;font-size:10px" title="Xoá dòng này" onclick="deleteAtt(${r.id})">✕</button></td>
       </tr>`;
     }).join('');
@@ -1954,6 +2012,36 @@ function isWarningNote(note) {
   return /⚠|trễ|sớm|thiếu|lẻ|không phù hợp|chưa ghép|chưa xác định|không tìm thấy|bất thường/i.test(String(note||''));
 }
 
+/* ─── Báo cáo bất thường giờ công của 1 dòng — cho người chốt công kiểm tra thủ công ───
+   high = chặn/quyết định tay · warn = nên xem · info = hệ thống đã tự xử lý, chỉ báo lại */
+function rowAnomalies(r){
+  const out=[];
+  if(isLeave(r))return out;
+  const noteParts=String(r.note||'').split(/\s*(?:;| · )\s*/).map(x=>x.trim()).filter(Boolean);
+  const hasMissIn=noteParts.some(p=>/Thiếu chấm công giờ vào/i.test(p));
+  const hasMissOut=noteParts.some(p=>/Thiếu chấm công giờ ra/i.test(p));
+  if(r.timeIn&&!r.timeOut&&!hasMissOut)out.push({level:'high',text:'Thiếu giờ ra — chưa tính được giờ công'});
+  if(!r.timeIn&&r.timeOut&&!hasMissIn)out.push({level:'high',text:'Thiếu giờ vào — chưa tính được giờ công'});
+  const h=+r.hours||0;
+  const longH=+(cfg.abnormalLongH??12)||12, shortH=+(cfg.abnormalShortH??3)||3;
+  if(h>longH)out.push({level:'high',text:`Giờ công ${h.toFixed(1)}h/ngày — dài bất thường, xác nhận trước khi chốt`});
+  else if(h>0&&h<shortH)out.push({level:'warn',text:`Giờ công ${h.toFixed(1)}h/ngày — ngắn bất thường`});
+  for(const p of noteParts){
+    const clean=p.replace(/^⚠\s*/,'');
+    if(/^(Bỏ|Gộp)/i.test(clean)&&/trùng|phiên quá ngắn/i.test(clean))out.push({level:'info',text:clean});
+    else if(/Thiếu chấm công giờ/i.test(clean))out.push({level:'high',text:clean+' — kiểm tra và bổ sung giờ'});
+    else if(isWarningNote(p))out.push({level:'warn',text:clean});
+  }
+  const rank={high:0,warn:1,info:2};
+  out.sort((a,b)=>rank[a.level]-rank[b.level]);
+  return out;
+}
+function anomalyBadges(r){
+  const list=rowAnomalies(r);
+  if(!list.length)return '<span style="color:#9aa9b7">—</span>';
+  return list.map(a=>`<span class="anom anom-${a.level}">${esc(a.text)}</span>`).join('');
+}
+
 function buildAttendanceSummaryRecords({applyExcel=true}={}) {
   const q=($('att-search')?.value||'').trim(),filter=$('att-worker-filter')?.value||'all';
   const from=$('att-from')?.value||'',to=$('att-to')?.value||'';
@@ -1976,6 +2064,8 @@ function buildAttendanceSummaryRecords({applyExcel=true}={}) {
     saturdayH:rows.filter(isSaturdayRow).reduce((s,r)=>s+(r.hours||0),0),
     otDay:rows.reduce((s,r)=>s+getOtParts(r).day,0),otNight:rows.reduce((s,r)=>s+getOtParts(r).night,0),
     restH:rows.reduce((s,r)=>s+getOtParts(r).rest,0),holidayH:rows.reduce((s,r)=>s+getOtParts(r).holiday,0),
+    regionDaysText:(()=>{const m={};rows.forEach(r=>{if(isRegionCountedDay(r))m[r.region]=(m[r.region]||0)+1;});return ['1','2','3','4'].filter(v=>m[v]).map(v=>`V${v}×${m[v]}`).join(' · ');})(),
+    anomalyCount:rows.reduce((s,r)=>s+rowAnomalies(r).filter(a=>a.level!=='info').length,0),
     notes:[...new Set(rows.map(r=>r.note).filter(Boolean))].join('; ')
   })).filter(r=>!applyExcel||passesExcelFilters('sum',r)).sort((a,b)=>a.key.localeCompare(b.key));
 }
@@ -1986,7 +2076,7 @@ function renderAttSummary() {
   const pg = pageSlice(summaries, 'sum');
   renderPager('sum-pager', pg, 'sum', 'renderAttSummary');
   if($('att-summary-sub'))$('att-summary-sub').textContent=`${summaries.length.toLocaleString('vi-VN')} nhân viên · mỗi người một dòng · bấm Xem chi tiết khi cần`;
-  $('summary-body').innerHTML = pg.slice.map(({key,empId,name,title,workDays,paidLeaveDays,unpaidLeaveDays,totalH,saturdayH,otDay,otNight,restH,holidayH,notes}) => {
+  $('summary-body').innerHTML = pg.slice.map(({key,empId,name,title,workDays,paidLeaveDays,unpaidLeaveDays,totalH,saturdayH,otDay,otNight,restH,holidayH,regionDaysText,anomalyCount,notes}) => {
     const noteInfo=compactSummaryNotes(notes);
     return `<tr>
       <td style="font-weight:700;color:var(--blue);font-size:10px">${esc(empId||'—')}</td>
@@ -2000,6 +2090,8 @@ function renderAttSummary() {
       <td style="text-align:center;color:var(--purple,#7657d6)">${otNight.toFixed(1)}</td>
       <td style="text-align:center;color:#1769e0;font-weight:700">${restH?restH.toFixed(1):'—'}</td>
       <td style="text-align:center;color:#d64545;font-weight:700">${holidayH?holidayH.toFixed(1):'—'}</td>
+      <td style="text-align:center;font-size:10px;color:#0e7490;font-weight:700;white-space:nowrap">${regionDaysText||'—'}</td>
+      <td style="text-align:center">${anomalyCount?`<span class="anom-count" title="Bấm Xem chi tiết để kiểm tra từng ngày">${anomalyCount} mục</span>`:'<span style="color:#9aa9b7">—</span>'}</td>
       <td style="font-size:9.5px;max-width:210px"><span class="note-compact ${noteInfo.warn?'warn':''}" title="${esc(noteInfo.full||noteInfo.text)}">${esc(noteInfo.text)}</span></td>
       <td><button class="btn btn-primary summary-detail-btn" data-key="${esc(encodeURIComponent(key))}" onclick="openEmployeeAttendance(this.dataset.key)">Xem chi tiết</button></td>
     </tr>`;
@@ -2140,6 +2232,54 @@ function doAddWorker() {
   saveData(); renderAtt();
   closeModal('add-worker');
   toast(`✓ Đã thêm ${empId} – ${name} – ${attRows.filter(r=>r.empId===empId).length} ngày.`);
+}
+
+/* ─── Phụ cấp khu vực theo vùng lương tối thiểu ─── */
+function regionDayRate(v){ return Math.round((+(cfg.regionWages?.[v])||0)/(+cfg.stdDays||26)); }
+function isRegionCountedDay(r){ return !isLeave(r) && (+r.hours||0)>0 && String(r.region||'').trim()!==''; }
+function updateRegionRateLabel(v){
+  const el=$('region-rate-'+v); if(!el)return;
+  const wage=parseMoney($('region-wage-'+v)?.value);
+  el.textContent='≈ '+moneyN(Math.round(wage/(+cfg.stdDays||26)))+' ₫/ngày';
+}
+function openRegionModal(){
+  ['1','2','3','4'].forEach(v=>{
+    const el=$('region-wage-'+v);
+    if(el)el.value=moneyN(cfg.regionWages?.[v]||0);
+    updateRegionRateLabel(v);
+  });
+  const sel=$('region-worker'), seen=new Map();
+  attRows.forEach(r=>{
+    if(!r.name)return;
+    const k=r.empId||r.name;
+    if(!seen.has(k))seen.set(k,r.empId?`${r.empId} – ${r.name}`:r.name);
+  });
+  sel.innerHTML='<option value="">Tất cả nhân viên</option>'+
+    [...seen.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([k,l])=>`<option value="${esc(k)}">${esc(l)}</option>`).join('');
+  openModal('region');
+}
+function saveRegionRates(){
+  cfg.regionWages={
+    '1':parseMoney($('region-wage-1').value),'2':parseMoney($('region-wage-2').value),
+    '3':parseMoney($('region-wage-3').value),'4':parseMoney($('region-wage-4').value)
+  };
+  try{localStorage.setItem('cl_cfg',JSON.stringify(cfg));}catch(e){}
+  recalc();
+  toast('✓ Đã lưu đơn giá vùng và tính lại lương.');
+}
+function applyRegionAssign(){
+  const worker=$('region-worker').value, v=$('region-value').value;
+  const from=$('region-from').value, to=$('region-to').value;
+  let n=0;
+  for(const r of attRows){
+    if(worker && (r.empId||r.name)!==worker)continue;
+    if(from && (!r.date||r.date<from))continue;
+    if(to && (!r.date||r.date>to))continue;
+    if(String(r.region||'')!==v){r.region=v;n++;}
+  }
+  if(!n){toast('⚠ Không có dòng công nào khớp điều kiện.');return;}
+  saveData(); renderAtt(); recalc();
+  toast(v?`✓ Đã gán Vùng ${v} cho ${n} dòng công.`:`✓ Đã xoá vùng khỏi ${n} dòng công.`);
 }
 
 /* ─── CSV import ─── */
@@ -2453,12 +2593,27 @@ function punchDirection(state){
 }
 function pairPunchSessions(punches){
   const sorted=[...punches].sort((a,b)=>a.dt-b.dt);
-  const unique=[];
-  let duplicates=0;
+  const windowMin=Math.max(1,+(cfg.punchDedupMinutes??5)||5);
+  const windowMs=windowMin*60000;
+  // Gom cụm các lượt chấm sát nhau (nhân viên không nhớ đã chấm chưa nên chấm lặp 2-3-4 lần,
+  // hoặc vô tình đưa mặt qua máy ngay sau khi chấm). Gom kiểu dây chuyền: lượt sau cách lượt
+  // liền trước ≤ cửa sổ thì vẫn thuộc cùng cụm dù cách lượt đầu xa hơn.
+  const clusters=[];
   for(const p of sorted){
-    const prev=unique[unique.length-1];
-    if(prev&&Math.abs(p.dt-prev.dt)<=60000){duplicates++;continue;}
-    unique.push(p);
+    const last=clusters[clusters.length-1];
+    if(last&&(p.dt-last[last.length-1].dt)<=windowMs)last.push(p);
+    else clusters.push([p]);
+  }
+  let duplicates=0;
+  const unique=[];
+  for(const cl of clusters){
+    if(cl.length===1){unique.push(cl[0]);continue;}
+    const dirs=new Set(cl.map(p=>punchDirection(p.newState)).filter(Boolean));
+    // Cụm lẫn cả VÀO lẫn RA (máy đổi chiều khi chấm lặp): giữ nguyên, bước gộp phiên phía dưới sẽ xử lý
+    if(dirs.size>1){cl.forEach(p=>unique.push(p));continue;}
+    duplicates+=cl.length-1;
+    // Cụm toàn lượt RA → giữ mốc muộn nhất (không thiệt giờ công); còn lại giữ mốc sớm nhất
+    unique.push(dirs.has('out')?cl[cl.length-1]:cl[0]);
   }
   const hasIn=unique.some(p=>punchDirection(p.newState)==='in');
   const hasOut=unique.some(p=>punchDirection(p.newState)==='out');
@@ -2488,7 +2643,24 @@ function pairPunchSessions(punches){
       orphans.push({dt:lastDt,dir:looksLikeIn?'in':'out'});
     }
   }
-  if(duplicates)notes.push(`Bỏ ${duplicates} lượt quẹt trùng trong 1 phút`);
+  // Gộp các phiên bị cắt vụn vì chấm ra/vào lặp giữa ca (khoảng hở ≤ cửa sổ chấm lặp = vẫn đang làm liên tục)
+  sessions.sort((a,b)=>a.start-b.start);
+  let mergedGaps=0;
+  for(let i=sessions.length-1;i>0;i--){
+    if(sessions[i].start-sessions[i-1].end<=windowMs){
+      sessions[i-1].end=new Date(Math.max(+sessions[i-1].end,+sessions[i].end));
+      sessions.splice(i,1);mergedGaps++;
+    }
+  }
+  if(mergedGaps)notes.push(`Gộp ${mergedGaps} lần chấm ra/vào sát nhau giữa ca (nghi chấm công trùng)`);
+  // Phiên đứng riêng ngắn hơn cửa sổ chấm lặp = phiên ảo do máy đổi chiều In/Out → loại bỏ
+  for(let i=sessions.length-1;i>=0;i--){
+    if(sessions[i].end-sessions[i].start<windowMs){
+      notes.push(`Bỏ phiên quá ngắn ${fmtHM(sessions[i].start)}–${fmtHM(sessions[i].end)} (nghi chấm công trùng)`);
+      sessions.splice(i,1);
+    }
+  }
+  if(duplicates)notes.push(`Bỏ ${duplicates} lượt chấm công trùng (chấm lặp trong ${windowMin} phút)`);
   return {sessions,notes,orphans,punchCount:unique.length};
 }
 function sessionHours(sessions){
@@ -3245,11 +3417,22 @@ function recalc() {
     const holidayPay=hourRate*holidayH*cfg.coefHoliday;
     const otPay=otDayPay+otNightPay+restPay+holidayPay;
 
+    // Phụ cấp khu vực: mỗi ngày CÓ MẶT tại vùng V hưởng (lương tối thiểu vùng V ÷ ngày chuẩn)
+    const regionDays={};
+    let regionPay=0;
+    for(const r of rows){
+      if(!isRegionCountedDay(r))continue;
+      regionDays[r.region]=(regionDays[r.region]||0)+1;
+      regionPay+=regionDayRate(r.region);
+    }
+    const regionDaysText=['1','2','3','4'].filter(v=>regionDays[v]).map(v=>`V${v}×${regionDays[v]}`).join(' · ');
+    const regionFormula=['1','2','3','4'].filter(v=>regionDays[v]).map(v=>`Vùng ${v}: ${regionDays[v]} ngày × ${moneyN(regionDayRate(v))} ₫`).join(' · ');
+
     // match adj by empId first, fallback to name
     const adjs = adjByKey.get(empId ? 'e:'+empId : 'n:'+name) || [];
     const adjPlus  = adjs.filter(a=>a.dir==='plus').reduce((s,a)=>s+a.amount,0);
     const adjMinus = adjs.filter(a=>a.dir==='minus').reduce((s,a)=>s+a.amount,0);
-    const net = earned + otPay + sr.travel + sr.housing + sr.allowance + adjPlus - adjMinus - sr.advance - sr.insurance;
+    const net = earned + otPay + regionPay + sr.travel + sr.housing + sr.allowance + adjPlus - adjMinus - sr.advance - sr.insurance;
     const statusWarnings = [];
     if (!empId) statusWarnings.push('Thiếu mã NV');
     if (workDays>0 && salaryBaseMissing(sr)) statusWarnings.push('Chưa nhập lương gốc');
@@ -3259,6 +3442,7 @@ function recalc() {
 
     return {empId, name, title:sr.title, payType, salary:sr.salary, dayWage:sr.dayWage||0, dayRate, stdDays, workDays,paidLeaveDays,unpaidLeaveDays,earned,
       otDayH,otNightH,restH,holidayH,otDayPay,otNightPay,restPay,holidayPay,otPay,
+      regionPay,regionDaysText,regionFormula,
       travel:sr.travel, housing:sr.housing, allowance:sr.allowance, adjPlus, adjMinus, advance:sr.advance, insurance:sr.insurance, net, statusWarnings};
   });
 
@@ -3313,6 +3497,7 @@ function renderPayroll() {
     <td style="color:#7657d6">${r.otNightH>0?`<b>${money(r.otNightPay)}</b><br><small>${r.otNightH.toFixed(1)}h × ${cfg.coefNight}</small>`:'—'}</td>
     <td style="color:#1769e0">${r.restH>0?`<b>${money(r.restPay)}</b><br><small>${r.restH.toFixed(1)}h × ${cfg.coefRest}</small>`:'—'}</td>
     <td style="color:#d64545">${r.holidayH>0?`<b>${money(r.holidayPay)}</b><br><small>${r.holidayH.toFixed(1)}h × ${cfg.coefHoliday}</small>`:'—'}</td>
+    <td style="color:#0e7490">${r.regionPay?`<b>${money(r.regionPay)}</b><br><small>${esc(r.regionDaysText||'')}</small>`:'—'}</td>
     <td>${r.travel?money(r.travel):'—'}</td>
     <td>${r.housing?money(r.housing):'—'}</td>
     <td>${r.allowance?money(r.allowance):'—'}</td>
@@ -3329,6 +3514,7 @@ function renderPayroll() {
     <td>${money(payRows.reduce((s,r)=>s+r.otNightPay,0))}</td>
     <td>${money(payRows.reduce((s,r)=>s+r.restPay,0))}</td>
     <td>${money(payRows.reduce((s,r)=>s+r.holidayPay,0))}</td>
+    <td>${money(payRows.reduce((s,r)=>s+(r.regionPay||0),0))}</td>
     <td colspan="3"></td>
     <td>${money(payRows.reduce((s,r)=>s+r.adjPlus,0))}</td>
     <td>${money(payRows.reduce((s,r)=>s+r.adjMinus,0))}</td>
@@ -3343,7 +3529,7 @@ function exportXLSX() {
   if (!payRows.length) { toast('Chưa có dữ liệu.'); return; }
   const cols = ['Mã NV','Tên','Chức vụ','Kiểu lương','Lương tháng','Lương/ngày','Ngày công','Phép có lương','Nghỉ không lương','Ngày chuẩn','Lương theo công',
     'OT tối (h)','OT tối (₫)','OT đêm (h)','OT đêm (₫)','Chủ nhật (h)','Chủ nhật (₫)','Ngày lễ (h)','Ngày lễ (₫)',
-    'Di chuyển','Chỗ ở','Phụ cấp','Cộng thêm','Trừ bớt','Tạm ứng','BH/KT','Thực lĩnh'];
+    'Vùng (ngày)','PC khu vực','Di chuyển','Chỗ ở','Phụ cấp','Cộng thêm','Trừ bớt','Tạm ứng','BH/KT','Thực lĩnh'];
   const data = [cols, ...payRows.map(r=>[
     r.empId||'', r.name, r.title||'',
     r.payType==='day'?'Ngày':'Tháng',
@@ -3351,6 +3537,7 @@ function exportXLSX() {
     r.payType==='day'?r.dayWage:'',
     r.workDays,r.paidLeaveDays,r.unpaidLeaveDays,r.stdDays, Math.round(r.earned),
     r.otDayH,Math.round(r.otDayPay),r.otNightH,Math.round(r.otNightPay),r.restH,Math.round(r.restPay),r.holidayH,Math.round(r.holidayPay),
+    r.regionDaysText||'', Math.round(r.regionPay||0),
     r.travel, r.housing, r.allowance, Math.round(r.adjPlus), Math.round(r.adjMinus),
     r.advance, r.insurance, Math.round(r.net)
   ])];
@@ -3557,8 +3744,9 @@ function buildSlip(r) {
       </div>`:''}
     </div>` : ''}
 
-    ${(r.travel||r.housing||r.allowance) ? `<div class="pay-section">
+    ${(r.travel||r.housing||r.allowance||r.regionPay) ? `<div class="pay-section">
       <div class="pay-section-title">${r.otPay>0?'C':'B'}. Phụ cấp</div>
+      ${r.regionPay?`<div class="pay-row plus"><span class="lbl">Phụ cấp khu vực (lương tối thiểu vùng ÷ ${r.stdDays||cfg.stdDays} ngày)</span><span class="formula">${esc(r.regionFormula||'')}</span><span class="amount">${money(r.regionPay)}</span></div>`:''}
       ${r.travel?`<div class="pay-row plus"><span class="lbl">Di chuyển</span><span class="formula"></span><span class="amount">${money(r.travel)}</span></div>`:''}
       ${r.housing?`<div class="pay-row plus"><span class="lbl">Chỗ ở</span><span class="formula"></span><span class="amount">${money(r.housing)}</span></div>`:''}
       ${r.allowance?`<div class="pay-row plus"><span class="lbl">Phụ cấp khác</span><span class="formula"></span><span class="amount">${money(r.allowance)}</span></div>`:''}
